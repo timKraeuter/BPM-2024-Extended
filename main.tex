@@ -1,5 +1,3 @@
-% This is samplepaper.tex, a sample chapter demonstrating the
-% LLNCS macro package for Springer Computer Science proceedings;
 % Version 2.20 of 2017/10/04
 %
 \documentclass[runningheads]{llncs}
@@ -46,13 +44,13 @@ BPMN analysis
 }
 \end{abstract}
 
-% Up to 16 pages including everything.
+% Up to 16 pages, including everything.
 
 \section{Introduction}
 % Why useful?
 \cite{fahlandAnalysisDemandInstantaneous2011}
 % Claims a lot of problems in workflow models, which can be found using soundness checks.
-% Go over all three claims briefly; instantaneous (Definition), understandable (soundness properties are hard to understand for modelers), and actionable (comparable to quick fixes).
+% Go over all three claims briefly: instantaneous (Definition), understandable (soundness properties are hard to understand for modelers), and actionable (comparable to quick fixes).
 
 % Soundness stuff taken from which adopted it for BPMN
 \cite{corradiniClassificationBPMNCollaborations2018}
@@ -70,6 +68,11 @@ These guys have some benchmarks:
 
 \section{Tool implementation}
 \subsection{Rust}
+\subsection{BPMN semantics}
+% Describe the runtime model. What is a state?
+% Describe what the initial state is. --> Could be configurable in the future.
+% Describe BPMN semantics with some diagrams for some examples.
+% Use a good running example with a modeling error that wasn't used before (double-blind).
 
 \section{Related work}
 
@@ -78,7 +81,7 @@ These guys have some benchmarks:
 % 2. Capabilities (Which soundness properties are supported, custom properties, counter-example visualization, tool maturity, tool integration, actionability of the tool, etc.)
 % 3. Performance using different benchmarks. --> Needs its own paper where everyone can contribute.
 
-\cite{krauterFormalizationAnalysisBPMN2023}
+\cite{krauterFormalizationAnalysisBPMN2023} % Also add lmcs citation here.
 
 \cite{vangorpVisualTokenbasedFormalization2013}
 
