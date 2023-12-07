@@ -3,9 +3,6 @@
 \documentclass[runningheads]{llncs}
 %
 \usepackage{graphicx}
-% Used for displaying a sample figure. If possible, figure files should
-% be included in EPS format.
-%
 % If you use the hyperref package, please uncomment the following line
 % to display URLs in blue roman font according to Springer's eBook style:
 % \renewcommand\UrlFont{\color{blue}\rmfamily}
@@ -64,15 +61,37 @@ These guys have some benchmarks:
 \cite{corradiniFormalApproachAnalysis2021}
 
 \section{Understandable}
+
+% Highlight directly and instantly in the diagram --> Overlays (and colors)
+% Interactive visualization of counterexamples.
+\cite{camundaservicesgmbhBpmnjsTokenSimulation2023}
+
 \section{Actionable}
 
-\section{Tool implementation}
+% Quick fix providers/analysis resolvers coded for the different soundness properties.
+% Custom quick fix providers are also possible in the future with access to model-checking
+
+\section{Implementation}
+
 \subsection{Rust}
+% Why in Rust?
+% Low-level language with modern features.
+% Highlight Rusts speed and safety claims
+% Good for CLI tools such as this
+% Zero-copy?
+% Zero-overhead abstractions --> related to speed
+% Reimplement in rust meme
+
 \subsection{BPMN semantics}
-% Describe the runtime model. What is a state?
+% Describe the runtime model. What is a state? --> Draw a UML diagram
 % Describe what the initial state is. --> Could be configurable in the future.
 % Describe BPMN semantics with some diagrams for some examples.
 % Use a good running example with a modeling error that wasn't used before (double-blind).
+\subsection{Description}
+% Tool UI with screenshot
+\cite{camundaservicesgmbhBpmnjs2023}
+% Tool architecture? UI in JS and backend in Rust.
+% Just the model checker as a CLI app or a CLI that starts the whole thing as a service.
 
 \section{Related work}
 
@@ -81,7 +100,7 @@ These guys have some benchmarks:
 % 2. Capabilities (Which soundness properties are supported, custom properties, counter-example visualization, tool maturity, tool integration, actionability of the tool, etc.)
 % 3. Performance using different benchmarks. --> Needs its own paper where everyone can contribute.
 
-\cite{krauterFormalizationAnalysisBPMN2023} % Also add lmcs citation here.
+\cite{krauterFormalizationAnalysisBPMN2023} % Also add LMCS citation here.
 
 \cite{vangorpVisualTokenbasedFormalization2013}
 
