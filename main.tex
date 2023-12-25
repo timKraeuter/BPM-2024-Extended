@@ -49,17 +49,26 @@ BPMN analysis
 % Claims a lot of problems in workflow models, which can be found using soundness checks.
 % Go over all three claims briefly: instantaneous (Definition), understandable (soundness properties are hard to understand for modelers), and actionable (comparable to quick fixes).
 
+% Understandable/Visualization is missing in the figure: instantaneous and actionable are there.
+\begin{figure}[ht]
+	\centering
+	\includegraphics[width=1\textwidth]{images/overview}
+	\caption{Overview of the approach}
+	\label{fig:overview}
+\end{figure}
+
 % Soundness stuff taken from which adopted it for BPMN
 \cite{corradiniClassificationBPMNCollaborations2018}
 
 % One example should be introduced here, which then is picked up throughout the paper.
 % Wrong gateway usage?
-% Instantaneous: The model checks in 50ms or less.
-% Understandable: Show the visualization of a counterexample using that model.
-% Actionable: Show the result of a quick fix when applied to that model and say it is sound now!
+% Instantaneous: The model checks in 500ms or less.
+% Understandable: Highlight problematic elements + show the visualization of a counterexample using that model.
+% Actionable: Provide quick fixes that resolve soundness violation --> check if changes fix the property before showing it to the user.
 
 \section{Instantaneous}
 Instantaneous definition from here: \cite{fahlandAnalysisDemandInstantaneous2011}
+500ms or less
 
 % Provide empirical evidence that it is instantaneous. Use repositories and synthetic benchmarks with increasing model size and degree of parallelity. --> Maybe in a independent section and link to the results here
 % Add all those datasets with artifacts using a Zenodo link --> Artifacts badge
@@ -71,7 +80,7 @@ These guys have some benchmarks:
 
 % Highlight directly and instantly in the diagram --> Overlays (and colors)
 % Interactive visualization of counterexamples.
-\cite{camundaservicesgmbhBpmnjsTokenSimulation2023}
+\cite{camundaservicesgmbhBpmnjsTokenSimulation2024}
 
 \section{Actionable}
 
@@ -79,10 +88,10 @@ These guys have some benchmarks:
 % Custom quick fix providers are also possible in the future with access to model-checking
 
 When possible, we detect errors in the BPMN model and provide an automatic fix similar to quick fixes in IDEs.
-The user can then select these quick fixes for a specific soundness property.
+Modelers can then select these quick fixes to resolve a specific soundness property.
 
 Since checking soundness is inexpensive, the user can apply the quick fix and instantly get feedback on the changes.
-If he is unhappy with the result, a user can undo these changes immediately (can mention command pattern and cite GOF/diagram-js here).
+If he is unhappy with the result, a user can undo these changes immediately since each quick fix is a \textit{command} (see command pattern \cite{gammaDesignPatternsElements1995}).
 A user might not like a quick fix if it not only fixes a specific property but also has unintended side effects.
 For example, it might invalidate a different soundness property.
 
@@ -111,14 +120,14 @@ Analyze the counter-example provided by Rust and try to locate where tokens are 
 \subsection{No Dead Activities}
 A dead activity might have multiple reasons:
 \textbf{(1)} The simplest reason is that the activity is disconnected, i.e., it has no incoming sequence flow.
-Disconnected activities must not be dead, but they violate best practices and are warned against by BPMN linters such as \cite[rule no-disconnected]{camundaservicesgmbhBpmnlint2023}.
+Disconnected activities must not be dead, but they violate best practices and are warned against by BPMN linters such as \cite[rule no-disconnected]{camundaservicesgmbhBpmnlint2024}.
 \textbf{(2)} An activity can also be part of the BPMN model that is not reachable during execution, for example, because a parallel gateway preceding the activity cannot be executed.
 % Could also be behind events that are never triggered.
 
 \subsubsection{Resolution}
 If the activity is disconnected \textbf{(1)}, we can propose connecting it to the nearest flow node.
 However, this flow node should not be disconnected from itself.
-Concretely, we assume modeling from left to right, such as all the other automatic layout mechanisms in bpmn-js \cite{camundaservicesgmbhBpmnjs2023} to find the leftmost nearest flow-node to connect.
+Concretely, we assume modeling from left to right, such as all the other automatic layout mechanisms in bpmn-js \cite{camundaservicesgmbhBpmnjs2024} to find the leftmost nearest flow-node to connect.
 \autoref{fig:noDeadActivitiesQuickFix} shows an example where this quick fix is applied.
 As in the other examples, new elements are colored in green.
 
@@ -151,7 +160,7 @@ Thus, other quick fixes for Option to complete can apply, which will also resolv
 
 \subsection{Description}
 % Tool UI with screenshot
-\cite{camundaservicesgmbhBpmnjs2023}
+\cite{camundaservicesgmbhBpmnjs2024}
 % Tool architecture? UI in JS and backend in Rust.
 % Just the model checker as a CLI app or a CLI that starts the whole thing as a service.
 
