@@ -7,7 +7,7 @@
 % to display URLs in blue roman font according to Springer's eBook style:
 % \renewcommand\UrlFont{\color{blue}\rmfamily}
 
-% \usepackage{orcidlink} % Orcid links
+\usepackage{orcidlink} % Orcid links
 % Fix underscore in dois
 \usepackage[strings]{underscore}
 
@@ -52,10 +52,16 @@ BPMN analysis
 % Soundness stuff taken from which adopted it for BPMN
 \cite{corradiniClassificationBPMNCollaborations2018}
 
+% One example should be introduced here, which then is picked up throughout the paper.
+% Wrong gateway usage?
+% Instantaneous: The model checks in 50ms or less.
+% Understandable: Show the visualization of a counterexample using that model.
+% Actionable: Show the result of a quick fix when applied to that model and say it is sound now!
+
 \section{Instantaneous}
 Instantaneous definition from here: \cite{fahlandAnalysisDemandInstantaneous2011}
 
-% Provide empirical evidence that it is instantaneous. Use repositories and synthetic benchmarks with increasing model size and degree of parallelity. 
+% Provide empirical evidence that it is instantaneous. Use repositories and synthetic benchmarks with increasing model size and degree of parallelity. --> Maybe in a independent section and link to the results here
 % Add all those datasets with artifacts using a Zenodo link --> Artifacts badge
 
 These guys have some benchmarks:
@@ -69,8 +75,62 @@ These guys have some benchmarks:
 
 \section{Actionable}
 
-% Quick fix providers/analysis resolvers coded for the different soundness properties.
+% Quick fix providers/analysis resolvers/solution strategies/resolution strategies coded for the different soundness properties.
 % Custom quick fix providers are also possible in the future with access to model-checking
+
+When possible, we detect errors in the BPMN model and provide an automatic fix similar to quick fixes in IDEs.
+The user can then select these quick fixes for a specific soundness property.
+
+Since checking soundness is inexpensive, the user can apply the quick fix and instantly get feedback on the changes.
+If he is unhappy with the result, a user can undo these changes immediately (can mention command pattern and cite GOF/diagram-js here).
+A user might not like a quick fix if it not only fixes a specific property but also has unintended side effects.
+For example, it might invalidate a different soundness property.
+
+In the following sections, we describe the implemented resolution strategies for the different soundness properties in detail.
+However, we do not expect these strategies to cover all possible resolutions and fit all applications.
+Thus, our framework is extensible, so other developers can provide additional or custom resolution strategies (dependency injection, decoupled analysis from handling from showing the errors).
+% --> Add before and after figures for each maybe and link to the example demo page hosted somewhere (azure).
+
+\subsection{Safeness}
+1. Change gateways to match if gateways are the problem.
+
+2. Add a parallel gateway if an implicit exclusive gateway is encoded (highlight command undoes all the changes in one).
+
+3. Add an exclusive gateway if an implicit parallel gateway is encoded (command undo).
+\subsection{Proper Completion}
+1. If multiple incoming sequence flows are the cause, we can add a unique end event for each other than the first sf (highlight undo all the changes)
+
+2. If only one sequence flow but the end event is "unproper" this is due to no safeness.
+\subsection{Option to Complete}
+Analyze the counter-example provided by Rust and try to locate where tokens are stuck (token locations + pg + multiple incoming flows).
+% --> Could also be due to untriggered events --> future work.
+
+\subsubsection{Resolution} \textbf{(1)} Change the pg to an exclusive gateway.
+
+\textbf{(2)} Try to find the exclusive split and make that parallel. 
+\subsection{No Dead Activities}
+A dead activity might have multiple reasons:
+\textbf{(1)} The simplest reason is that the activity is disconnected, i.e., it has no incoming sequence flow.
+Disconnected activities must not be dead, but they violate best practices and are warned against by BPMN linters such as \cite[rule no-disconnected]{camundaservicesgmbhBpmnlint2023}.
+\textbf{(2)} An activity can also be part of the BPMN model that is not reachable during execution, for example, because a parallel gateway preceding the activity cannot be executed.
+% Could also be behind events that are never triggered.
+
+\subsubsection{Resolution}
+If the activity is disconnected \textbf{(1)}, we can propose connecting it to the nearest flow node.
+However, this flow node should not be disconnected from itself.
+Concretely, we assume modeling from left to right, such as all the other automatic layout mechanisms in bpmn-js \cite{camundaservicesgmbhBpmnjs2023} to find the leftmost nearest flow-node to connect.
+\autoref{fig:noDeadActivitiesQuickFix} shows an example where this quick fix is applied.
+As in the other examples, new elements are colored in green.
+
+\begin{figure}[ht]
+	\centering
+	\includegraphics[width=1\textwidth]{images/dead}
+	\caption{Quick fix connecting a disconnected activity}
+	\label{fig:noDeadActivitiesQuickFix}
+\end{figure}
+
+In case \textbf{(2)} when the dead activity is connected, this will often lead to processes that cannot terminate, i.e., violate \textit{Option to Complete}.
+Thus, other quick fixes for Option to complete can apply, which will also resolve dead activities.
 
 \section{Implementation}
 
@@ -88,11 +148,26 @@ These guys have some benchmarks:
 % Describe what the initial state is. --> Could be configurable in the future.
 % Describe BPMN semantics with some diagrams for some examples.
 % Use a good running example with a modeling error that wasn't used before (double-blind).
+
 \subsection{Description}
 % Tool UI with screenshot
 \cite{camundaservicesgmbhBpmnjs2023}
 % Tool architecture? UI in JS and backend in Rust.
 % Just the model checker as a CLI app or a CLI that starts the whole thing as a service.
+
+
+\section{Scalability analysis}
+
+\subsection{Growing model size}
+% Cite my LMCS paper here if already published.
+% Briefly recap the method, but we only test in steps of 10.
+% Should include those models somewhere
+
+\subsection{Growing degrees of parallelism}
+% Cite the other paper here with parallelism
+
+\subsection{Industrial models}
+% Check that we can check and analyze models from these model repositories cited anywhere.
 
 \section{Related work}
 

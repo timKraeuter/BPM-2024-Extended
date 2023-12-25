@@ -1,0 +1,1 @@
+Describe benchmarks and where the models are located. Only one command/click should be needed to run the benchmarks
