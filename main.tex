@@ -110,36 +110,62 @@ Thus, our framework is extensible, so other developers can provide additional or
 1. If multiple incoming sequence flows are the cause, we can add a unique end event for each other than the first sf (highlight undo all the changes)
 
 2. If only one sequence flow but the end event is "unproper" this is due to no safeness.
-\subsection{Option to Complete}
-Analyze the counter-example provided by Rust and try to locate where tokens are stuck (token locations + pg + multiple incoming flows).
+\subsection{Option to Complete} \label{subsec:optionToComplete}
+Violations of \textit{Option to Complete} can have multiple reasons.
+\textbf{(1):} A parallel gateway that tries to synchronize multiple incoming sequence flows but never executes can be a problem.
+\textbf{(2):} Events which are never triggered but relied upon in the process execution might be another problem.
+
+To know which is the reason for a given violation we analyze the counter example provided by the soundness checker.
+The counter example provides a trace that leads to a state in which the process cannot complete.
+By analyzing the last state in this trace, i.e., the state in which execution cannot continue, we can find out which element is the cause.
+Thus, we can provide quick fixes for the possible reasons.
 % --> Could also be due to untriggered events --> future work.
 
-\subsubsection{Resolution} \textbf{(1)} Change the pg to an exclusive gateway.
+\textbf{Resolutions for (1):} A straightforward way to fix sequence flow not continuing past a parallel gateway is to change it to an exclusive gateway.
+Exclusive gateways do not synchronize and thus execution can continue.
+\autoref{fig:optionToComplete} \textbf{(a)} shows an example of this quick fix where the replaced gateway is highlighted in green.
 
-\textbf{(2)} Try to find the exclusive split and make that parallel. 
+\begin{figure}[ht]
+	\centering
+	\includegraphics[width=1\textwidth]{images/optionToComplete}
+	\caption{Quick fixes for \textit{Option To Complete}}
+	\label{fig:optionToComplete}
+\end{figure}
+
+Another way to fix violations is to fing the split in the sequence flow, for example the exclusive gateway in \autoref{fig:optionToComplete}, and make this split a parallelization, see quick fix \textbf{(b)} in \autoref{fig:noDeadActivitiesQuickFix}.
+We present both possible resolutions to the user which can then choose the appropriate one.
+
+In the example in \autoref{fig:noDeadActivitiesQuickFix} it is possible to spot the mismatching gateways.
+However, in general in bigger BPMN models with more flow nodes and sequence flows this might not be straightforward.
+
+\textbf{Resolutions for (2):} We have not implemented any quick fixes for untriggered evenvts yet.
+% Explain some ideas such as for message events and signal events. Finding matching throw events can be as complex as desired (similar name, proximity etc).
+
+
 \subsection{No Dead Activities}
 A dead activity might have multiple reasons:
-\textbf{(1)} The simplest reason is that the activity is disconnected, i.e., it has no incoming sequence flow.
+
+\textbf{(1):} The simplest reason is that the activity is disconnected, i.e., it has no incoming sequence flow.
 Disconnected activities must not be dead, but they violate best practices and are warned against by BPMN linters such as \cite[rule no-disconnected]{camundaservicesgmbhBpmnlint2024}.
-\textbf{(2)} An activity can also be part of the BPMN model that is not reachable during execution, for example, because a parallel gateway preceding the activity cannot be executed.
+
+\textbf{(2):} An activity can also be part of the BPMN model that is not reachable during execution, for example, because a parallel gateway preceding the activity cannot be executed.
 % Could also be behind events that are never triggered.
 
-\subsubsection{Resolution}
-If the activity is disconnected \textbf{(1)}, we can propose connecting it to the nearest flow node.
-However, this flow node should not be disconnected from itself.
+\textbf{Resolutions for (1)}: If the activity is disconnected, we can propose connecting it to the nearest flow node.
+However, this flow node should not be disconnected or dead itself.
 Concretely, we assume modeling from left to right, such as all the other automatic layout mechanisms in bpmn-js \cite{camundaservicesgmbhBpmnjs2024} to find the leftmost nearest flow-node to connect.
 \autoref{fig:noDeadActivitiesQuickFix} shows an example where this quick fix is applied.
 As in the other examples, new elements are colored in green.
 
 \begin{figure}[ht]
 	\centering
-	\includegraphics[width=1\textwidth]{images/dead}
+	\includegraphics[width=0.6\textwidth]{images/dead}
 	\caption{Quick fix connecting a disconnected activity}
 	\label{fig:noDeadActivitiesQuickFix}
 \end{figure}
 
-In case \textbf{(2)} when the dead activity is connected, this will often lead to processes that cannot terminate, i.e., violate \textit{Option to Complete}.
-Thus, other quick fixes for Option to complete can apply, which will also resolve dead activities.
+\textbf{Resolutions for (2)}: When the dead activity is connected, this will often lead to processes that cannot terminate, i.e., violate \textit{Option to Complete}.
+Thus, other quick fixes can apply, which will also resolve dead activities, see \autoref{subsec:optionToComplete}.
 
 \section{Implementation}
 
