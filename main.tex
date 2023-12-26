@@ -138,8 +138,11 @@ We present both possible resolutions to the user which can then choose the appro
 In the example in \autoref{fig:noDeadActivitiesQuickFix} it is possible to spot the mismatching gateways.
 However, in general in bigger BPMN models with more flow nodes and sequence flows this might not be straightforward.
 
-\textbf{Resolutions for (2):} We have not implemented any quick fixes for untriggered evenvts yet.
-% Explain some ideas such as for message events and signal events. Finding matching throw events can be as complex as desired (similar name, proximity etc).
+\textbf{Resolutions for (2):} We have not yet implemented any quick fixes for events but there are many interesting possibilities.
+For example, for message catch events without incoming message flows one could add a fitting message flow from a message throw event or send task.
+To find the right source of the new message flow one can use different factors such as spacial proximity and name similarity.
+The idea for any event would be to add the missing trigger.
+How to find the most fitting trigger can then be approached in various ways by analyzing the other elements in the BPMN model.
 
 
 \subsection{No Dead Activities}
