@@ -100,19 +100,43 @@ However, we do not expect these strategies to cover all possible resolutions and
 Thus, our framework is extensible, so other developers can provide additional or custom resolution strategies (dependency injection, decoupled analysis from handling from showing the errors).
 % --> Add before and after figures for each maybe and link to the example demo page hosted somewhere (azure).
 
-\subsection{Safeness}
+\subsection{Safeness} \label{subsec:safeness}
 1. Change gateways to match if gateways are the problem.
 
 2. Add a parallel gateway if an implicit exclusive gateway is encoded (highlight command undoes all the changes in one).
 
 3. Add an exclusive gateway if an implicit parallel gateway is encoded (command undo).
-\subsection{Proper Completion}
-1. If multiple incoming sequence flows are the cause, we can add a unique end event for each other than the first sf (highlight undo all the changes)
 
-2. If only one sequence flow but the end event is "unproper" this is due to no safeness.
+
+\subsection{Proper Completion}
+The soundness checker will provide a counter example and the end events that consume more than one token.
+Violations of \textit{Proper Completion} at a specific end event can have multiple reasons.
+
+\textbf{(1):} An end event might have multiple incoming sequence flows that can hold tokens.
+This could be due to a parallelization that is never synchronized.
+
+\textbf{(2):} If there is only one incoming sequence flow then this sequence flow must be unsafe, i.e., hold more than one token in a possible execution.
+
+\textbf{Resolution for (1):} If multiple incoming sequence flows are the cause, we can add a unique end event for each of them expect the first. 
+\autoref{fig:properCompletion} shows an example of this quick fix being applied, where the changed elements are colored in green.
+We made sure that an undo operation will revert the whole quick fix at once using the command pattern \cite{gammaDesignPatternsElements1995}.
+
+\begin{figure}[ht]
+	\centering
+	\includegraphics[width=0.7\textwidth]{images/properCompletion}
+	\caption{Quick fix for \textit{Proper Completion}}
+	\label{fig:properCompletion}
+\end{figure}
+
+\textbf{Resolution for (2):} If a problematic end event only has one incoming sequence flow it must be unsafe.
+Thus, other \textit{Safeness} quick fixes can apply, which will also resolve \textit{Proper Completion}, see \autoref{subsec:safeness}.
+
+
 \subsection{Option to Complete} \label{subsec:optionToComplete}
 Violations of \textit{Option to Complete} can have multiple reasons.
+
 \textbf{(1):} A parallel gateway that tries to synchronize multiple incoming sequence flows but never executes can be a problem.
+
 \textbf{(2):} Events which are never triggered but relied upon in the process execution might be another problem.
 
 To know which is the reason for a given violation we analyze the counter example provided by the soundness checker.
