@@ -37,7 +37,8 @@ TODO
 \keywords{
 BPM \and
 BPMN \and
-BPMN analysis
+BPMN analysis \and 
+Soundness checking
 }
 \end{abstract}
 
@@ -70,7 +71,7 @@ BPMN analysis
 Instantaneous definition from here: \cite{fahlandAnalysisDemandInstantaneous2011}
 500ms or less
 
-% Provide empirical evidence that it is instantaneous. Use repositories and synthetic benchmarks with increasing model size and degree of parallelity. --> Maybe in a independent section and link to the results here
+% Provide empirical evidence that it is instantaneous. Use repositories and synthetic benchmarks with increasing model size and degree of parallelity. --> Maybe in an independent section and link to the results here
 % Add all those datasets with artifacts using a Zenodo link --> Artifacts badge
 
 These guys have some benchmarks:
@@ -101,33 +102,33 @@ Thus, our framework is extensible, so other developers can provide additional or
 % --> Add before and after figures for each maybe and link to the example demo page hosted somewhere (azure).
 
 \subsection{Safeness} \label{subsec:safeness}
-The soundness checker will provide a counter example and the sequence flows that are unsafe.
+The soundness checker will provide a counter-example and the unsafe sequence flows.
 We use this information together with the structure of the BPMN model to find resolutions for \textit{Safeness} violations.
-In general violations can have multiple reasons.
+In general, violations can have multiple reasons.
 
-\textbf{(1):} An exclusive gateway with multiple incoming sequence flows which is activated more than once will lead to multiple tokens at its outgoing sequence flows.
+\textbf{(1):} An exclusive gateway with multiple incoming sequence flows activated more than once will lead to multiple tokens at its outgoing sequence flows.
 
-\textbf{(2):} One can also implicitly encode an exclusive gateway, for example using an activity, by having multiple incoming sequence flows.
-Implicitly encoding exclusive gateways is not forbidden but violates best practices (see lint rule \textit{fake-join} in \cite{camundaservicesgmbhBpmnlint2024}).
-Similar to \textbf{(1)} this leads to unsafe sequence flows if activated more than once.
+\textbf{(2):} One can also implicitly encode an exclusive gateway, for example, using an activity, by having multiple incoming sequence flows.
+Implicitly encoding exclusive gateways is allowed but violates best practices (see lint rule \textit{fake-join} in \cite{camundaservicesgmbhBpmnlint2024}).
+Similar to \textbf{(1)}, this leads to unsafe sequence flows if activated more than once.
 
 
 \textbf{Resolutions for (1):} A straightforward solution is to change the exclusive gateway to a parallel one.
-Since the gateway was activated multiple time it indicates that it perhaps should have been a parallel gateway or there was an unintended parallelization before.
+Since the gateway was activated multiple times it indicates that it perhaps should have been a parallel gateway or there was an unintended parallelization before.
 Thus, we can analyze the BPMN model and find the parallelization that causes the \textit{Safeness} violation.
-If it is a parallel gateway another solution is to change this parallel gateway to an exclusive one.
-So, there are two solutions but the goal is to have matching gateways.
-The parallelization can also be an implicitly encoded parallel gateway, for example an activity with multiple outgoing sequence flows, which would not comply with best practices but is not forbidden.
-In this case, we can add an exclusive gateway to get rid off the implicit parallelization and achieve matching gateways.
-% Would be nice to mention the command here already.
+If it is a parallel gateway, another solution is to change this parallel gateway to an exclusive one.
+So, there are two solutions, but the goal is to have matching gateways.
+The parallelization can also be an implicitly encoded parallel gateway, for example, an activity with multiple outgoing sequence flows, which does not comply with best practices but is allowed.
+In this case, we can add an exclusive gateway to eliminate the implicit parallelization and achieve matching gateways.
+% It would be nice to mention the command here already.
 
-\textbf{Resolutions for (2):} Similarly to \textbf{(1)} the goal of each quick fix is to obtain matching gateways.
+\textbf{Resolutions for (2):} Similarly to \textbf{(1)}, the goal of each quick fix is to obtain matching gateways.
 Thus, one solution is to find the parallelization that causes the \textit{Safeness} violation and change it to an exclusive gateway, as described in \textbf{(1)}.
 Quick fix \textbf{(a)} in \autoref{fig:safeness} shows this solution, where a parallel gateway is changed to an exclusive one.
-We color all changes and additions green in all figures highlighting quick fixes.
-Another solution is to get rid off the implicit exclusive gateway and add a parallel gateway instead, see quick fix \textbf{(b)} in \autoref{fig:safeness}.
+We color all changes and additions green in figures, highlighting quick fixes.
+Another solution is to remove the implicit exclusive gateway and add a parallel gateway instead, see quick fix \textbf{(b)} in \autoref{fig:safeness}.
 The quick fix moves elements automatically to make space to insert the parallel gateway and then reconnects as well as adds sequence flows accordingly.
-Even tho, these are multiple individual operations we made sure that an undo operation will revert the whole quick fix.
+Even though these are multiple individual operations, we ensured that an undo operation would revert the whole quick fix.
 All the implemented quick fixes can be reverted using one simple undo operation.
 
 \begin{figure}[ht]
@@ -137,21 +138,21 @@ All the implemented quick fixes can be reverted using one simple undo operation.
 	\label{fig:safeness}
 \end{figure}
 
-% TODO: Add demp application and artifacts anonymously.
-Our demo application which can be found in x contains examples for the Safeness quick fixes and all other soundness properties.
+% TODO: Add demo application and artifacts anonymously.
+Our demo application in x contains examples of the Safeness quick fixes and all other soundness properties.
 
 \subsection{Proper Completion}
-The soundness checker will provide a counter example and the end events that consume more than one token.
+The soundness checker will provide a counter-example and the end events that consume more than one token.
 Violations of \textit{Proper Completion} at a specific end event can have multiple reasons.
 
 \textbf{(1):} An end event might have multiple incoming sequence flows that can hold tokens.
 This could be due to a parallelization that is never synchronized.
 
-\textbf{(2):} If there is only one incoming sequence flow then this sequence flow must be unsafe, i.e., hold more than one token in a possible execution.
+\textbf{(2):} If there is only one incoming sequence flow, then this sequence flow must be unsafe, i.e., hold more than one token in a possible execution.
 
-\textbf{Resolution for (1):} If multiple incoming sequence flows are the cause, we can add a unique end event for each of them expect the first. 
+\textbf{Resolution for (1):} If multiple incoming sequence flows are the cause, we can add a unique end event for each except the first. 
 \autoref{fig:properCompletion} shows an example of this quick fix being applied, where the changed elements are colored in green.
-We made sure that an undo operation will revert the whole quick fix using the command pattern \cite{gammaDesignPatternsElements1995}.
+We ensured that an undo operation would revert the quick fix using the command pattern \cite{gammaDesignPatternsElements1995}.
 
 \begin{figure}[ht]
 	\centering
@@ -169,15 +170,15 @@ Violations of \textit{Option to Complete} can have multiple reasons.
 
 \textbf{(1):} A parallel gateway that tries to synchronize multiple incoming sequence flows but never executes can be a problem.
 
-\textbf{(2):} Events which are never triggered but relied upon in the process execution might be another problem.
+\textbf{(2):} Events that are never triggered but relied upon in the process execution might be another problem.
 
-To know which is the reason for a given violation we analyze the counter example provided by the soundness checker.
-The counter example provides a trace that leads to a state in which the process cannot complete.
-By analyzing the last state in this trace, i.e., the state in which execution cannot continue, we can find out which element is the cause.
+To know the reason for a given violation, we analyze the counter example provided by the soundness checker.
+The counter-example provides a trace that leads to a state in which the process cannot complete.
+By analyzing the last state in this trace, i.e., the state in which execution cannot continue, we can determine which element is the cause.
 Thus, we can provide quick fixes for the possible reasons.
 
 \textbf{Resolutions for (1):} A straightforward way to fix sequence flow not continuing past a parallel gateway is to change it from parallel to exclusive.
-Exclusive gateways do not synchronize and thus execution can continue.
+Exclusive gateways do not synchronize, and thus, execution can continue.
 \autoref{fig:optionToComplete} \textbf{(a)} shows an example of this quick fix where the replaced gateway is highlighted in green.
 
 \begin{figure}[ht]
@@ -187,18 +188,18 @@ Exclusive gateways do not synchronize and thus execution can continue.
 	\label{fig:optionToComplete}
 \end{figure}
 
-Another way to fix violations is to find the split in the sequence flow, for example the exclusive gateway in \autoref{fig:optionToComplete}, and make this split a parallelization, see quick fix \textbf{(b)} in \autoref{fig:noDeadActivitiesQuickFix}.
-We present both possible resolutions to the user which can then choose the appropriate one.
+Another way to fix violations is to find the split in the sequence flow, for example, the exclusive gateway in \autoref{fig:optionToComplete}, and make this split a parallelization, see quick fix \textbf{(b)} in \autoref{fig:noDeadActivitiesQuickFix}.
+We present both possible resolutions to the user, who can choose the appropriate one.
 Similar to the quick fixes 
 
-In the example in \autoref{fig:noDeadActivitiesQuickFix} it is possible to spot the mismatching gateways.
-However, in general in bigger BPMN models with more flow nodes and sequence flows this might not be straightforward.
+In the example in \autoref{fig:noDeadActivitiesQuickFix}, it is possible to spot the mismatching gateways.
+However, this might not be straightforward in bigger BPMN models with more flow nodes and sequence flows.
 
-\textbf{Resolutions for (2):} We have not yet implemented any quick fixes for events but there are many interesting possibilities.
-For example, for message catch events without incoming message flows one could add a fitting message flow from a message throw event or send task.
-To find the right source of the new message flow one can use different factors such as spacial proximity and name similarity.
+\textbf{Resolutions for (2):} We have not yet implemented any quick fixes for events, but many interesting possibilities exist.
+For example, for message catch events without incoming message flows, one could add a fitting message flow from a message throw event or send task.
+One can use different factors, such as spatial proximity and name similarity, to find the right source of the new message flow.
 The idea for any event would be to add the missing trigger.
-How to find the most fitting trigger can then be approached in various ways by analyzing the other elements in the BPMN model.
+Finding the most fitting trigger can be done in various ways by analyzing the other elements in the BPMN model.
 
 
 \subsection{No Dead Activities}
@@ -207,12 +208,12 @@ A dead activity might have multiple reasons:
 \textbf{(1):} The simplest reason is that the activity is disconnected, i.e., it has no incoming sequence flow.
 Disconnected activities must not be dead, but they violate best practices see lint rule \textit{no-disconnected} in \cite{camundaservicesgmbhBpmnlint2024}.
 
-\textbf{(2):} An activity can also be part of the BPMN model that is not reachable during execution, for example, because a parallel gateway preceding the activity cannot be executed.
+\textbf{(2):} An activity can also be part of the BPMN model that is not reachable during execution because a parallel gateway preceding the activity cannot be executed.
 % Could also be behind events that are never triggered.
 
-\textbf{Resolutions for (1)}: If the activity is disconnected, we can propose connecting it to the nearest flow node.
+\textbf{Resolutions for (1)}: If the activity is disconnected, we can propose connecting it to the nearest flow-node.
 However, this flow node should not be disconnected or dead itself.
-Concretely, we assume modeling from left to right, such as all the other automatic layout mechanisms in bpmn-js \cite{camundaservicesgmbhBpmnjs2024} to find the leftmost nearest flow-node to connect.
+Concretely, we assume modeling from left to the right, such as all the other automatic layout mechanisms in bpmn-js \cite{camundaservicesgmbhBpmnjs2024} to find the leftmost nearest flow-node to connect.
 \autoref{fig:noDeadActivitiesQuickFix} shows an example where this quick fix is applied.
 As in the other examples, new elements are colored in green.
 
