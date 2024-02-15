@@ -140,8 +140,32 @@ Thus, our tool can still check soundness instantaneously according to our defini
 
 \section{Understandable Soundness Checking}
 
-% Highlight directly and instantly in the diagram --> Overlays (and colors)
-% Interactive visualization of counterexamples.
+The first step to fixing a soundness violation is understanding the problem.
+Thus, a tool must present soundness violations clearly with the necessary details to the BPMN modeler.
+We aim to make soundness checking understandable by not only providing textual feedback but rather utilizing the graphical structure of the BPMN model.
+We visualize soundness issues applying two strategies.
+
+% Identify problematic elements using overlays.
+First, we highlight the problematic elements in the BPMN model, which cause soundness violations.
+\autoref{fig:soundness-violations} depicts how we highlight problematic elements using red overlays in our tool.
+In addition, there is a summary panel in the top-right corner of the screenshot.
+
+\begin{figure}[ht]
+	\centering
+	\includegraphics[width=0.7\textwidth]{images/violations}
+	\caption{Screenshot highlighting soundness violations using overlays}
+	\label{fig:soundness-violations}
+\end{figure}
+
+Using the overlays one can immediately see which elements cause soundness violations which helps to pinpoint the root problems in the BPMN models.
+For \textit{safeness} we highlight sequence flows that can become \textit{unsafe}, i.e., two tokens can be located at the sequence flow.
+For \textit{proper completion} we identify the end events that can consume more than one token, while for \textit{no dead activities} we highlight the dead activities in the BPMN model.
+For \textit{option to complete} we cannot highlight elements since it means the process execution can get stuck which cannot easily be attributed to single BPMN elements.
+% --> Seen partly in other tools
+
+% Interactive visualization of counterexamples. --> Not seen before. some allow exports of counter examples but no direct interaction --> reduction of friction.
+Second,
+
 \cite{camundaservicesgmbhBpmnjsTokenSimulation2024}
 
 \section{Actionable Soundness Checking}
@@ -215,6 +239,7 @@ This could be due to a parallelization that is never synchronized.
 \autoref{fig:properCompletion} shows an example of this quick fix being applied, where the changed elements are colored in green.
 We ensured that an undo operation would revert the quick fix using the command pattern \cite{gammaDesignPatternsElements1995}.
 
+% Can save a lot of space in this figure if needed. Go to two activities and put them closer together
 \begin{figure}[ht]
 	\centering
 	\includegraphics[width=0.7\textwidth]{images/properCompletion}
@@ -290,6 +315,10 @@ Thus, other quick fixes can apply, which will also resolve dead activities, see 
 
 \section{Implementation}
 
+% General goals: No friction for the modeler by integration into popular BPMN modeling tools.
+% Modular structure such that it can be turned off our different features can be used or reused in different situations.
+% We make use of the bpmn token simulation from camunda and generally the diagram-js/bpmn-js ecosystem.
+
 \subsection{Rust}
 % Why in Rust?
 % Low-level language with modern features.
@@ -319,14 +348,16 @@ Thus, other quick fixes can apply, which will also resolve dead activities, see 
 
 % Different ways of comparison
 % 1. BPMN features supported (sub of 2.)
-% 2. Capabilities (Which soundness properties are supported, custom properties, counter-example visualization, tool maturity, tool integration, actionability of the tool, etc.)
-% 3. Performance using different benchmarks. --> Needs its own paper where everyone can contribute.
+% 2. Capabilities (Which soundness properties are supported, custom properties, counter-example visualization, tool maturity, tool integration, actionability of the tool, etc.) --> highlighting problematic elements is sometimes supported but interactive counter example visualization is not (to the best of our knowledge)
+% 3. Performance using different benchmarks. --> Needs its own paper where everyone can contribute. --> Usually not done but quite important for industrial use. Model checking has to have adequate performance!
 
-\cite{krauterFormalizationAnalysisBPMN2023} % Also add LMCS citation here.
+\cite{krauterFormalizationAnalysisBPMN2023,krauterHigherorderTransformationApproach2023}
 
 \cite{vangorpVisualTokenbasedFormalization2013}
 
 \cite{corradiniBProVeToolSupport2017,corradiniFormalApproachAnalysis2021}
+
+\cite{houhouFirstOrderLogicSemantics2019,houhouFirstOrderLogicVerification2022}
 
 \section{Limitations \& Threats to Validity}
 
