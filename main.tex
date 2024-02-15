@@ -5,9 +5,9 @@
 % Add pdf bookmarks and metadata
 \usepackage[bookmarksopen,
 bookmarksopenlevel=1,
-bookmarksdepth=2
+bookmarksdepth=2,
 pdftex,
-pdfauthor={Tim Kräuter},
+pdfauthor={No Author Given},
 pdftitle={Instantaneous, Understandable, and Actionable Soundness Checking of Industrial BPMN Models},
 pdfsubject={BPMN soundness checking},
 pdfkeywords={BPM, BPMN, BPMN analysis, Soundness checking}
@@ -41,10 +41,10 @@ pdfkeywords={BPM, BPMN, BPMN analysis, Soundness checking}
 \begin{abstract}
 TODO
 \keywords{
-BPM \and
-BPMN \and
-BPMN analysis \and 
-Soundness checking
+Business Process Modeling \and
+Verification \and
+BPMN Soundness\and
+Quality assurance
 }
 \end{abstract}
 
@@ -55,6 +55,8 @@ Soundness checking
 \cite{fahlandAnalysisDemandInstantaneous2011}
 % Claims a lot of problems in workflow models, which can be found using soundness checks.
 % Describe the figure and go over all three claims briefly: instantaneous (Definition), understandable (soundness properties are hard to understand for modelers), and actionable (comparable to quick fixes).
+
+% Also add the times measured by other tools for some models. These range into seconds? Would be nice to try the sasme models later.
 
 % Understandable/Visualization is missing in the figure: instantaneous and actionable are there.
 \begin{figure}[ht]
@@ -75,9 +77,12 @@ Soundness checking
 % Understandable: Highlight problematic elements + show the visualization of a counterexample using that model.
 % Actionable: Provide quick fixes that resolve soundness violation --> check if changes fix the property before showing it to the user.
 
-\section{Instantaneous}
-Instantaneous definition from here: \cite{fahlandAnalysisDemandInstantaneous2011}
-500ms or less
+\section{Soundness Checking of BPMN Models}
+% Describe soundness checking in general and specifically for BPMN models.
+
+\section{Instantaneous Soundness Checking}
+Instantaneous soundness checking is defined as taking 500 ms or less in \cite{fahlandAnalysisDemandInstantaneous2011}.
+
 
 % Provide empirical evidence that it is instantaneous. Use repositories and synthetic benchmarks with increasing model size and degree of parallelity. --> Maybe in an independent section and link to the results here
 % Add all those datasets with artifacts using a Zenodo link --> Artifacts badge
@@ -85,13 +90,26 @@ Instantaneous definition from here: \cite{fahlandAnalysisDemandInstantaneous2011
 These guys have some benchmarks:
 \cite{corradiniFormalApproachAnalysis2021}
 
-\section{Understandable}
+
+\subsection{Growing Model Size}
+% Cite my LMCS paper here if already published.
+% Briefly recap the method, but we only test in steps of 10.
+% Should include those models somewhere
+
+\subsection{Growing Degrees of Parallelism}
+% Cite the other paper here with parallelism
+
+\subsection{Industrial Models}
+% Check that we can check and analyze models from the model repositories cited anywhere.
+% Especially look for models to be "industrial"! --> some in my previous publications were.
+
+\section{Understandable Soundness Checking}
 
 % Highlight directly and instantly in the diagram --> Overlays (and colors)
 % Interactive visualization of counterexamples.
 \cite{camundaservicesgmbhBpmnjsTokenSimulation2024}
 
-\section{Actionable}
+\section{Actionable Soundness Checking}
 
 % Quick fix providers/analysis resolvers/solution strategies/resolution strategies coded for the different soundness properties.
 % Custom quick fix providers are also possible in the future with access to model-checking
@@ -249,7 +267,7 @@ Thus, other quick fixes can apply, which will also resolve dead activities, see 
 
 % Reimplement in rust meme
 
-\subsection{BPMN semantics}
+\subsection{BPMN Semantics}
 % Describe the runtime model. What is a state? --> Draw a UML diagram
 % Describe what the initial state is. --> Could be configurable in the future.
 % Describe BPMN semantics with some diagrams for some examples.
@@ -258,24 +276,10 @@ Thus, other quick fixes can apply, which will also resolve dead activities, see 
 \subsection{Description}
 % Tool UI with screenshot
 \cite{camundaservicesgmbhBpmnjs2024}
-% Tool architecture? UI in JS and backend in Rust.
+% Tool architecture? UI in JS and backend in Rust. --> shown already earlier
 % Just the model checker as a CLI app or a CLI that starts the whole thing as a service.
 
-
-\section{Scalability analysis}
-
-\subsection{Growing model size}
-% Cite my LMCS paper here if already published.
-% Briefly recap the method, but we only test in steps of 10.
-% Should include those models somewhere
-
-\subsection{Growing degrees of parallelism}
-% Cite the other paper here with parallelism
-
-\subsection{Industrial models}
-% Check that we can check and analyze models from these model repositories cited anywhere.
-
-\section{Related work}
+\section{Related Work}
 
 % Different ways of comparison
 % 1. BPMN features supported (sub of 2.)
