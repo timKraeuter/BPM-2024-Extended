@@ -22,7 +22,7 @@ pdfkeywords={BPM, BPMN, BPMN analysis, Soundness checking}
 %
 \title{Instantaneous, Understandable, and Actionable Soundness Checking of Industrial BPMN Models}
 %
-\titlerunning{Instantaneous soundness checking of industrial BPMN models}
+\titlerunning{Instantaneous Soundness Checking of Industrial BPMN Models}
 % If the paper title is too long for the running head, you can set
 % an abbreviated paper title here
 %
@@ -31,7 +31,7 @@ pdfkeywords={BPM, BPMN, BPMN analysis, Soundness checking}
 % Harald K\"{o}nig\inst{2,1}\orcidID{0000-0001-6304-6311} \and
 % Yngve Lamo\inst{1}\orcidID{0000-0001-9196-1779}}
 % \authorrunning{T. Kräuter et al.}
-% \institute{Western Norway University of Applied Sciences, Bergen, Norway 
+% \institute{Western Norway University of Applied Sciences, Bergen, Norway
 % \email{tkra@hvl.no, aru@hvl.no, yla@hvl.no} \and
 % University of Applied Sciences, FHDW, Hanover, Germany\\
 % \email{harald.koenig@fhdw.de}}
@@ -50,7 +50,7 @@ Quality assurance
 
 % Up to 16 pages, including everything!
 
-\section{Introduction}
+\section{Introduction} \label{sec:introduction}
 % Why useful?
 \cite{fahlandAnalysisDemandInstantaneous2011}
 % Claims a lot of problems in workflow models, which can be found using soundness checks.
@@ -61,7 +61,7 @@ Quality assurance
 % Understandable/Visualization is missing in the figure: instantaneous and actionable are there.
 \begin{figure}[ht]
 	\centering
-	\includegraphics[width=1\textwidth]{images/overview}
+	\includegraphics[width=0.7\textwidth]{images/overview}
 	\caption{Overview of the approach}
 	\label{fig:overview}
 \end{figure}
@@ -81,27 +81,62 @@ Quality assurance
 % Describe soundness checking in general and specifically for BPMN models.
 
 \section{Instantaneous Soundness Checking}
-Instantaneous soundness checking is defined as taking 500 ms or less in \cite{fahlandAnalysisDemandInstantaneous2011}.
+\textit{Instantaneous} soundness checking is defined as taking 500 ms or less in \cite{fahlandAnalysisDemandInstantaneous2011}.
+In this section, we demonstrate that our soundness checker is instantaneous by validating it from three different viewpoints.
+First, we investigate how our tools reacts to rapidly \textit{growing model size} in \autoref{subsec:model-size}.
+We use a benchmark based on synthetically generated BPMN models.
+% also called levels of concurrency in fahlandAnalysisDemandInstantaneous2011 ? degrees of paralleism somewhere else by the italians.
+Second, we study how our tool deals with \textit{growing degrees of parallelism} in \autoref{subsec:degrees-of-parallelism}
+Third, we input industrial models identified in other publications or coming from public data sets into our tool and measure the performance.
+Third, we run soundness checking for several industrial BPMN process models identified in other studies or available in public datasets, see \autoref{subsec:industrial-models}. % Add some citations here or later once we did this.
+%These guys have some benchmarks:
+%\cite{corradiniFormalApproachAnalysis2021}
 
+% General info
+% We use hyperfine for each benchmark with runs stuff 10x and averages? See my other papers
+For all our benchmarks, we use the hyperfine benchmarking tool \cite{peterHyperfine2023} (version 1.18.0), which calculates the average runtime when executing each soundness check ten times.
+The benchmarks were run on a Windows 11 machine with an AMD Ryzen 7700X processor and 32 GB of RAM \cite{noauthorgivenBPM2024Artifacts2024}.
 
-% Provide empirical evidence that it is instantaneous. Use repositories and synthetic benchmarks with increasing model size and degree of parallelity. --> Maybe in an independent section and link to the results here
-% Add all those datasets with artifacts using a Zenodo link --> Artifacts badge
+% Artifacts using a Zenodo link at the end. Maybe my anonymous github account before.
+All used BPMN models are given in the artifacts of this paper \cite{noauthorgivenBPM2024Artifacts2024}.
+Furthermore, we provide the scripts to replicate our benchmarks using hyperfine.
 
-These guys have some benchmarks:
-\cite{corradiniFormalApproachAnalysis2021}
+\subsection{Growing Model Size} \label{subsec:model-size}
+We use the data-set of models provided in 
+\cite{krauterHigherorderTransformationApproach2023}, which consists of 300 synthetically generated BPMN models.
+% Briefly recap the method.
+Every BPMN model contains a start event, a fixed amount of \textit{blocks}, and an end event.
+The number of blocks ranges from 1 to 300 and there are three different blocks that are used repeatedly.
+\autoref{fig:three-block-example} shows the third BPMN model in the data-set which contains each of the different blocks once.
 
+\begin{figure}[ht]
+	\centering
+	\includegraphics[width=0.7\textwidth]{images/three-blocks}
+	\caption{A generated BPMN model with three blocks \cite{krauterHigherorderTransformationApproach2023}}
+	\label{fig:three-block-example}
+\end{figure}
 
-\subsection{Growing Model Size}
-% Cite my LMCS paper here if already published.
-% Briefly recap the method, but we only test in steps of 10.
-% Should include those models somewhere
+\autoref{fig:model-size-benchmark} shows the average runtime of our tool when checking soundness for the described data-set of BPMN models.
+Each model is sound which means that tools must exhaustively search the state space.
 
-\subsection{Growing Degrees of Parallelism}
+\begin{figure}[ht]
+	\centering
+	\includegraphics[width=0.5\textwidth]{images/model-size-benchmark}
+	\caption{Average soundness checking runtime for each BPMN model}
+	\label{fig:model-size-benchmark}
+\end{figure}
+
+% Results
+Once can see that our tools spends starting from 10 ms up to 100 ms for the BPMN models.
+Thus, our tool can still check soundness instantaneously according to our definition in \autoref{sec:introduction} even if model size increases as in the data-set provided in \cite{krauterHigherorderTransformationApproach2023}.
+
+\subsection{Growing Degrees of Parallelism} \label{subsec:degrees-of-parallelism}
 % Cite the other paper here with parallelism
 
-\subsection{Industrial Models}
-% Check that we can check and analyze models from the model repositories cited anywhere.
+\subsection{Industrial Models} \label{subsec:industrial-models}
+% Check that we can analyze models from the model repositories cited anywhere.
 % Especially look for models to be "industrial"! --> some in my previous publications were.
+% Pick 5-10 models and add a table or a summary and a table in the artifacts?
 
 \section{Understandable Soundness Checking}
 
@@ -176,7 +211,7 @@ This could be due to a parallelization that is never synchronized.
 
 \textbf{(2):} If there is only one incoming sequence flow, then this sequence flow must be unsafe, i.e., hold more than one token in a possible execution.
 
-\textbf{Resolution for (1):} If multiple incoming sequence flows are the cause, we can add a unique end event for each except the first. 
+\textbf{Resolution for (1):} If multiple incoming sequence flows are the cause, we can add a unique end event for each except the first.
 \autoref{fig:properCompletion} shows an example of this quick fix being applied, where the changed elements are colored in green.
 We ensured that an undo operation would revert the quick fix using the command pattern \cite{gammaDesignPatternsElements1995}.
 
@@ -216,7 +251,7 @@ Exclusive gateways do not synchronize, and thus, execution can continue.
 
 Another way to fix violations is to find the split in the sequence flow, for example, the exclusive gateway in \autoref{fig:optionToComplete}, and make this split a parallelization, see quick fix \textbf{(b)} in \autoref{fig:noDeadActivitiesQuickFix}.
 We present both possible resolutions to the user, who can choose the appropriate one.
-Similar to the quick fixes 
+Similar to the quick fixes
 
 In the example in \autoref{fig:noDeadActivitiesQuickFix}, it is possible to spot the mismatching gateways.
 However, this might not be straightforward in bigger BPMN models with more flow nodes and sequence flows.
@@ -258,7 +293,8 @@ Thus, other quick fixes can apply, which will also resolve dead activities, see 
 \subsection{Rust}
 % Why in Rust?
 % Low-level language with modern features.
-% Good for CLI tools such as this
+% Good for CLI tools such as this.
+% Web assembly compilation? Client-side model checking in the browser? crazy talk
 
 % Highlight Rusts speed and safety claims. Maybe cite some papers investigating this. Bottom line: Rust's performance is comparable to C and C++ with better development ergonomics and newer features (less cargo since it is a newer language).
 % Zero-overhead abstractions --> related to speed
@@ -294,9 +330,16 @@ Thus, other quick fixes can apply, which will also resolve dead activities, see 
 
 \section{Limitations \& Threats to Validity}
 
+% Discuss linear model size increase i.e. no parallel degree increase --> BPMN models are linear in practice and much smaller than in this benchmark. cite instantaneous paper
+% However, one could add more complex BPMN features than given in the three blocks shown there.
+
+% Hard to really find industrial models?
+% Other approaches are implemented in a more fomral setting and thus a comparison may not be apples to apples?
+% We have build a specific tool for BPMN while other people have used generic tools: groove, maude, and other general purpose model checkers?
+
 \section{Conclusion \& Future work}
 
-\bibliographystyle{splncs04} 
+\bibliographystyle{splncs04}
 \bibliography{bib}
 
 \end{document}
