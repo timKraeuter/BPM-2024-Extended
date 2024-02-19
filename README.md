@@ -1,4 +1,4 @@
-# BPM-2024-Artifacts
+# BPM-2024
 
 Artifacts for the paper _**Instantaneous, Understandable, and Actionable Soundness Checking of Industrial BPMN Models**_ submitted to BPM-2024.
 
@@ -15,3 +15,9 @@ In addition, each directory contains instructions to run the soundness checking 
 - The benchmarks were run with hyperfine version **1.18.0** (binaries available for windows/linux in the **artifacts** folder).
 - The benchmarks were run on a Windows 11 machine with an AMD Ryzen 7700X processor with 32 GB DDR5-5600 RAM on NVMe SSD storage.
 - The benchmarks were run with our bpmn-analyzer tool version **0.2.0** (binaries available for windows/linux in the **artifacts** folder).
+
+## Source code
+We will make the source code available after review of the paper.
+
+- Analysis tool written in Rust: https://github.com/
+- UI written in Javascript/HTML using the bpmn-js ecosystem: https://github.com/
