@@ -1,13 +1,20 @@
-# BPM-2024-Artifacts: Degrees of Parallelism
+# Benchmark: Degrees of Parallelism
 
 This folder contains the models with increasing **degree of parallelism** used in the paper.
 
 ## Benchmark
 
+**Windows:**
 ```bash
-../../hyperfine.exe -V
+cd ../..
+hyperfine.exe -V
 ```
-Use just `hyperfine` without `.exe` on Linux.
+
+**Linux:**
+```bash
+cd ../..
+hyperfine -V
+```
 
 ## Results
 

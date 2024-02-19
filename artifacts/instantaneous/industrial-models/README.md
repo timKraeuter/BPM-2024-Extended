@@ -1,13 +1,20 @@
-# BPM-2024-Artifacts: Industrial Models
+# Benchmark: Industrial Models
 
 This folder contains the **industrial models** used in the paper.
 
 ## Benchmark
 
+**Windows:**
 ```bash
-../../hyperfine.exe -V
+cd ../..
+hyperfine.exe -V
 ```
-Use just `hyperfine` without `.exe` on Linux.
+
+**Linux:**
+```bash
+cd ../..
+hyperfine -V
+```
 
 ## Results
 
