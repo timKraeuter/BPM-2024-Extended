@@ -7,8 +7,9 @@ See the [model-size.zip](./model-size.zip) file for the models.
 ## Benchmark
 
 ```bash
-hyperfine
+../../hyperfine.exe -V
 ```
+Use just `hyperfine` without `.exe` on Linux.
 
 ## Results
 

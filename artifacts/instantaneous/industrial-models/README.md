@@ -5,8 +5,9 @@ This folder contains the **industrial models** used in the paper.
 ## Benchmark
 
 ```bash
-hyperfine
+../../hyperfine.exe -V
 ```
+Use just `hyperfine` without `.exe` on Linux.
 
 ## Results
 

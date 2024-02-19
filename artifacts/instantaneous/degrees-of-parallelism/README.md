@@ -5,8 +5,9 @@ This folder contains the models with increasing **degree of parallelism** used i
 ## Benchmark
 
 ```bash
-hyperfine
+../../hyperfine.exe -V
 ```
+Use just `hyperfine` without `.exe` on Linux.
 
 ## Results
 
