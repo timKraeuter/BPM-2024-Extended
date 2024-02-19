@@ -19,5 +19,9 @@ In addition, each directory contains instructions to run the soundness checking 
 ## Source code
 We will make the source code available after review of the paper.
 
-- Analysis tool written in Rust: https://github.com/
-- UI written in Javascript/HTML using the bpmn-js ecosystem: https://github.com/
+- Analysis tool written in **Rust**:
+
+ https://github.com/
+- User interface implemented using the [bpmn-js](https://github.com/bpmn-io/bpmn-js) ecosystem, especially [bpmn-js-token-simulation](https://github.com/bpmn-io/bpmn-js-token-simulation):
+
+https://github.com/
