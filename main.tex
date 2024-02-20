@@ -196,13 +196,17 @@ In \autoref{fig:counter-example} the visualization has been \textit{paused} just
 One token is already located at the sequence flow which is marked as unsafe while a second token is currently waiting at the exclusive gateway \textsf{e1}.
 The visualization can be resumed or restarted using the play and restart button on the left side.
 When resumed, the gateway \textsf{e1} will execute, resulting in two tokens located at the subsequent sequence flow, i.e., an unsafe execution state.
-In addition, one can control the animation speed using the bottom buttons next to the speedometer.
+In addition, one can control the visualization speed using the bottom buttons next to the speedometer.
 
 % Execution log
 Furthermore, our tool shows an \textit{execution log} which states the history in which BPMN elements have been executed.
 In \autoref{fig:counter-example} the parallel gateway \textsf{p1}, the activities \textsf{A} and \textsf{B}, as well as the exclusive gateway \textsf{e1} have each been executed once before the pause.
 This is useful since often an unsuspected execution order leads to property violations.
-Pausing the visualization, controlling the animation speed, and the execution log makes understanding the problem leading to the property violation straightforward.
+
+% Conclusion for understandable
+In summary, we aim to make soundness checking easily \textit{understandable} even for users unaccustomed to the BPMN execution semantics.
+First, we directly highlight problematic elements in the BPMN editor.
+Second, we provide an \textit{interactive} visualization of counter examples in the BPMN editor with the ability to pause the visualization, control the visualization speed, and show an execution log which makes understanding the property violation straightforward.
 
 \section{Actionable Soundness Checking}
 
