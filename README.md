@@ -2,6 +2,8 @@
 
 Artifacts for the paper _**Instantaneous, Understandable, and Actionable Soundness Checking of Industrial BPMN Models**_ submitted to BPM-2024.
 
+Our tool is available at [TODO](TODO) for demonstration.
+
 ## Instantaneous Soundness Checking
 
 The models used in the paper are available in the `arttifacst/instantaneous` directory:
@@ -17,11 +19,11 @@ In addition, each directory contains instructions to run the soundness checking 
 - The benchmarks were run with our bpmn-analyzer tool version **0.2.0** (binaries available for windows/linux in the **artifacts** folder).
 
 ## Source code
-We will make the source code available after review of the paper.
+We will make the source code available after review of the paper since it might compromise the double-blind review process.
 
 - Analysis tool written in **Rust**:
 
- https://github.com/
+https://github.com/
 - User interface implemented using the [bpmn-js](https://github.com/bpmn-io/bpmn-js) ecosystem, especially [bpmn-js-token-simulation](https://github.com/bpmn-io/bpmn-js-token-simulation):
 
 https://github.com/
