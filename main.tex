@@ -50,10 +50,19 @@ Quality assurance
 
 % Up to 16 pages, including everything!
 
+% Redefine enumerations
+\renewcommand{\labelenumi}{(\textbf{\arabic{enumi})}}
+
 \section{Introduction} \label{sec:introduction}
+
+% Problem statement
 % Why useful?
 \cite{fahlandAnalysisDemandInstantaneous2011}
 % Claims a lot of problems in workflow models, which can be found using soundness checks.
+
+% Motivation
+
+% Solution
 % Describe the figure and go over all three claims briefly: instantaneous (Definition), understandable (soundness properties are hard to understand for modelers), and actionable (comparable to quick fixes).
 
 % Also add the times measured by other tools for some models. These range into seconds? Would be nice to try the sasme models later.
@@ -78,9 +87,10 @@ Quality assurance
 % Actionable: Provide quick fixes that resolve soundness violation --> check if changes fix the property before showing it to the user.
 
 \section{Soundness Checking of BPMN Models}
+
 % Describe soundness checking in general and specifically for BPMN models.
 
-\section{Instantaneous Soundness Checking}
+\section{Instantaneous Soundness Checking} \label{sec:instantaneous}
 \textit{Instantaneous} soundness checking is defined as taking 500 ms or less in \cite{fahlandAnalysisDemandInstantaneous2011}.
 In this section, we demonstrate that our soundness checker is instantaneous by validating it from three different viewpoints.
 First, we investigate how our tools reacts to rapidly \textit{growing model size} in \autoref{subsec:model-size}.
@@ -152,8 +162,8 @@ In addition, there is a summary panel in the top-right corner of the screenshot.
 
 \begin{figure}[ht]
 	\centering
-	\includegraphics[width=0.7\textwidth]{images/violations}
-	\caption{Screenshot highlighting soundness violations using overlays}
+	\includegraphics[width=0.9\textwidth]{images/violations}
+	\caption{\textit{Soundness violations} in the analysis tool}
 	\label{fig:soundness-violations}
 \end{figure}
 
@@ -170,32 +180,40 @@ Second,
 
 \section{Actionable Soundness Checking}
 
-% Quick fix providers/analysis resolvers/solution strategies/resolution strategies coded for the different soundness properties.
-% Custom quick fix providers are also possible in the future with access to model-checking
+When possible, we detect errors in the BPMN model and provide an automatic fix similar to \textit{quick fixes} in Integrated Development Environments (IDEs).
+Modelers can then select these quick fixes to resolve a soundness property violation.
+\autoref{fig:quick-fixes} shows a screenshot of our tool, where quick fixes are depicted as green overlays containing a light bulb icon.
+This icon is typically used to indicate quick fixes in IDEs.
+Our tool simultaneously shows soundness violations (\autoref{fig:soundness-violations}) and quick fixes (\autoref{fig:quick-fixes}).
 
-When possible, we detect errors in the BPMN model and provide an automatic fix similar to quick fixes in IDEs.
-Modelers can then select these quick fixes to resolve a specific soundness property.
+\begin{figure}[ht]
+	\centering
+	\includegraphics[width=0.6\textwidth]{images/quickfixes}
+	\caption{\textit{Quick fixes} in the analysis tool}
+	\label{fig:quick-fixes}
+\end{figure}
 
-Since checking soundness is inexpensive, the user can apply the quick fix and instantly get feedback on the changes.
+The user can apply a quick fix by clicking on the green overlays and immediately see the changes in soundness since checking is \textit{instantaneous} as discussed in \autoref{sec:instantaneous}.
 If he is unhappy with the result, a user can undo these changes immediately since each quick fix is a \textit{command} (see command pattern \cite{gammaDesignPatternsElements1995}).
 A user might not like a quick fix if it not only fixes a specific property but also has unintended side effects.
 For example, it might invalidate a different soundness property.
 
 In the following sections, we describe the implemented resolution strategies for the different soundness properties in detail.
 However, we do not expect these strategies to cover all possible resolutions and fit all applications.
-Thus, our framework is extensible, so other developers can provide additional or custom resolution strategies (dependency injection, decoupled analysis from handling from showing the errors).
-% --> Add before and after figures for each maybe and link to the example demo page hosted somewhere (azure).
+Thus, our framework is extensible, so other developers can provide additional or custom resolution strategies.
+This is possible since we \textit{decoupled} the soundness analysis from showing violations and providing quick fixes in our implementation, which facilitates customization by using dependency injection.
 
 \subsection{Safeness} \label{subsec:safeness}
-The soundness checker will provide a counter-example and the unsafe sequence flows.
+The soundness checker will provide a counter-example and identify the unsafe sequence flows.
 We use this information together with the structure of the BPMN model to find resolutions for \textit{Safeness} violations.
-In general, violations can have multiple reasons.
+In general, safeness violations can have multiple reasons.
 
-\textbf{(1):} An exclusive gateway with multiple incoming sequence flows activated more than once will lead to multiple tokens at its outgoing sequence flows.
-
-\textbf{(2):} One can also implicitly encode an exclusive gateway, for example, using an activity, by having multiple incoming sequence flows.
-Implicitly encoding exclusive gateways is allowed but violates best practices (see lint rule \textit{fake-join} in \cite{camundaservicesgmbhBpmnlint2024}).
-Similar to \textbf{(1)}, this leads to unsafe sequence flows if activated more than once.
+\begin{enumerate}
+	\item An exclusive gateway with multiple incoming sequence flows activated more than once will lead to multiple tokens at its outgoing sequence flows.
+	\item One can also implicitly encode an exclusive gateway, for example, using an activity, by having multiple incoming sequence flows.
+	Implicitly encoding exclusive gateways is allowed but violates best practices (see lint rule \textit{fake-join} in \cite{camundaservicesgmbhBpmnlint2024}).
+	Similar to \textbf{(1)}, this leads to unsafe sequence flows if activated more than once.
+\end{enumerate}
 
 
 \textbf{Resolutions for (1):} A straightforward solution is to change the exclusive gateway to a parallel one.
@@ -230,10 +248,11 @@ Our demo application in x contains examples of the Safeness quick fixes and all 
 The soundness checker will provide a counter-example and the end events that consume more than one token.
 Violations of \textit{Proper Completion} at a specific end event can have multiple reasons.
 
-\textbf{(1):} An end event might have multiple incoming sequence flows that can hold tokens.
-This could be due to a parallelization that is never synchronized.
-
-\textbf{(2):} If there is only one incoming sequence flow, then this sequence flow must be unsafe, i.e., hold more than one token in a possible execution.
+\begin{enumerate}
+	\item An end event can have multiple incoming sequence flows that can hold tokens.
+	This could be due to a parallelization that is never synchronized.
+	\item If there is only one incoming sequence flow, then this flow must be unsafe, i.e., hold more than one token in a possible execution.
+\end{enumerate}
 
 \textbf{Resolution for (1):} If multiple incoming sequence flows are the cause, we can add a unique end event for each except the first.
 \autoref{fig:properCompletion} shows an example of this quick fix being applied, where the changed elements are colored in green.
@@ -254,9 +273,10 @@ Thus, other \textit{Safeness} quick fixes can apply, which will also resolve \te
 \subsection{Option to Complete} \label{subsec:optionToComplete}
 Violations of \textit{Option to Complete} can have multiple reasons.
 
-\textbf{(1):} A parallel gateway that tries to synchronize multiple incoming sequence flows but never executes can be a problem.
-
-\textbf{(2):} Events that are never triggered but relied upon in the process execution might be another problem.
+\begin{enumerate}
+	\item A parallel gateway that synchronizes multiple incoming sequence flows but never executes leads to a violation.
+	\item An event that is never triggered but relied upon in the process execution leads to a violation.
+\end{enumerate}
 
 To know the reason for a given violation, we analyze the counter example provided by the soundness checker.
 The counter-example provides a trace that leads to a state in which the process cannot complete.
@@ -330,7 +350,9 @@ Thus, other quick fixes can apply, which will also resolve dead activities, see 
 % Memory-management model in rust (Ownership, borrowing, and lifetimes) --> related to speed and performance
 % Zero-copy? --> Currently, we are copying things but still achieve better performance (Tradeoff with readability)
 
-% Reimplement in rust meme
+% We chose rust mostly because of its performance regarding runtime and memory (no garbage collection).
+% Memory is critical with increasing state spaces
+% Speed is critical and should be linked to our motivation
 
 \subsection{BPMN Semantics}
 % Describe the runtime model. What is a state? --> Draw a UML diagram
@@ -350,6 +372,7 @@ Thus, other quick fixes can apply, which will also resolve dead activities, see 
 % 1. BPMN features supported (sub of 2.)
 % 2. Capabilities (Which soundness properties are supported, custom properties, counter-example visualization, tool maturity, tool integration, actionability of the tool, etc.) --> highlighting problematic elements is sometimes supported but interactive counter example visualization is not (to the best of our knowledge)
 % 3. Performance using different benchmarks. --> Needs its own paper where everyone can contribute. --> Usually not done but quite important for industrial use. Model checking has to have adequate performance!
+% We should mention the first two but focus on the third since this is where we shine. One and two can be improved in the feature if needed.
 
 \cite{krauterFormalizationAnalysisBPMN2023,krauterHigherorderTransformationApproach2023}
 
@@ -369,6 +392,8 @@ Thus, other quick fixes can apply, which will also resolve dead activities, see 
 % We have build a specific tool for BPMN while other people have used generic tools: groove, maude, and other general purpose model checkers?
 
 \section{Conclusion \& Future work}
+
+% Benchmarks in the instantaneous section are a contribution
 
 \bibliographystyle{splncs04}
 \bibliography{bib}
