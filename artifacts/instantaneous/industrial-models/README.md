@@ -2,6 +2,8 @@
 
 This folder contains the **industrial models** used in the paper.
 
+Are e001,e002,e020 industrial or just realistic?
+
 ## Benchmark
 
 **Windows:**

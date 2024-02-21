@@ -91,7 +91,7 @@ Quality assurance
 % Describe soundness checking in general and specifically for BPMN models.
 
 \section{Instantaneous Soundness Checking} \label{sec:instantaneous}
-\textit{Instantaneous} soundness checking is defined as taking 500 ms or less in \cite{fahlandAnalysisDemandInstantaneous2011}.
+\textit{Instantaneous} soundness checking is defined as taking 500 ms or less in~\cite{fahlandAnalysisDemandInstantaneous2011}.
 In this section, we demonstrate that our soundness checker is instantaneous by validating it from three different viewpoints.
 First, we investigate how our tools reacts to rapidly \textit{growing model size} in \autoref{subsec:model-size}.
 We use a benchmark based on synthetically generated BPMN models.
@@ -104,16 +104,15 @@ Third, we run soundness checking for several industrial BPMN process models iden
 
 % General info
 % We use hyperfine for each benchmark with runs stuff 10x and averages? See my other papers
-For all our benchmarks, we use the hyperfine benchmarking tool \cite{peterHyperfine2023} (version 1.18.0), which calculates the average runtime when executing each soundness check ten times.
-The benchmarks were run on a Windows 11 machine with an AMD Ryzen 7700X processor and 32 GB of RAM \cite{noauthorgivenBPM2024Artifacts2024}.
+For all our benchmarks, we use the hyperfine benchmarking tool~\cite{peterHyperfine2023} (version 1.18.0), which calculates the average runtime when executing each soundness check ten times.
+The benchmarks were run on a Windows 11 machine with an AMD Ryzen 7700X processor and 32 GB of RAM~\cite{noauthorgivenBPM2024Artifacts2024}.
 
 % Artifacts using a Zenodo link at the end. Maybe my anonymous github account before.
-All used BPMN models are given in the artifacts of this paper \cite{noauthorgivenBPM2024Artifacts2024}.
+All used BPMN models are given in the artifacts of this paper~\cite{noauthorgivenBPM2024Artifacts2024}.
 Furthermore, we provide the scripts to replicate our benchmarks using hyperfine.
 
 \subsection{Growing Model Size} \label{subsec:model-size}
-We use the data-set of models provided in 
-\cite{krauterHigherorderTransformationApproach2023}, which consists of 300 synthetically generated BPMN models.
+We use the data-set of models provided in~\cite{krauterHigherorderTransformationApproach2023}, which consists of 300 synthetically generated BPMN models.
 % Briefly recap the method.
 Every BPMN model contains a start event, a fixed amount of \textit{blocks}, and an end event.
 The number of blocks ranges from 1 to 300 and there are three different blocks that are used repeatedly.
@@ -122,7 +121,7 @@ The number of blocks ranges from 1 to 300 and there are three different blocks t
 \begin{figure}[ht]
 	\centering
 	\includegraphics[width=0.7\textwidth]{images/three-blocks}
-	\caption{A generated BPMN model with three blocks \cite{krauterHigherorderTransformationApproach2023}}
+	\caption{A generated BPMN model with three blocks~\cite{krauterHigherorderTransformationApproach2023}}
 	\label{fig:three-block-example}
 \end{figure}
 
@@ -138,7 +137,9 @@ Each model is sound which means that tools must exhaustively search the state sp
 
 % Results
 Once can see that our tools spends starting from 10 ms up to 100 ms for the BPMN models.
-Thus, our tool can still check soundness instantaneously according to our definition in \autoref{sec:introduction} even if model size increases as in the data-set provided in \cite{krauterHigherorderTransformationApproach2023}.
+Thus, our tool can check soundness instantaneously according to our definition in \autoref{sec:introduction} even if model size increases to over 2400 BPMN elements as in the synthetic data-set provided in~\cite{krauterHigherorderTransformationApproach2023}.
+Models of this size are not human readable anymore and are divided into smaller models according to best-practices.
+Thus, models found in practice are likely to be smaller than in our benchmark and we can check large number of models in parallel if needed.
 
 \subsection{Growing Degrees of Parallelism} \label{subsec:degrees-of-parallelism}
 % Cite the other paper here with parallelism
@@ -174,9 +175,9 @@ For \textit{option to complete} we cannot highlight elements since it means the 
 
 % Interactive visualization of counterexamples. --> Not seen before. some allow exports of counter examples but no direct interaction --> reduction of friction.
 However, just by looking at the BPMN model it can still be hard to understand soundness violations due to the interplay of the BPMN elements execution semantics.
-In the BPMN specification, execution semantics are described using the concept of moving \textit{tokens} \cite{objectmanagementgroupBusinessProcessModel2013}.
+In the BPMN specification, execution semantics are described using the concept of moving \textit{tokens}~\cite{objectmanagementgroupBusinessProcessModel2013}.
 % Universally used concept of tokens
-The concepts of tokens is used in BPMN tools in the industry to depict process execution information \cite{camundaservicesgmbhBpmnjsTokenSimulation2024} and in many BPMN formalizations \cite{vangorpVisualTokenbasedFormalization2013,krauterFormalizationAnalysisBPMN2023,houhouFirstOrderLogicVerification2022,corradiniFormalisingAnimatingMultiple2022}.
+The concepts of tokens is used in BPMN tools in the industry to depict process execution information~\cite{camundaservicesgmbhBpmnjsTokenSimulation2024} and in many BPMN formalizations~\cite{vangorpVisualTokenbasedFormalization2013,krauterFormalizationAnalysisBPMN2023,houhouFirstOrderLogicVerification2022,corradiniFormalisingAnimatingMultiple2022}.
 
 We use tokens in our tool to \textit{interactively} visualize the counter examples, i.e, violation witnesses of our soundness properties.
 Our soundness checker provides counter examples for all properties besides no dead activities.
@@ -224,7 +225,7 @@ Our tool simultaneously shows soundness violations (\autoref{fig:violations}) an
 \end{figure}
 
 The user can apply a quick fix by clicking on the green overlays and immediately see the changes in soundness since checking is \textit{instantaneous} as discussed in \autoref{sec:instantaneous}.
-If he is unhappy with the result, a user can undo these changes immediately since each quick fix is a \textit{command} (see command pattern \cite{gammaDesignPatternsElements1995}).
+If he is unhappy with the result, a user can undo these changes immediately since each quick fix is a \textit{command} (see command pattern~\cite{gammaDesignPatternsElements1995}).
 A user might not like a quick fix if it not only fixes a specific property but also has unintended side effects.
 For example, it might invalidate a different soundness property.
 
@@ -241,7 +242,7 @@ In general, safeness violations can have multiple reasons.
 \begin{enumerate}
 	\item An exclusive gateway with multiple incoming sequence flows activated more than once will lead to multiple tokens at its outgoing sequence flows.
 	\item One can also implicitly encode an exclusive gateway, for example, using an activity, by having multiple incoming sequence flows.
-	Implicitly encoding exclusive gateways is allowed but violates best practices (see lint rule \textit{fake-join} in \cite{camundaservicesgmbhBpmnlint2024}).
+	Implicitly encoding exclusive gateways is allowed but violates best practices (see lint rule \textit{fake-join} in~\cite{camundaservicesgmbhBpmnlint2024}).
 	Similar to \textbf{(1)}, this leads to unsafe sequence flows if activated more than once.
 \end{enumerate}
 
@@ -286,7 +287,7 @@ Violations of \textit{Proper Completion} at a specific end event can have multip
 
 \textbf{Resolution for (1):} If multiple incoming sequence flows are the cause, we can add a unique end event for each except the first.
 \autoref{fig:properCompletion} shows an example of this quick fix being applied, where the changed elements are colored in green.
-We ensured that an undo operation would revert the quick fix using the command pattern \cite{gammaDesignPatternsElements1995}.
+We ensured that an undo operation would revert the quick fix using the command pattern~\cite{gammaDesignPatternsElements1995}.
 
 % Can save a lot of space in this figure if needed. Go to two activities and put them closer together
 \begin{figure}[ht]
@@ -342,14 +343,14 @@ Finding the most fitting trigger can be done in various ways by analyzing the ot
 A dead activity might have multiple reasons:
 
 \textbf{(1):} The simplest reason is that the activity is disconnected, i.e., it has no incoming sequence flow.
-Disconnected activities must not be dead, but they violate best practices see lint rule \textit{no-disconnected} in \cite{camundaservicesgmbhBpmnlint2024}.
+Disconnected activities must not be dead, but they violate best practices see lint rule \textit{no-disconnected} in~\cite{camundaservicesgmbhBpmnlint2024}.
 
 \textbf{(2):} An activity can also be part of the BPMN model that is not reachable during execution because a parallel gateway preceding the activity cannot be executed.
 % Could also be behind events that are never triggered.
 
 \textbf{Resolutions for (1)}: If the activity is disconnected, we can propose connecting it to the nearest flow-node.
 However, this flow node should not be disconnected or dead itself.
-Concretely, we assume modeling from left to the right, such as all the other automatic layout mechanisms in bpmn-js \cite{camundaservicesgmbhBpmnjs2024} to find the leftmost nearest flow-node to connect.
+Concretely, we assume modeling from left to the right, such as all the other automatic layout mechanisms in bpmn-js~\cite{camundaservicesgmbhBpmnjs2024} to find the leftmost nearest flow-node to connect.
 \autoref{fig:noDeadActivitiesQuickFix} shows an example where this quick fix is applied.
 As in the other examples, new elements are colored in green.
 
