@@ -90,6 +90,7 @@ Quality assurance
 
 % Describe soundness checking in general and specifically for BPMN models.
 
+
 \section{Instantaneous Soundness Checking} \label{sec:instantaneous}
 \textit{Instantaneous} soundness checking is defined as taking 500 ms or less in~\cite{fahlandAnalysisDemandInstantaneous2011}.
 In this section, we demonstrate that our soundness checker is instantaneous by validating it from three different viewpoints.
@@ -140,7 +141,7 @@ Each model is sound which means that tools must exhaustively search the state sp
 % Results
 Once can see that our tools spends starting from 10 ms up to 100 ms for the BPMN models.
 Thus, our tool can check soundness instantaneously according to our definition in \autoref{sec:introduction} even if model size increases to over 2400 BPMN elements as in the synthetic data-set provided in~\cite{krauterHigherorderTransformationApproach2023}.
-Models of this size are not human readable anymore and are divided into smaller models according to best-practices.
+Models of this size are not human readable anymore and are divided into smaller models according to best-practices \cite{fahlandAnalysisDemandInstantaneous2011}.
 Thus, models found in practice are likely to be smaller than in our benchmark and we can check large number of models in parallel if needed.
 
 \subsection{Growing Degrees of Parallelism} \label{subsec:degrees-of-parallelism}
