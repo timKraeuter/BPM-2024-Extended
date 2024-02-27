@@ -134,18 +134,18 @@ The number of blocks ranges from 1 to 300 and there are three different blocks t
 
 \begin{figure}[ht]
 	\centering
-	\includegraphics[width=0.7\textwidth]{images/three-blocks}
-	\caption{A generated BPMN model with three blocks~\cite{krauterHigherorderTransformationApproach2023}}
+	\includegraphics[width=0.9\textwidth]{images/three-blocks}
+	\caption{BPMN model with three blocks~\cite{krauterHigherorderTransformationApproach2023}}
 	\label{fig:three-block-example}
 \end{figure}
 
-\autoref{fig:model-size-benchmark} shows the average runtime of our tool when checking soundness for the described data-set of BPMN models.
-Each model is sound which means that tools must exhaustively search the state space.
+\autoref{fig:model-size-benchmark} shows the average runtime of our tool when checking soundness for the BPMN models with increasing model size.
+Each model is sound which means that our tool exhaustively searches the state space.
 
 \begin{figure}[ht]
 	\centering
-	\includegraphics[width=0.5\textwidth]{images/model-size-benchmark}
-	\caption{Average soundness checking runtime for each BPMN model}
+	\includegraphics[width=0.7\textwidth]{images/model-size-benchmark}
+	\caption{Soundness checking runtime for models of increasing size}
 	\label{fig:model-size-benchmark}
 \end{figure}
 
@@ -155,8 +155,48 @@ Thus, our tool can check soundness instantaneously according to our definition i
 Models of this size are not human readable anymore and are divided into smaller models according to best-practices \cite{fahlandAnalysisDemandInstantaneous2011}.
 Thus, models found in practice are likely to be smaller than in our benchmark and we can check large number of models in parallel if needed.
 
-\subsection{Growing Degrees of Parallelism} \label{subsec:degrees-of-parallelism}
-% Cite the other paper here with parallelism
+\subsection{Growing Number of Parallel Branches} \label{subsec:degrees-of-parallelism}
+% Cite the other paper here with parallelism and introduce the set of models.
+An increase in model size leads to a bigger state space of the model that must be analyzed for soundness and safety.
+% States for the previous:
+% 1: 5 states, 5 transitions
+% 50: 218, 218
+% 100: 434, 434
+% 150: 652, 652
+% 200: 868, 868
+% 250: 1084, 1084
+% 300: 1302, 1302
+In the previous section a linear increase in model size lead to a similar growth in the state space.
+However, models with a growing number of parallel branches lead to an exponential increase in the state space, i.e., a state space explosion.
+In this section, we test our tool against a synthetic data set of models which lead to state space explosion.
+
+We generate a data set of models with a growing number of parallel branches, similar to the ones described in \cite{corradiniFormalApproachAnalysis2021}.
+\autoref{fig:parallel-branches-models} depicts how a model with \textit{n} parallel branches is generated.
+
+\begin{figure}[ht]
+	\centering
+	\includegraphics[width=0.5\textwidth]{images/growing-number-of-parallel-branches}
+	\caption{Models with a growing number of parallel branches (similar to \cite{corradiniFormalApproachAnalysis2021})}
+	\label{fig:parallel-branches-models}
+\end{figure}
+
+
+\autoref{fig:parallel-branches-benchmark} shows the average runtime of our tool when checking soundness for the BPMN models with increasing degree of parallelism.
+Each model is sound which means that our tool exhaustively searches the state space.
+
+% Do a benchmark from p01-p20 or higher? --> Memory issues.
+% Maybe a table is even better than a plot here. if its "just" 20 lines we can display more information like state space etc.
+% Exponential state space growth (2^x + 3, start, pre end, and end state)
+\begin{figure}[ht]
+	\centering
+	\includegraphics[width=0.7\textwidth]{images/model-size-benchmark}
+	\caption{Soundness checking runtime for models with increasing parallel branches}
+	\label{fig:parallel-branches-benchmark}
+\end{figure}
+
+The state space of the models grows exponentially (in our case $2^x$) when increasing the degree of parallelism which shows that BPMN models can exhibit the state space explosion problem. % Cite something here?
+Thus, our analysis stops being reasonable after x and being instantaneous after y.
+We will discuss later if models with such a high degree of parallelism are realistic.
 
 \subsection{Realistic Models} \label{subsec:industrial-models}
 % Maybe rename to real world and use the models in corradiniFormalApproachAnalysis2021.
@@ -164,6 +204,17 @@ Thus, models found in practice are likely to be smaller than in our benchmark an
 % Check that we can analyze models from the model repositories cited anywhere.
 % Especially look for models to be "industrial"! --> some in my previous publications were.
 % Pick 5-10 models and add a table or a summary and a table in the artifacts?
+
+\subsection{Discussion}
+% Summarize and discuss further points
+% The implementation is in the sense unoptimized but already works great for the models we have tested.
+% Partial-order reduction especially and other optimization techniques might be applied in the future if the needs arise.
+% escpecially fahlandAnalysisDemandInstantaneous2011 advocates for partial order reduction. It solves exactly this problem.
+% But do we really get such models in practice? We would say no but if we do we need partial order reduction techniques which show great promise in fahlandAnalysisDemandInstantaneous2011 and make models with greater state spaces tractable.
+% For proper completion, dead activities, option to complete the order in which the parallel branches execute probably does not matter.
+% Safeness could be more difficult. But one can probably reuse/adapt what has been done in the petri nets domain. If this really is a problem.
+
+% Also check memory usage.
 
 \section{Understandable Soundness Checking}
 
@@ -401,11 +452,30 @@ Thus, other quick fixes can apply, which will also resolve dead activities, see 
 % Memory is critical with increasing state spaces
 % Speed is critical and should be linked to our motivation
 
-\subsection{BPMN Semantics}
+\subsection{Pragmatic BPMN Semantics Encoding}
 % Describe the runtime model. What is a state? --> Draw a UML diagram
 % Describe what the initial state is. --> Could be configurable in the future.
 % Describe BPMN semantics with some diagrams for some examples.
 % Use a good running example with a modeling error that wasn't used before (double-blind).
+
+Our minimal pragmatic BPMN semantics encoding that leads to comparably small state spaces and is sufficient to check soundness and safeness.
+For example, \autoref{fig:activityEncoding} shows that we do not encode the start and end of a task but rather the execution as a whole.
+This simple change avoids one additional state and pays off especially in models with many parallel branches, which can lead to significant reductions in the overall state space.
+
+% Shows two encodings or state traces side by side. With ours having one less state
+\begin{figure}[ht]
+	\centering
+	\includegraphics[width=0.6\textwidth]{images/dead}
+	\caption{Minimal task execution encoding}
+	\label{fig:activityEncoding}
+\end{figure}
+
+% For example: Message start events? Message events in general?
+% Leaving tokens in front of gateways? Event-based gateway for example.
+Similar, pragmatic encodings can be used for other BPMN elements to keep the state space as small as possible but still sufficiently detailed to check the given properties.
+Nevertheless, one always must be sure that such simplifications do not compromise the properties that are checked, similar to partial-order reduction techniques.
+In addition, the provided counter examples will be on the same level of detail as the BPMN encoding, which can make them simpler to follow or too simple to understand.
+In summary, there is a trade-off between state space size which directly influences soundness checking runtime on the one hand versus implementation difficulty and understandability of counter examples on the other hand.
 
 \subsection{Description}
 % Tool UI with screenshot
