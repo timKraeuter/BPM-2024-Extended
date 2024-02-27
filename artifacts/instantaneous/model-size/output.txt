@@ -1,0 +1,8 @@
+State space generation successful in 57.9633ms!
+States: 1302, Transitions: 1302
+Terminated states: 1
+
+Safeness is fulfilled.
+Option to complete is fulfilled.
+Proper completion is fulfilled.
+No dead activities is fulfilled.
