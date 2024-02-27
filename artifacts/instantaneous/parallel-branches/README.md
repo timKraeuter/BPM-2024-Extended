@@ -46,6 +46,11 @@ We tested the following models **n x m** (**n**=number of parallel branches, **m
 
 The number of states can be calculated using the following formula `n^m + 3`.
 
+**Generate the plot**
+```bash
+py plot.py ./results.json
+```
+
 ## Results
 
 The benchmark results are found in the `results.json` file.
