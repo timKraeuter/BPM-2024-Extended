@@ -26,14 +26,25 @@ Unpack the `models.zip` file and run the following command:
 **Windows:**
 ```bash
 cd ../..
-hyperfine.exe -V
+hyperfine.exe -L bpmnModel instantaneous/parallel-branches/models/p05x01.bpmn,instantaneous/parallel-branches/models/p10x01.bpmn,instantaneous/parallel-branches/models/p15x01.bpmn,instantaneous/parallel-branches/models/p16x01.bpmn,instantaneous/parallel-branches/models/p17x01.bpmn,instantaneous/parallel-branches/models/p20x01.bpmn,instantaneous/parallel-branches/models/p05x03.bpmn,instantaneous/parallel-branches/models/p05x05.bpmn,instantaneous/parallel-branches/models/p03x10.bpmn,instantaneous/parallel-branches/models/p03x20.bpmn "bpmnanalyzer.exe -f {bpmnModel} -p safeness,option-to-complete,proper-completion,no-dead-activities" --output ./instantaneous/parallel-branches/output.txt --export-json ./instantaneous/parallel-branches/results.json
 ```
-
 **Linux:**
 ```bash
 cd ../..
-hyperfine -V
+hyperfine -L bpmnModel instantaneous/parallel-branches/models/p05x01.bpmn,instantaneous/parallel-branches/models/p10x01.bpmn,instantaneous/parallel-branches/models/p15x01.bpmn,instantaneous/parallel-branches/models/p16x01.bpmn,instantaneous/parallel-branches/models/p17x01.bpmn,instantaneous/parallel-branches/models/p20x01.bpmn,instantaneous/parallel-branches/models/p05x03.bpmn,instantaneous/parallel-branches/models/p05x05.bpmn,instantaneous/parallel-branches/models/p03x10.bpmn,instantaneous/parallel-branches/models/p03x20.bpmn "./bpmnanalyzer -f ./{bpmnModel} -p safeness,option-to-complete,proper-completion,no-dead-activities" --output ./instantaneous/parallel-branches/output.txt --export-json ./instantaneous/parallel-branches/results.json
 ```
+
+We tested the following models **n x m** (**n**=number of parallel branches, **m**=length of parallel branches):
+1. 5x1
+2. 10x1
+3. 15x1
+4. 16x1
+5. 17x1
+6. 20x1
+7. 5x3
+8. 5x5
+9. 3x10
+10. 3x20
 
 ## Results
 
