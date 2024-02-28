@@ -106,7 +106,7 @@ In addition, we also check \textit{safeness}.
 A BPMN model is \textit{safe} if, during its execution, no more than one token occurs along the same sequence flow \cite{corradiniClassificationBPMNCollaborations2018}.
 
 
-\section{Instantaneous Soundness Checking} \label{sec:instantaneous}
+\subsection{Instantaneous Soundness Checking} \label{sec:instantaneous}
 \textit{Instantaneous} soundness checking is defined as taking 500 ms or less in~\cite{fahlandAnalysisDemandInstantaneous2011}.
 In this section, we demonstrate that our soundness checker is instantaneous by validating it from three viewpoints.
 First, we investigate how our tools react to rapidly \textit{growing model size} in \autoref{subsec:model-size}.
@@ -129,7 +129,7 @@ Furthermore, we provide the scripts to replicate our benchmarks using hyperfine.
 
 % Improve this and explain the reasoning is inspired by corradiniFormalApproachAnalysis2021
 
-\subsection{Growing Model Size} \label{subsec:model-size}
+\subsubsection{Growing Model Size} \label{subsec:model-size}
 We use the data set of models provided in~\cite{krauterHigherorderTransformationApproach2023}, which consists of 300 synthetically generated BPMN models.
 % Briefly recap the method.
 Every BPMN model contains a start event, a fixed amount of \textit{blocks}, and an end event.
@@ -138,7 +138,7 @@ The number of blocks ranges from 1 to 300, and three different blocks are used r
 
 \begin{figure}[ht]
 	\centering
-	\includegraphics[width=0.9\textwidth]{images/three-blocks}
+	\includegraphics[width=0.8\textwidth]{images/three-blocks}
 	\caption{BPMN model with three blocks~\cite{krauterHigherorderTransformationApproach2023}}
 	\label{fig:three-block-example}
 \end{figure}
@@ -148,7 +148,7 @@ Each model is sound which means that our tool exhaustively searches the state sp
 
 \begin{figure}[ht]
 	\centering
-	\includegraphics[width=0.7\textwidth]{images/model-size-benchmark}
+	\includegraphics[width=0.6\textwidth]{images/model-size-benchmark}
 	\caption{Soundness checking runtime for models of increasing size}
 	\label{fig:model-size-benchmark}
 \end{figure}
@@ -159,7 +159,7 @@ Thus, our tool can check soundness instantaneously according to our definition i
 Models of this size are not human-readable anymore and are divided into smaller models according to best practices \cite{fahlandAnalysisDemandInstantaneous2011}.
 Thus, models found in practice are likely to be smaller than in our benchmark, and we can check a large number of models in parallel if needed.
 
-\subsection{Growing Number of Parallel Branches} \label{subsec:degrees-of-parallelism}
+\subsubsection{Growing Number of Parallel Branches} \label{subsec:degrees-of-parallelism}
 % Cite the other paper here with parallelism and introduce the set of models.
 An increase in model size leads to a bigger state space of the model that must be analyzed for soundness and safety.
 % States for the previous:
@@ -179,42 +179,43 @@ We generate a data set of models with a growing number of parallel branches, sim
 
 \begin{figure}[ht]
 	\centering
-	\includegraphics[width=1\textwidth]{images/parallel-branches}
-	\caption{Models with a growing number of parallel branches (similar to \cite{corradiniFormalApproachAnalysis2021})}
+	\includegraphics[width=0.8\textwidth]{images/parallel-branches}
+	\caption{Models with a growing number of parallel branches and branch length}
 	\label{fig:parallel-branches-models}
 \end{figure}
 
 
-\autoref{tab:parallel-branches-benchmark} shows the average runtime of our tool when checking soundness for the BPMN models with increasing degrees of parallelism.
+\autoref{tab:parallel-branches-benchmark} shows the average runtime of our tool when checking soundness for the BPMN models with varying number of parallel branches and branch length.
 Each model is sound, so our tool exhaustively searches the state space.
 
 % Do a benchmark from p01-p20 or higher? --> Memory issues.
 % Maybe a table is even better than a plot here. if it's "just" 20 lines, we can display more information like state space, etc.
-% Exponential state space growth (2^x + 3, start, pre-end, and end state)
+% Exponential state space growth (m+1)^n + 3, start, pre-end, and end state)
 
 \begin{table}
 	\centering
-	\caption{Benchmark results of the parallel branch models}
+	\caption{Benchmark results of the parallel branches models}
 	\label{tab:parallel-branches-benchmark}
 	\SetTblrInner{colsep=2pt}
 	\begin{tblr}{
-			column{2-Z} = {c},
+			column{1-X} = {c},
+			column{Y-Z} = {r},
 			hline{1, 2, Z} = {-}{1.2pt, solid}, % Z is the last row/column
-			hline{7} = {-}{dashed},
-			vline{2-Y} = {2-Z}{solid},
+			hline{8, 10} = {-}{dashed},
+			vline{2-Y} = {2-Z}{solid}, % Y is the second to last row/column
 		}
-		\textbf{Model} & \textbf{Runtime (ms)} & \textbf{States} \\
+		\textbf{Branches/Branch Length} &\textbf{Runtime in ms} & \textbf{States} \\
 		
-		p05x01 & 5 & 35 \\
-		p10x01 & 13 & 1.027 \\
-		p15x01 & 552 & 32.771 \\
-		p16x01 & 1231 & 65.539 \\
-		p17x01 & 2684 & 131.075 \\
-		p05x01 & 29.930 & 1.048.579 \\
-		p05x01 & 10 & 1.027 \\
-		p05x01 & 49 & 7.779 \\
-		p05x01 & 10 & 1.334 \\
-		p05x01 & 56 & 9.264 \\
+		5/1 & 5 & 35 \\
+		10/1 & 13 & 1.027 \\
+		15/1 & 552 & 32.771 \\
+		16/1 & 1231 & 65.539 \\
+		17/1 & 2684 & 131.075 \\
+		20/1 & 29.930 & 1.048.579 \\
+		5/3 & 10 & 1.027 \\
+		5/5 & 49 & 7.779 \\
+		3/10 & 10 & 1.334 \\
+		3/20 & 56 & 9.264 \\
 	\end{tblr}
 \end{table}
 
@@ -222,14 +223,14 @@ The state space of the models grows exponentially (in our case $2^x$) when incre
 Thus, our analysis stops being reasonable after x and is not instantaneous anymore after y.
 We will discuss later if models with such a high degree of parallelism are realistic.
 
-\subsection{Realistic Models} \label{subsec:industrial-models}
+\subsubsection{Realistic Models} \label{subsec:industrial-models}
 % Use the models in corradiniFormalApproachAnalysis2021.
 
 % Check that we can analyze models from the model repositories cited anywhere.
 % Especially look for models to be "industrial"! --> Some in my previous publications were.
 % Pick 5-10 models and add a table or a summary and a table in the artifacts.
 
-\subsection{Discussion}
+\subsubsection{Discussion}
 % Summarize and discuss further points
 % The implementation is unoptimized but already works great for the models we have tested.
 % Partial-order reduction and other optimization techniques might be applied if needed.
@@ -240,7 +241,9 @@ We will discuss later if models with such a high degree of parallelism are reali
 
 % Also check memory usage.
 
-\section{Understandable Soundness Checking}
+% One could even combine the blocks idea with the parallel branches idea to create even more BPMN models.
+
+\subsection{Understandable Soundness Checking}
 
 The first step to fixing a soundness violation is understanding the problem.
 Thus, a tool must present soundness violations clearly with the necessary details to the BPMN modeler.
@@ -301,7 +304,7 @@ In summary, we aim to make soundness checking quickly \textit{understandable} ev
 First, we directly highlight problematic elements in the BPMN editor.
 Second, we provide an \textit{interactive} visualization of counter-examples in the BPMN editor with the ability to pause the visualization, control the visualization speed, and show an execution log, which makes understanding the property violation straightforward.
 
-\section{Actionable Soundness Checking}
+\subsection{Actionable Soundness Checking}
 
 When possible, we detect errors in the BPMN model and provide an automatic fix similar to \textit{quick fixes} in Integrated Development Environments (IDEs).
 Modelers can then select these quick fixes to resolve a soundness property violation.
@@ -317,7 +320,7 @@ Our tool simultaneously shows soundness violations (\autoref{fig:violations}) an
 \end{figure}
 
 The user can apply a quick fix by clicking on the green overlays and immediately see the changes in soundness since checking is \textit{instantaneous} as discussed in \autoref{sec:instantaneous}.
-If he is unhappy with the result, a user can undo these changes immediately since each quick fix is a \textit{command} (see command pattern~\cite{gammaDesignPatternsElements1995}).
+If he is unhappy with the result, a user can undo all changes as a whole since each quick fix is a \textit{command}, according to the command pattern.
 A user might not like a quick fix if it not only fixes a specific property but also has unintended side effects.
 For example, it might invalidate a different soundness property.
 
@@ -326,7 +329,7 @@ However, we do not expect these strategies to cover all possible resolutions and
 Thus, our framework is extensible, so other developers can provide additional or custom resolution strategies.
 This is possible since we \textit{decoupled} the soundness analysis from showing violations and providing quick fixes in our implementation, which facilitates customization by using dependency injection.
 
-\subsection{Safeness} \label{subsec:safeness}
+\subsubsection{Safeness} \label{subsec:safeness}
 The soundness checker will provide a counter-example and identify the unsafe sequence flows.
 We use this information together with the structure of the BPMN model to find resolutions for \textit{Safeness} violations.
 In general, safeness violations can have multiple reasons.
@@ -367,7 +370,7 @@ All the implemented quick fixes can be reverted using one simple undo operation.
 % TODO: Add demo application and artifacts anonymously.
 Our demo application in x contains examples of the Safeness quick fixes and all other soundness properties.
 
-\subsection{Proper Completion}
+\subsubsection{Proper Completion}
 The soundness checker will provide a counter-example and the end events that consume more than one token.
 Violations of \textit{Proper Completion} at a specific end event can have multiple reasons.
 
@@ -379,7 +382,7 @@ Violations of \textit{Proper Completion} at a specific end event can have multip
 
 \textbf{Resolution for (1):} If multiple incoming sequence flows are the cause, we can add a unique end event for each except the first.
 \autoref{fig:properCompletion} shows an example of this quick fix being applied, where the changed elements are colored in green.
-We ensured that an undo operation would revert the quick fix using the command pattern~\cite{gammaDesignPatternsElements1995}.
+We ensured that an undo operation would revert the quick fix using the command pattern.
 
 % Can save a lot of space in this figure if needed. Go to two activities and put them closer together
 \begin{figure}[ht]
@@ -393,7 +396,7 @@ We ensured that an undo operation would revert the quick fix using the command p
 Thus, other \textit{Safeness} quick fixes can apply, which will also resolve \textit{Proper Completion}, see \autoref{subsec:safeness}.
 
 
-\subsection{Option to Complete} \label{subsec:optionToComplete}
+\subsubsection{Option to Complete} \label{subsec:optionToComplete}
 Violations of \textit{Option to Complete} can have multiple reasons.
 
 \begin{enumerate}
@@ -431,7 +434,7 @@ The idea for any event would be to add the missing trigger.
 Finding the most fitting trigger can be done in various ways by analyzing the other elements in the BPMN model.
 
 
-\subsection{No Dead Activities}
+\subsubsection{No Dead Activities}
 A dead activity might have multiple reasons:
 
 \textbf{(1):} The simplest reason is that the activity is disconnected, i.e., it has no incoming sequence flow.
@@ -462,7 +465,7 @@ Thus, other quick fixes can apply, which will also resolve dead activities, see 
 % Modular structure such that it can be turned off, our different features can be used or reused in different situations.
 % We use the BPMN token simulation from camunda and generally the diagram-js/bpmn-js ecosystem.
 
-\subsection{Rust}
+\subsection{Tool description}
 % Why in Rust?
 % Low-level language with modern features.
 % Good for CLI tools such as this.
@@ -502,10 +505,9 @@ Nevertheless, one must always be sure that such simplifications do not compromis
 In addition, the provided counter-examples will be on the same level of detail as the BPMN encoding, making them more straightforward to follow or too simple to understand.
 In summary, there is a trade-off between state space size, which directly influences soundness checking runtime on the one hand, versus implementation difficulty and understandability of counter-examples on the other hand.
 
-\subsection{Description}
+\subsection{Discussion}
 % Tool UI with screenshot
-\cite{camundaservicesgmbhBpmnjs2024}
-% Tool architecture? UI in JS and backend in Rust. --> shown already earlier
+% \cite{camundaservicesgmbhBpmnjs2024}
 % Just the model checker as a CLI app or a CLI that starts the whole thing as a service.
 
 \section{Related Work}

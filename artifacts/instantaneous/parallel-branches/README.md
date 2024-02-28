@@ -44,7 +44,7 @@ We tested the following models **n x m** (**n**=number of parallel branches, **m
 9. file `p03x10.bpmn`, 1.334 states (11^3 + 3)
 10. file `p03x20.bpmn`, 9.264 states (21^3 + 3)
 
-The number of states can be calculated using the following formula `n^m + 3`.
+The number of states can be calculated using the following formula `(m+1)^n + 3`.
 
 **Generate the plot**
 ```bash
