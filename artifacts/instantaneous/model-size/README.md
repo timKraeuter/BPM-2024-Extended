@@ -4,6 +4,17 @@ This folder contains the models with **growing model size** used in the paper.
 
 See the [models.zip](./models.zip) file for the models.
 
+**Model generation help:**
+```bash
+java -jar BPMNBlocksModelGenerator.jar -h
+```
+**Model generation:**
+```bash
+java -jar BPMNBlocksModelGenerator.jar -path="./models" -number-of-blocks=300
+```
+Generates 300 models with 1-300 blocks in the `./models` directory.
+The source code for the CLI-application is available at [TBD after review](https://github.com/).
+
 ## Benchmark
 
 Unpack the `models.zip` file and run the following command:

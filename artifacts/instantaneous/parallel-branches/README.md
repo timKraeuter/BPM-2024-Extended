@@ -8,11 +8,11 @@ We provide the models used in the paper **and** our CLI-application to generate 
 
 **Model generation help:**
 ```bash
-java -jar BPMNModelGenerator-1.0-all.jar -h
+java -jar BPMNParallelBranchesModelGenerator.jar -h
 ```
 **Model generation:**
 ```bash
-java -jar BPMNModelGenerator-1.0-all.jar -path="./models" -length-of-branches=20 -number-of-branches=20
+java -jar BPMNParallelBranchesModelGenerator.jar -path="./models" -length-of-branches=20 -number-of-branches=20
 ```
 Generates 400 models with 1-20 parallel branches of length 1-20 in the `./models` directory.
 The source code for the CLI-application is available at [TBD after review](https://github.com/).
