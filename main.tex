@@ -17,6 +17,10 @@ pdfkeywords={BPM, BPMN, BPMN analysis, Soundness checking}
 % If you use the hyperref package, please uncomment the following line
 % to display URLs in blue roman font according to Springer's eBook style:
 % \renewcommand\UrlFont{\color{blue}\rmfamily}
+% Modern tables
+\usepackage{tabularray}
+% Diagonal lines
+\UseTblrLibrary{diagbox}
 
 \begin{document}
 %
@@ -181,18 +185,38 @@ We generate a data set of models with a growing number of parallel branches, sim
 \end{figure}
 
 
-\autoref{fig:parallel-branches-benchmark} shows the average runtime of our tool when checking soundness for the BPMN models with increasing degrees of parallelism.
+\autoref{tab:parallel-branches-benchmark} shows the average runtime of our tool when checking soundness for the BPMN models with increasing degrees of parallelism.
 Each model is sound, so our tool exhaustively searches the state space.
 
 % Do a benchmark from p01-p20 or higher? --> Memory issues.
 % Maybe a table is even better than a plot here. if it's "just" 20 lines, we can display more information like state space, etc.
 % Exponential state space growth (2^x + 3, start, pre-end, and end state)
-\begin{figure}[ht]
+
+\begin{table}
 	\centering
-	\includegraphics[width=0.7\textwidth]{images/model-size-benchmark}
-	\caption{Soundness checking runtime for models with increasing parallel branches}
-	\label{fig:parallel-branches-benchmark}
-\end{figure}
+	\caption{Benchmark results of the parallel branch models}
+	\label{tab:parallel-branches-benchmark}
+	\SetTblrInner{colsep=2pt}
+	\begin{tblr}{
+			column{2-Z} = {c},
+			hline{1, 2, Z} = {-}{1.2pt, solid}, % Z is the last row/column
+			hline{7} = {-}{dashed},
+			vline{2-Y} = {2-Z}{solid},
+		}
+		\textbf{Model} & \textbf{Runtime (ms)} & \textbf{States} \\
+		
+		p05x01 & 5 & 35 \\
+		p10x01 & 13 & 1.027 \\
+		p15x01 & 552 & 32.771 \\
+		p16x01 & 1231 & 65.539 \\
+		p17x01 & 2684 & 131.075 \\
+		p05x01 & 29.930 & 1.048.579 \\
+		p05x01 & 10 & 1.027 \\
+		p05x01 & 49 & 7.779 \\
+		p05x01 & 10 & 1.334 \\
+		p05x01 & 56 & 9.264 \\
+	\end{tblr}
+\end{table}
 
 The state space of the models grows exponentially (in our case $2^x$) when increasing the degree of parallelism which shows that BPMN models can exhibit the state space explosion problem. % Cite something here?
 Thus, our analysis stops being reasonable after x and is not instantaneous anymore after y.
