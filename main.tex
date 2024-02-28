@@ -113,7 +113,7 @@ In this section, we demonstrate that our soundness checker is instantaneous by v
 First, we investigate how our tools react to rapidly \textit{growing model size} in \autoref{subsec:model-size}.
 We use a benchmark based on synthetically generated BPMN models.
 Second, we study how our tool deals with a growing number of \textit{parallel branches} of varying size in \autoref{subsec:degrees-of-parallelism}.
-Third, we run soundness checking for realistic BPMN process models available in public datasets, see \autoref{subsec:industrial-models}.
+Third, we run soundness checking for realistic BPMN process models available in public datasets, see \autoref{subsec:realistic-models}.
 
 % General info
 % We use hyperfine for each benchmark with runs stuff 10x and averages. See my other papers
@@ -219,8 +219,14 @@ However, analysis is still instantaneous for more reasonable models with 5 paral
 
 We believe that models with a high degree of parallelism such that analysis is not instantaneous are the exception not the rule but we will explore this and the state space explosion problem further in the discussion section.
 
-\subsubsection{Realistic Models} \label{subsec:industrial-models}
-% Use the models in corradiniFormalApproachAnalysis2021 --> cannot redistribute.
+\subsubsection{Realistic Models} \label{subsec:realistic-models}
+We apply our tool to eight realistic models, where three models (e001, e002, e020) are taken from \cite{houhouFirstOrderLogicVerification2022} and the remaining five models are part of the Camunda BPMN for research repository\footnote{\url{https://github.com/camunda/bpmn-for-research}}.
+We had to slightly adopt the Camunda models such that they can be executed standalone, which is described in our artifacts~\cite{noauthorgivenBPM2024Artifacts2024}.
+
+
+\autoref{tab:realistic-models-benchmark} shows the average runtime of soundness and safeness checking using our tool and the amount of states for each model.
+The results show that our tool can check soundness and safeness \textit{instantaneously} even for these realistic models.
+% Maybe add soundness/safeness results here since I think some camunda models are not sound.
 
 \begin{table}
 	\centering
@@ -228,33 +234,24 @@ We believe that models with a high degree of parallelism such that analysis is n
 	\label{tab:realistic-models-benchmark}
 	\SetTblrInner{colsep=2pt}
 	\begin{tblr}{
-			column{1-X} = {c},
+			column{2-X} = {c},
 			column{Y-Z} = {r},
 			hline{1, 2, Z} = {-}{1.2pt, solid}, % Z is the last row/column
-			hline{8, 10} = {-}{dashed},
+			hline{5} = {-}{dashed},
 			vline{2-Y} = {2-Z}{solid}, % Y is the second to last row/column
 		}
 		\textbf{Model name} &\textbf{Runtime} & \textbf{States} \\
 		
-		5/1 & 5 ms& 35 \\
-		10/1 & 13 ms& 1.027 \\
-		15/1 & 552 ms& 32.771 \\
-		16/1 & 1.231 ms& 65.539 \\
-		17/1 & 2.684 ms& 131.075 \\
-		20/1 & 29.930 ms& 1.048.579 \\
-		5/3 & 10 ms& 1.027 \\
-		5/5 & 49 ms& 7.779 \\
-		3/10 & 10 ms& 1.334 \\
-		3/20 & 56 ms& 9.264 \\
+		e001 &  ms&  \\
+		e002 &  ms&  \\
+		e020 &  ms&  \\
+		credit-scoring-async &  ms&  \\
+		credit-scoring-sync &  ms&  \\
+		dispatch-of-goods &  ms&  \\
+		recourse &  ms&  \\
+		self-service-restaurant &  ms&  \\
 	\end{tblr}
 \end{table}
-
-Three realistic models (001, 002, 020) from \cite{houhouFirstOrderLogicVerification2022}.
-Maybe 7 additional models from camunda?.
-
-% Check that we can analyze models from the model repositories cited anywhere.
-% Especially look for models to be industrial/realistic! --> Some in my previous publications were.
-% Pick 5-10 models and add a table or a summary and a table in the artifacts.
 
 \subsubsection{Discussion}
 % Summarize and discuss further points
