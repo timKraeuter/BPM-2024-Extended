@@ -1,4 +1,4 @@
-State space generation successful in 57.9633ms!
+State space generation successful in 56.4014ms!
 States: 1302, Transitions: 1302
 Terminated states: 1
 
