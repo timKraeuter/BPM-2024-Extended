@@ -90,7 +90,7 @@ Quality assurance
 % Understandable: Highlight problematic elements + show the visualization of a counterexample using that model.
 % Actionable: Provide quick fixes that resolve soundness violation --> check if changes fix the property before showing it to the user.
 
-\section{Soundness Checking of BPMN Models}
+\section{Soundness Checking of BPMN Models} \label{sec:soundness}
 
 % Describe soundness checking for BPMN models.
 Soundness was introduced for workflow nets in \cite{vanderaalstAPPLICATIONPETRINETS1998} and stems from the field of Petri Nets.
@@ -107,7 +107,7 @@ A BPMN model is \textit{safe} if, during its execution, no more than one token o
 In remainder of this section we describe how we achieve \textit{instantaneous}, \textit{understandable}, and \textit{actionable} soundness checking of realistic BPMN models.
 
 
-\subsection{Instantaneous Soundness Checking} \label{sec:instantaneous}
+\subsection{Instantaneous Soundness Checking} \label{subsec:instantaneous}
 \textit{Instantaneous} soundness checking is defined as taking 500 ms or less in~\cite{fahlandAnalysisDemandInstantaneous2011}.
 In this section, we demonstrate that our soundness checker is instantaneous by validating it from three viewpoints.
 First, we investigate how our tools react to rapidly \textit{growing model size} in \autoref{subsec:model-size}.
@@ -166,7 +166,7 @@ However, they might be more complex leading to a larger state space as discussed
 % Cite the other paper here with parallelism and introduce the set of models.
 An increase in model size leads to a bigger state space of the model that must be analyzed.
 In the previous section, a linear increase in model size led to a similar growth in the state space.
-However, models with a growing number of parallel branches lead to an exponential increase in the state space, i.e., a state space explosion.
+However, models with a growing number of parallel branches lead to an exponential increase in the state space, i.e., a state space explosion~\cite{valmariStateExplosionProblem1998}.
 In this section, we benchmark our tool against a synthetic data set of models that lead to a state space explosion.
 This represents a \textit{worst case} scenario for soundness checking tools.
 
@@ -341,7 +341,7 @@ Our tool simultaneously shows soundness violations (\autoref{fig:violations}) an
 	\label{fig:quick-fixes}
 \end{figure}
 
-The user can apply a quick fix by clicking on the green overlays and immediately see the changes in soundness since checking is \textit{instantaneous} as discussed in \autoref{sec:instantaneous}.
+The user can apply a quick fix by clicking on the green overlays and immediately see the changes in soundness since checking is \textit{instantaneous} as discussed in \autoref{subsec:instantaneous}.
 If he is unhappy with the result, a user can undo all changes as a whole since each quick fix is a \textit{command}, according to the command pattern.
 A user might not like a quick fix if it not only fixes a specific property but also has unintended side effects.
 For example, it might invalidate a different soundness property.
@@ -467,7 +467,7 @@ Disconnected activities must not be dead, but they violate best practices see li
 
 \textbf{Resolutions for (1)}: If the activity is disconnected, we can propose connecting it to the nearest flow node.
 However, this flow node should not be disconnected or dead itself.
-Concretely, we assume modeling from left to right, such as all the other automatic layout mechanisms in bpmn-js~\cite{camundaservicesgmbhBpmnjs2024} to find the leftmost nearest flow-node to connect.
+Concretely, we assume modeling from left to find the leftmost nearest flow-node to connect.
 \autoref{fig:noDeadActivitiesQuickFix} shows an example where this quick fix is applied.
 As in the other examples, new elements are colored in green.
 
@@ -483,54 +483,43 @@ Thus, other quick fixes can apply, which will also resolve dead activities, see 
 
 \section{Implementation}
 
-% General goals: There is no friction for the modeler by integrating into popular BPMN modeling tools.
-% Modular structure such that it can be turned off, our different features can be used or reused in different situations.
-% We use the BPMN token simulation from camunda and generally the diagram-js/bpmn-js ecosystem.
+In this section we briefly describe and highlight key elements in our implementation of the BPMN soundness checking tool.
+The main goal of the tool is to be well integrated into modeling tools without introducing friction in the modeling process.
+To achieve this, we keep the design of our tool modular such that one can either fully integrate it, pick only specific features of the tool, or even extend it, for example to add custom quick fix providers.
 
-\subsection{Tool description}
-% Why in Rust?
-% Low-level language with modern features.
-% Good for CLI tools such as this.
-% Web assembly compilation? Client-side model checking in the browser? crazy talk
+\subsection{Tool summary}
+Our tool is open-source and available as an artifact~\cite{noauthorgivenBPM2024Artifacts2024}.
+The tool architecture is shown in \autoref{fig:overview}, while screenshots of our tool with different features enabled are given in \autoref{fig:violations}, \autoref{fig:counter-example}, and \autoref{fig:quick-fixes}.
+The front-end of the tool is build in web technologies using the bpmn-js ecosystem~\cite{camundaservicesgmbhBpmnjs2024,camundaservicesgmbhBpmnjsTokenSimulation2024}, while the soundness and safeness checking is implemented in the Rust programming language.
 
-% Highlight Rusts speed and safety claims. Maybe cite some papers investigating this. Bottom line: Rust's performance is comparable to C and C++ with better development ergonomics and newer features (less cargo since it is a newer language).
-% Zero-overhead abstractions --> related to speed
-% Memory-management model in rust (Ownership, borrowing, and lifetimes) --> related to speed and performance
+We developed the model checking in Rust due to its low memory overhead, absence of garbage collection, and performance comparable to programming languages such as C and C++.
+A fast programming language and direct implementation of the BPMN semantics plays a key role to achieve \textit{instantaneous} soundness checking of realistic process models.
+Currently, our tool is not yet heavily optimized for performance to avoid code complexity.
+In addition, partial-order reduction techniques are not implemented which are common in other model checkers to tackle the state space explosion problem.
 % Zero-copy? --> Currently, we are copying things but still achieve better performance (Tradeoff with readability)
 
-% We chose Rust mostly because of its performance regarding runtime and memory (no garbage collection).
-% Memory is critical with increasing state spaces
-% Speed is vital and should be linked to our motivation
+Our tool can provide model checking as a \textit{web-service} or command-line application to be integrated with any BPMN modeler.
+Otherwise, one can use or reuse parts of the user interface described in \autoref{sec:soundness} which is built on the bpmn-js ecosystem~\cite{camundaservicesgmbhBpmnjs2024}.
+This allows for many ways to smoothly integrate soundness checking into existing BPMN modeling tools such that it is understandable for most BPMN modelers.
 
 \subsection{Pragmatic BPMN Semantics Encoding}
-% Describe the runtime model. What is a state? --> Draw a UML diagram
-% Describe what the initial state is. --> Could be configurable in the future.
-% Describe BPMN semantics with some diagrams for some examples.
-% Use an excellent running example with a modeling error that wasn't used before (double-blind).
-
-Our minimal pragmatic BPMN semantics encoding leads to comparably small state spaces and is sufficient to check soundness and safeness.
+In addition to selecting an efficient programming language for developing the soundness checker, we also opted for a practical, straightforward encoding of BPMN semantics.
+Our encoding contains sufficient detail to check soundness and safeness, while omitting unnecessary intermediate-states which leads to smaller state spaces.
 For example, \autoref{fig:activityEncoding} shows that we do not encode the start and end of a task but rather the execution as a whole.
-This simple change avoids one additional state and pays off, especially in models with many parallel branches, which can significantly reduce the overall state space.
+This simple abstraction avoids one additional state and pays off, especially in models with many parallel branches as discussed earlier, which can significantly reduce the overall state space.
 
-% Shows two encodings or state traces side by side. With ours having one less state
+% Could make this smaller by reducing the space between flow nodes.
 \begin{figure}[ht]
 	\centering
-	\includegraphics[width=0.8\textwidth]{images/pragmatic-encoding}
+	\includegraphics[width=0.7\textwidth]{images/pragmatic-encoding}
 	\caption{Pragmatic task execution encoding vs. Detailed encoding}
 	\label{fig:activityEncoding}
 \end{figure}
 
 % For example: Message start events? Message events in general?
 % Leaving tokens in front of gateways? Event-based gateway, for example.
-Similarly, pragmatic encodings can be used for other BPMN elements to keep the state space as small as possible but sufficiently detailed to check the given properties.
-Nevertheless, one must always be sure that such simplifications do not compromise the checked properties, similar to partial-order reduction techniques.
-In addition, the provided counter-examples will be on the same level of detail as the BPMN encoding, making them more straightforward to follow or too simple to understand.
-In summary, there is a trade-off between state space size, which directly influences soundness checking runtime on the one hand, versus implementation difficulty and understandability of counter-examples on the other hand.
-
-\subsection{Discussion}
-% Tool UI with screenshot
-% \cite{camundaservicesgmbhBpmnjs2024}
-% Just the model checker as a CLI app or a CLI that starts the whole thing as a service.
+We use similar minimal encodings for other BPMN elements related to message flow to keep the state space small.
+Nevertheless, one must always be sure that such optimizations do not compromise the checked properties, similar to when applying partial-order reduction techniques~\cite{valmariStateExplosionProblem1998}.
 
 \section{Related Work}
 
