@@ -523,15 +523,22 @@ Nevertheless, one must always be sure that such optimizations do not compromise 
 
 \section{Related Work}
 
+Most related work focuses on the BPMN formalization which allows for soundness and safeness checking.
+Thus, these approaches show how different BPMN elements can be formalized and compare themselves with each other regarding supported elements~\cite{corradiniFormalApproachAnalysis2021,houhouFirstOrderLogicVerification2022,krauterFormalizationAnalysisBPMN2023,krauterHigherorderTransformationApproach2023}.
+The supported BPMN elements come close to the capabilities of popular process orchestration platforms such as Camunda.
+Thus, it is now clear how to formalize nearly all BPMN elements used in practice.
+Consequently, we take a different more pragmatic approach solely focusing on soundness checking performance and understandability with the goal to seamlessly integrate it into BPMN modeling tools.
+
+
+In addition, to the best of our knowledge, our tool is the only one which provides \textit{quick fixes}, i.e., automatic resolutions if soundness properties are violated. 
+
 % Different ways of comparison
 % 1. BPMN features supported (sub of 2.) --> Not rly a focus in this publication
 % 2. Capabilities (Which soundness properties are supported, custom properties, counter-example visualization, tool maturity, tool integration, actionability of the tool, etc.) --> Highlighting problematic elements is sometimes supported, but interactive counter-example visualization is not (to the best of our knowledge)
 % 3. Performance using different benchmarks. --> Needs its own paper where everyone can contribute. --> Usually not done but quite important for industrial use. Model checking has to have adequate performance!
 % We should mention the first two but focus on the third since this is where we shine. One and two can be improved in the feature if needed.
 
-\cite{krauterFormalizationAnalysisBPMN2023,krauterHigherorderTransformationApproach2023}
-
-\cite{corradiniBProVeToolSupport2017,corradiniFormalApproachAnalysis2021}
+Bprove \cite{corradiniFormalApproachAnalysis2021}
 
 \cite{houhouFirstOrderLogicVerification2022}
 
