@@ -24,6 +24,12 @@ Tool binaries are located in
 1. [artifacts/](./artifacts/README.md) (for the CLI application)
 2. [artifacts/tool-with-ui/](./artifacts/tool-with-ui/README.md) (for the tool including the browser-based UI shown in the paper)
 
+#### Screenshot during modeling:
+![Screenshot 1 of the tool](./artifacts/images/Screenshot1.png)
+
+#### Screenshot of counter example visualization:
+![Screenshot 2 of the tool](./artifacts/images/Screenshot2.png)
+
 ### Source code
 We will make the source code available after review of the paper since it might compromise the double-blind review process.
 
