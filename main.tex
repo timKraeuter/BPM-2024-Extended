@@ -529,7 +529,14 @@ The supported BPMN elements come close to the capabilities of popular process or
 Thus, it is now clear how to formalize nearly all BPMN elements used in practice.
 Consequently, we take a different more pragmatic approach solely focusing on soundness checking performance and understandability with the goal to seamlessly integrate it into BPMN modeling tools.
 
+% Performance
+Comparing tool performance without standardized benchmarks and a reproducible environment is difficult.
+However, reports from researchers indicate that tools operating with five parallel branches show a noticeable delay, with execution times reaching several seconds, suggesting diminishing performance as complexity increases.
+% One cannot have definite conclusions and performance was not the focus of other approaches BUT our approach seems to be much faster since it is much more pragmatic. --> Cannot check all properties either
+% We invite other researchers to check the same models we have in this paper our come together and make a benchmark for soundness checking.
 
+% Capabilities
+% Quick-fixes never discussed.
 In addition, to the best of our knowledge, our tool is the only one which provides \textit{quick fixes}, i.e., automatic resolutions if soundness properties are violated. 
 
 % Different ways of comparison
@@ -544,7 +551,6 @@ Bprove \cite{corradiniFormalApproachAnalysis2021}
 
 Animation previously in \cite{corradiniFormalisingAnimatingMultiple2022,camundaservicesgmbhBpmnjsTokenSimulation2024} but not used for counter examples!
 
-Quick-fixes never discussed.
 
 Our performance seems better than other tools but hard to say without rerunning benchmarks. \textbf{Pragmatic fast implementation}
 
