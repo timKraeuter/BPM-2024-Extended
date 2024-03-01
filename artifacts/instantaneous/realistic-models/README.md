@@ -18,13 +18,13 @@ This folder describes the benchmarks of the realistic models.
 **Windows:**
 ```bash
 cd ../..
-hyperfine.exe -V
+hyperfine.exe -L bpmnModel instantaneous/realistic-models/models/camunda-adopted/dispatch-of-goods.bpmn "bpmnanalyzer.exe -f {bpmnModel} -p safeness,option-to-complete,proper-completion,no-dead-activities" --output ./instantaneous/realistic-models/output.txt --export-json ./instantaneous/realistic-models/results.json
 ```
 
 **Linux:**
 ```bash
 cd ../..
-hyperfine -V
+hyperfine -L bpmnModel instantaneous/realistic-models/models/camunda-adopted/dispatch-of-goods.bpmn "bpmnanalyzer.exe -f {bpmnModel} -p safeness,option-to-complete,proper-completion,no-dead-activities" --output ./instantaneous/realistic-models/output.txt --export-json ./instantaneous/realistic-models/results.json
 ```
 
 ## Results
