@@ -10,7 +10,7 @@ pdftex,
 pdfauthor={No Author Given},
 pdftitle={Instantaneous, Understandable, and Fixable Soundness Checking of Industrial BPMN Models},
 pdfsubject={BPMN soundness checking},
-pdfkeywords={Business Process Modeling, Verification, Soundness, Safeness}
+pdfkeywords={BPM, Verification, Soundness, Safeness}
 ]{hyperref}
 %
 \usepackage{graphicx}
@@ -219,36 +219,36 @@ However, analysis is still instantaneous for more reasonable models with 5 paral
 We believe that models with a high degree of parallelism such that analysis is not instantaneous are the exception not the rule but we will explore this and the state space explosion problem further in the discussion section.
 
 \subsubsection{Realistic Models} \label{subsec:realistic-models}
-We apply our tool to eight realistic models, where three models (e001, e002, e020) are taken from \cite{houhouFirstOrderLogicVerification2022} and the remaining five models are part of the Camunda BPMN for research repository\footnote{\url{https://github.com/camunda/bpmn-for-research}}.
+We apply our tool to eight realistic models, where three models (e001, e002, e020) are taken from \cite{houhouFirstOrderLogicVerification2022} and the remaining five models are part of the Camunda BPMN for research repository\footnote{\url{https://github.com/camunda/bpmn-for-research} \label{footnote:camundaResearch}}.
 We had to slightly adopt the Camunda models such that they can be executed standalone, which is described in our artifacts~\cite{noauthorgivenBPM2024Artifacts2024}.
 
 
 \autoref{tab:realistic-models-benchmark} shows the average runtime of soundness and safeness checking using our tool and the amount of states for each model.
 The results show that our tool can check soundness and safeness \textit{instantaneously} even for these realistic models.
-% Maybe add soundness/safeness results here since I think some camunda models are not sound.
 
+% Maybe make the camunda thing a real citation.
 \begin{table}
 	\centering
 	\caption{Benchmark results of the realistic BPMN models}
 	\label{tab:realistic-models-benchmark}
 	\SetTblrInner{colsep=2pt}
 	\begin{tblr}{
-			column{2-X} = {c},
-			column{Y-Z} = {r},
+			column{2-X, Z} = {c},
+			column{X-Y} = {r},
 			hline{1, 2, Z} = {-}{1.2pt, solid}, % Z is the last row/column
 			hline{5} = {-}{dashed},
 			vline{2-Y} = {2-Z}{solid}, % Y is the second to last row/column
 		}
-		\textbf{Model name} &\textbf{Runtime} & \textbf{States} \\
+		\textbf{Model name} &\textbf{Runtime} & \textbf{States} & \textbf{Violated Properties} \\
 		
-		e001 &  ms&  \\
-		e002 &  ms&  \\
-		e020 &  ms&  \\
-		credit-scoring-async &  ms&  \\
-		credit-scoring-sync &  ms&  \\
-		dispatch-of-goods &  ms&  \\
-		recourse &  ms&  \\
-		self-service-restaurant &  ms&  \\
+		e001 \cite{houhouFirstOrderLogicVerification2022} & TBD ms & TBD & TBD \\
+		e002 \cite{houhouFirstOrderLogicVerification2022} & TBD ms & TBD & TBD \\
+		e020 \cite{houhouFirstOrderLogicVerification2022} & TBD ms & TBD & TBD \\
+		credit-scoring-async\footref{footnote:camundaResearch} & TBD ms & TBD & TBD \\
+		credit-scoring-sync\footref{footnote:camundaResearch} & TBD ms & TBD & TBD \\
+		dispatch-of-goods\footref{footnote:camundaResearch} & 10 ms & 103 & Safeness, Proper Completion\\ 
+		recourse\footref{footnote:camundaResearch} & TBD ms & TBD & TBD \\
+		self-service-restaurant\footref{footnote:camundaResearch} & TBD ms & TBD & TBD \\
 	\end{tblr}
 \end{table}
 
