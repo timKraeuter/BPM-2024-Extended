@@ -8,7 +8,7 @@ bookmarksopenlevel=1,
 bookmarksdepth=2,
 pdftex,
 pdfauthor={No Author Given},
-pdftitle={Instantaneous, Understandable, and Fixable Soundness Checking of Industrial BPMN Models},
+pdftitle={Instantaneous, Comprehensible, and Fixable Soundness Checking of Industrial BPMN Models},
 pdfsubject={BPMN soundness checking},
 pdfkeywords={BPM, Verification, Soundness, Safeness}
 ]{hyperref}
@@ -22,9 +22,9 @@ pdfkeywords={BPM, Verification, Soundness, Safeness}
 
 \begin{document}
 %
-\title{Instantaneous, Understandable, and Fixable Soundness Checking of Realistic BPMN Models}
+\title{Instantaneous, Comprehensible, and Fixable Soundness Checking of Realistic BPMN Models}
 %
-\titlerunning{Instantaneous, Understandable, and Fixable BPMN Soundness Checking}
+\titlerunning{Instantaneous, Comprehensible, and Fixable BPMN Soundness Checking}
 % \author{Tim Kr\"{a}uter\inst{1}\orcidID{0000-0003-1795-0611} \and
 % Adrian Rutle\inst{1}\orcidID{0000-0002-4158-1644} \and
 % Harald K\"{o}nig\inst{2,1}\orcidID{0000-0001-6304-6311} \and
@@ -41,7 +41,7 @@ pdfkeywords={BPM, Verification, Soundness, Safeness}
 \begin{abstract}
 	
 Many business process models have control-flow errors, such as deadlocks, which can hinder code generation and proper execution.
-In this paper, we introduce our new soundness-checking tool that can instantaneously identify errors in BPMN models, make them understandable for modelers, and even suggest fixes to eliminate them automatically.
+In this paper, we introduce our new soundness-checking tool that can instantaneously identify errors in BPMN models, make them comprehensible for modelers, and even suggest fixes to eliminate them automatically.
 We demonstrate that our tool's soundness checking is instantaneous, taking less than 500ms, by benchmarking our tool against synthetic BPMN models with increasing size and state space complexity, as well as realistic models provided in the literature.
 Moreover, the tool displays possible soundness violations directly in the modeler and provides an interactive token-flow animation that illustrates each violation.
 Additionally, it provides fixes to resolve the found violations, which, to the best of our knowledge, is not currently available in other tools.
@@ -70,11 +70,11 @@ Safeness
 % Motivation
 
 % Solution
-% Describe the figure and go over all three claims briefly: instantaneous (Definition), understandable (soundness properties are hard to understand for modelers), and  (comparable to quick fixes).
+% Describe the figure and go over all three claims briefly: instantaneous (Definition), comprehensible (soundness properties are hard to understand for modelers), and  (comparable to quick fixes).
 
 % Also add the times measured by other tools for some models. These range into seconds. It would be nice to try the same models later.
 
-% Understandable/Visualization is missing in the figure: instantaneous and fixable are there.
+% Comprehensible/Visualization is missing in the figure: instantaneous and fixable are there.
 \begin{figure}[ht]
 	\centering
 	\includegraphics[width=0.7\textwidth]{images/overview}
@@ -90,7 +90,7 @@ Safeness
 % One example should be introduced here, which then is picked up throughout the paper.
 % Wrong gateway usage?
 % Instantaneous: The model checks in 500ms or less.
-% Understandable: Highlight problematic elements + show the visualization of a counterexample using that model.
+% Comprehensible: Highlight problematic elements + show the visualization of a counterexample using that model.
 % Fixable: Provide quick fixes that resolve soundness violation --> check if changes fix the property before showing it to the user.
 
 \section{Soundness Checking of BPMN Models} \label{sec:soundness}
@@ -107,7 +107,7 @@ Soundness is composed of three following sub-properties \cite{corradiniClassific
 In addition, we also check \textit{safeness}.
 A BPMN model is \textit{safe} if, during its execution, no more than one token occurs along the same sequence flow \cite{corradiniClassificationBPMNCollaborations2018}.
 
-In remainder of this section we describe how we achieve \textit{instantaneous}, \textit{understandable}, and \textit{fixable} soundness checking of realistic BPMN models.
+In remainder of this section we describe how we achieve \textit{instantaneous}, \textit{comprehensible}, and \textit{fixable} soundness checking of realistic BPMN models.
 
 
 \subsection{Instantaneous Soundness Checking} \label{subsec:instantaneous}
@@ -268,11 +268,11 @@ The results show that our tool can check soundness and safeness \textit{instanta
 
 % One could even combine the blocks idea with the parallel branches idea to create even more BPMN models.
 
-\subsection{Understandable Soundness Checking}
+\subsection{Comprehensible Soundness Checking}
 
 The first step to fixing a soundness violation is understanding the problem.
 Thus, a tool must present soundness violations clearly with the necessary details to the BPMN modeler.
-We aim to make soundness checking understandable by providing textual feedback and utilizing the BPMN model's graphical structure.
+We aim to make soundness checking comprehensible by providing textual feedback and utilizing the BPMN model's graphical structure.
 
 % Identify problematic elements using overlays.
 We highlight the problematic elements in the BPMN model that cause soundness violations.
@@ -324,8 +324,8 @@ Furthermore, our tool shows an \textit{execution log}, which states the history 
 In \autoref{fig:counter-example} the parallel gateway \textsf{p1}, the activities \textsf{A} and \textsf{B}, as well as the exclusive gateway \textsf{e1} have each been executed once before the pause.
 This is useful since often an unsuspected execution order leads to property violations.
 
-% Conclusion for understandable
-In summary, we aim to make soundness checking quickly \textit{understandable} even for users unaccustomed to the BPMN execution semantics.
+% Conclusion for comprehensible
+In summary, we aim to make soundness checking quickly \textit{comprehensible} even for users unaccustomed to the BPMN execution semantics.
 First, we directly highlight problematic elements in the BPMN editor.
 Second, we provide an \textit{interactive} visualization of counter-examples in the BPMN editor with the ability to pause the visualization, control the visualization speed, and show an execution log, which makes understanding the property violation straightforward.
 
@@ -503,7 +503,7 @@ In addition, partial-order reduction techniques are not implemented which are co
 
 Our tool can provide model checking as a \textit{web-service} or command-line application to be integrated with any BPMN modeler.
 Otherwise, one can use or reuse parts of the user interface described in \autoref{sec:soundness} which is built on the bpmn-js ecosystem~\cite{camundaservicesgmbhBpmnjs2024}.
-This allows for many ways to smoothly integrate soundness checking into existing BPMN modeling tools such that it is understandable for most BPMN modelers.
+This allows for many ways to smoothly integrate soundness checking into existing BPMN modeling tools such that it is comprehensible for most BPMN modelers.
 
 \subsection{Pragmatic BPMN Semantics Encoding}
 In addition to selecting an efficient programming language for developing the soundness checker, we also opted for a practical, straightforward encoding of BPMN semantics.
