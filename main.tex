@@ -14,9 +14,6 @@ pdfkeywords={BPM, Verification, Soundness, Safeness}
 ]{hyperref}
 %
 \usepackage{graphicx}
-% If you use the hyperref package, please uncomment the following line
-% to display URLs in blue roman font according to Springer's eBook style:
-%\renewcommand\UrlFont{\color{blue}\rmfamily}
 % Modern tables
 \usepackage{tabularray}
 
@@ -63,7 +60,7 @@ Safeness
 \section{Introduction} \label{sec:introduction}
 
 % Problem statement
-% Why useful? Check fahland
+% Why useful? Check
 \cite{fahlandAnalysisDemandInstantaneous2011}
 % Claims a lot of problems in workflow models, which can be found using soundness checks.
 
@@ -107,7 +104,7 @@ Soundness is composed of three following sub-properties \cite{corradiniClassific
 In addition, we also check \textit{safeness}.
 A BPMN model is \textit{safe} if, during its execution, no more than one token occurs along the same sequence flow \cite{corradiniClassificationBPMNCollaborations2018}.
 
-In remainder of this section we describe how we achieve \textit{instantaneous}, \textit{comprehensible}, and \textit{fixable} soundness checking of realistic BPMN models.
+In the remainder of this section, we describe how we achieve \textit{instantaneous}, \textit{comprehensible}, and \textit{fixable} soundness checking of realistic BPMN models.
 
 
 \subsection{Instantaneous Soundness Checking} \label{subsec:instantaneous}
@@ -155,7 +152,7 @@ One can see that our tool spends from 10 ms up to 70 ms for the BPMN models.
 Thus, our tool can check soundness instantaneously according to the definition (runtime below 500 ms) even if the model size increases to over 2400 BPMN elements as in the synthetic data set provided in~\cite{krauterHigherorderTransformationApproach2023}.
 Models of this size are not human-readable anymore and are divided into smaller models according to best practices \cite{fahlandAnalysisDemandInstantaneous2011}.
 Thus, models found in practice are likely to be smaller than in our benchmark.
-However, they might be more complex leading to a larger state space as discussed in the next section.
+However, they might be more complex, leading to a larger state space, as discussed in the next section.
 % States for the previous:
 % 1: 5 states, 5 transitions
 % 50: 218, 218
@@ -215,18 +212,18 @@ Each model is sound and safe, so our tool exhaustively searches the state space.
 	\end{tblr}
 \end{table}
 
-The state space of the models grows exponentially (in our case the number of states is given by $(m+1)^n + 3$) when increasing the number of parallel branches and their length which clearly shows state space explosion.
-Thus, our analysis stops being instantaneous when approaching 15 parallel branches of length 1 (see \autoref{tab:parallel-branches-benchmark}).
-However, analysis is still instantaneous for more reasonable models with 5 parallel branches of length 5 or 3 parallel branches of length 10-20.
+The state space of the models grows exponentially (in our case, the number of states is given by $(m+1)^n + 3$) when increasing the number of parallel branches and their length, clearly showing state space explosion.
+Thus, our analysis is not instantaneous anymore when approaching 15 parallel branches of length 1 (see \autoref{tab:parallel-branches-benchmark}).
+However, analysis is still instantaneous for more reasonable models with five parallel branches of length 5 or 3 parallel branches of length 10-20.
 
-We believe that models with a high degree of parallelism such that analysis is not instantaneous are the exception not the rule but we will explore this and the state space explosion problem further in the discussion section.
+We believe that models with a high degree of parallelism, such that analysis is not instantaneous, are the exception, not the rule, but we will explore this and the state space explosion problem further in the discussion section.
 
 \subsubsection{Realistic Models} \label{subsec:realistic-models}
 We apply our tool to eight realistic models, where three models (e001, e002, e020) are taken from \cite{houhouFirstOrderLogicVerification2022} and the remaining five models are part of the Camunda BPMN for research repository\footnote{\url{https://github.com/camunda/bpmn-for-research} \label{footnote:camundaResearch}}.
-We had to slightly adopt the Camunda models such that they can be executed standalone, which is described in our artifacts~\cite{noauthorgivenBPM2024Artifacts2024}.
+We had to slightly adapt the Camunda models such that they can be executed standalone, which is described in our artifacts~\cite{noauthorgivenBPM2024Artifacts2024}.
 
 
-\autoref{tab:realistic-models-benchmark} shows the average runtime of soundness and safeness checking using our tool and the amount of states for each model.
+\autoref{tab:realistic-models-benchmark} shows the average runtime of soundness and safeness checking using our tool and the number of states for each model.
 The results show that our tool can check soundness and safeness \textit{instantaneously} even for these realistic models.
 
 % Maybe make the camunda thing a real citation.
@@ -261,7 +258,7 @@ The results show that our tool can check soundness and safeness \textit{instanta
 % Partial-order reduction and other optimization techniques might be applied if needed.
 % especially fahlandAnalysisDemandInstantaneous2011 advocates for partial order reduction. It solves exactly this problem.
 % But do we get such models in practice? We would say no, but if we do, we need partial order reduction techniques, which show great promise in fahlandAnalysisDemandInstantaneous2011 and make models with greater state spaces tractable.
-% For proper completion, dead activities, option to complete the order in which the parallel branches execute probably does not matter.
+% For proper completion, dead activities, the option to complete the order in which the parallel branches execute probably does not matter.
 % Safeness could be more difficult. But one can probably reuse/adapt what has been done in the Petri nets domain. If this is a problem.
 
 % Also check memory usage.
@@ -407,7 +404,7 @@ Violations of \textit{Proper Completion} at a specific end event can have multip
 
 \textbf{Resolution for (1):} If multiple incoming sequence flows are the cause, we can add a unique end event for each except the first.
 \autoref{fig:properCompletion} shows an example of this quick fix being applied, where the changed elements are colored in green.
-We ensured that an undo operation would revert the quick fix using the command pattern.
+We ensured an undo operation would revert the quick fix using the command pattern.
 
 % Can save a lot of space in this figure if needed. Go to two activities and put them closer together
 \begin{figure}[ht]
@@ -452,7 +449,7 @@ Similar to the quick fixes
 In the example in \autoref{fig:optionToComplete}, it is possible to spot the mismatching gateways.
 However, this might not be straightforward in bigger BPMN models with more flow nodes and sequence flows.
 
-\textbf{Resolutions for (2):} We have not yet implemented any quick fixes for events, but many interesting possibilities exist.
+\textbf{Resolutions for (2):} We have not yet implemented any quick fixes for events, but many possibilities exist.
 For example, for message catch events without incoming message flows, one could add a fitting message flow from a message throw event or send task.
 One can use different factors, such as spatial proximity and name similarity, to find the right source of the new message flow.
 The idea for any event would be to add the missing trigger.
@@ -472,37 +469,37 @@ A dead activity might have multiple reasons:
 \textbf{Resolutions for (1)}: If the activity is disconnected, we can propose connecting it to the nearest flow node.
 However, this flow node should not be disconnected or dead itself.
 
-\textbf{Resolutions for (2)}: When the dead activity is connected, this often means it is unreachable during execution and often the process itself cannot terminate, i.e., violates \textit{Option to Complete}.
+\textbf{Resolutions for (2)}: When the dead activity is connected, this often means it is unreachable during execution, and often the process itself cannot terminate, i.e., violates \textit{Option to Complete}.
 Thus, other quick fixes can apply, which will also resolve dead activities, see \autoref{subsec:optionToComplete}.
 
 \section{Implementation}
 
-In this section we briefly describe and highlight key elements in our implementation of the BPMN soundness checking tool.
+In this section, we briefly describe and highlight key elements in our implementation of the BPMN soundness checking tool.
 The main goal of the tool is to be well integrated into modeling tools without introducing friction in the modeling process.
 To achieve this, we keep the design of our tool modular such that one can either fully integrate it, pick only specific features of the tool, or even extend it, for example to add custom quick fix providers.
 
 \subsection{Tool summary}
 Our tool is open-source and available as an artifact~\cite{noauthorgivenBPM2024Artifacts2024}.
 The tool architecture is shown in \autoref{fig:overview}, while screenshots of our tool with different features enabled are given in \autoref{fig:violations}, \autoref{fig:counter-example}, and \autoref{fig:quick-fixes}.
-The front-end of the tool is build in web technologies using the bpmn-js ecosystem~\cite{camundaservicesgmbhBpmnjsTokenSimulation2024}, while the soundness and safeness checking is implemented in the Rust programming language.
+The front-end of the tool is built in web technologies using the bpmn-js ecosystem~\cite{camundaservicesgmbhBpmnjsTokenSimulation2024}, while the soundness and safeness checking is implemented in the Rust programming language.
 
 We developed the model checking in Rust due to its low memory overhead, absence of garbage collection, and performance comparable to programming languages such as C and C++.
-A fast programming language and direct implementation of the BPMN semantics plays a key role to achieve \textit{instantaneous} soundness checking of realistic process models.
+A fast programming language and direct implementation of the BPMN semantics play a key role in achieving \textit{instantaneous} soundness checking of realistic process models.
 Currently, our tool is not yet heavily optimized for performance to avoid code complexity.
-In addition, partial-order reduction techniques are not implemented which are common in other model checkers to tackle the state space explosion problem.
+In addition, partial-order reduction techniques, which are common in other model checkers, are not implemented to tackle the state space explosion problem.
 % Zero-copy? --> Currently, we are copying things but still achieve better performance (Tradeoff with readability)
 
 Our tool can provide model checking as a \textit{web-service} or command-line application to be integrated with any BPMN modeler.
-Otherwise, one can use or reuse parts of the user interface described in \autoref{sec:soundness}.
-This allows for many ways to smoothly integrate soundness checking into existing BPMN modeling tools such that it is comprehensible for most BPMN modelers.
+Otherwise, one can reuse parts of the user interface described in \autoref{sec:soundness}.
+This allows for many ways to smoothly integrate soundness checking into existing BPMN modeling tools, making it comprehensible for most BPMN modelers.
 
 \subsection{Pragmatic BPMN Semantics Encoding}
 In addition to selecting an efficient programming language for developing the soundness checker, we also opted for a practical, straightforward encoding of BPMN semantics.
-Our encoding contains sufficient detail to check soundness and safeness, while omitting unnecessary intermediate-states which leads to smaller state spaces.
+Our encoding contains sufficient detail to check soundness and safeness while omitting unnecessary intermediate states, which leads to smaller state spaces.
 For example, \autoref{fig:activityEncoding} shows that we do not encode the start and end of a task but rather the execution as a whole.
-This simple abstraction avoids one additional state and pays off, especially in models with many parallel branches as discussed earlier, which can significantly reduce the overall state space.
+As discussed earlier, this simple abstraction avoids one additional state and pays off, especially in models with many parallel branches, which can significantly reduce the overall state space.
 
-% Could make this smaller by reducing the space between flow nodes.
+% This could be made smaller by reducing the space between the flow nodes.
 \begin{figure}[ht]
 	\centering
 	\includegraphics[width=0.7\textwidth]{images/pragmatic-encoding}
@@ -521,46 +518,47 @@ Nevertheless, one must always be sure that such optimizations do not compromise 
 Most related work focuses on the BPMN formalization which allows for soundness and safeness checking.
 Thus, these approaches show how different BPMN elements can be formalized and compare themselves with each other regarding supported elements~\cite{corradiniFormalApproachAnalysis2021,houhouFirstOrderLogicVerification2022,krauterFormalizationAnalysisBPMN2023,krauterHigherorderTransformationApproach2023}.
 The supported BPMN elements come close to the capabilities of popular process orchestration platforms such as Camunda.
-Thus, it is now clear how to formalize nearly all BPMN elements used in practice.
-Consequently, in this publication we focus on tool performance and capabilities with regards to soundness checking comprehension, resolution, and seamless integration into BPMN modeling tools.
+Thus, how to formalize nearly all BPMN elements used in practice is straightforward.
+Consequently, in this publication, we focus on tool performance and capabilities concerning soundness checking comprehension, resolution, and seamless integration into BPMN modeling tools.
 
 % Performance using different benchmarks. --> Needs its own paper where everyone can contribute. --> Usually not done but quite important for industrial use. Model checking has to have adequate performance!
 \textbf{Tool performance:}
-Comparing tool performance without standardized benchmarks and a reproducible environment is difficult.
+Comparing tool performance without standardized benchmarks and a reproducible environment is challenging.
 However, other publications indicate that tools quickly take several seconds for checking single soundness properties~\cite{corradiniFormalApproachAnalysis2021,houhouFirstOrderLogicVerification2022,krauterHigherorderTransformationApproach2023}.
 Our approach checks all soundness properties and safeness of the same models instantaneously.
 The difference in performance lies probably in our pragmatic BPMN encoding optimized for soundness checking and the direct implementation in a performant programming language such as Rust rather than a transformation of BPMN to general model checking tools.
 
 % Capabilities (Which soundness properties are supported, custom properties, counter-example visualization, tool maturity, tool integration, actionability of the tool, etc.) --> Highlighting problematic elements is sometimes supported, but interactive counter-example visualization is not (to the best of our knowledge)
 \textbf{Tool capabilities:}
-Another way to compare the different BPMN formalizations and soundess checking tools is to investigate their capabilities.
+Another way to compare the different BPMN formalizations and soundness checking tools is to investigate their capabilities.
 Most tools formalize large parts of the BPMN specification and allow soundness and safeness checking~\cite{corradiniFormalApproachAnalysis2021,houhouFirstOrderLogicVerification2022,krauterFormalizationAnalysisBPMN2023,krauterHigherorderTransformationApproach2023}.
 Some tools investigate additional aspects such as the introduction of \textit{data} and \textit{time} during verification~\cite{corradiniFormalisingAnimatingMultiple2022,houhouFirstOrderLogicVerification2022}.
 Furthermore, other tools allow specifying and checking \textit{custom temporal logic properties}~\cite{corradiniFormalApproachAnalysis2021,krauterFormalizationAnalysisBPMN2023} and even provide graphical interfaces to easy the specification~\cite{krauterHigherorderTransformationApproach2023}
 Moreover, some tools provide interactive BPMN simulation using token-flow animation~\cite{camundaservicesgmbhBpmnjsTokenSimulation2024,corradiniFormalisingAnimatingMultiple2022}, while others \textit{visualize counter examples} for soundness violations using tokens~\cite{houhouFirstOrderLogicVerification2022}.
 
 Our tool focuses on \textit{instantaneous} soundness and safeness checking and does not support custom properties or data and time.
-We do not provide BPMN simulation since this is given by other tools already but we use token-flow animation to provide an interactive visualization of counter examples for soundness violations.
-This improves comprehension compared to previous static less interactive visualizations.
-In addition, to the best of our knowledge, our tool is the only one which provides \textit{quick fixes}, i.e., automatic resolutions if soundness properties are violated.
+We do not provide BPMN simulation since other tools already offer this.
+However, we use token-flow animation to visualize counter-examples for soundness violations interactively.
+This improves comprehension compared to previous static, less interactive visualizations.
+In addition, to the best of our knowledge, our tool is the only one that provides \textit{quick fixes}, i.e., automatic resolutions if soundness properties are violated.
 To sum up, our tool incorporates several ideas from the state of the art while enhancing them with novel concepts.
 However, the most crucial aspect of our tool is its practical approach that prioritizes performance and understanding above all else to ensure seamless integration into BPMN modeling tools.
 
 \section{Limitations \& Threats to Validity}
-% Benchmarking problem: Different machines etc. makes it hard to compare runtime
+% Benchmarking problem: Different machines etc. make it hard to compare runtime
 % Other researchers have probably not optimized for performance
 % Other approaches are implemented in a more formal setting; thus, a comparison may not be apples to apples as we use a pragmatic encoding of semantics directly implemented in Rust.
 
 % Hard to find industrial models?
-% We have to build a specific tool for BPMN while others have used generic tools: groove, Maude, and other general-purpose model checkers.
+% We have to build a specific tool for BPMN, while others have used generic tools: groove, Maude, and other general-purpose model checkers.
 
 \section{Conclusion \& Future work}
 
 % Benchmarks in the instantaneous section are a contribution
 
 % Future work: Ranking quick fixes (least change, learn from the user, etc.)
-% Futurew work: Quick fixes for more complex BPMN features. We only looked at gateways/end events being problematic so far.
-% Problems: Only checking four properties not custom properties
+% Future work: Quick fixes for more complex BPMN features. We only looked at gateways/end events being problematic so far.
+% Problems: Only checking four properties, not custom properties
 % Loops for quick fixes?
 
 \bibliographystyle{splncs04}
