@@ -16,7 +16,7 @@ with open(args.file) as f:
     results = json.load(f)["results"]
 
 all_means = [b["mean"] * 1000 for b in results]
-blocks = list(range(1, 301))
+blocks = list(range(1, 501))
 
 plt.plot(blocks, all_means, label="average runtime")
 
