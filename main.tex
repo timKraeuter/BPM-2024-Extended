@@ -297,7 +297,7 @@ For \textit{option to complete} we cannot highlight elements since it means the 
 However, just by looking at the BPMN model, it can still be hard to understand soundness violations due to the interplay of the BPMN element's execution semantics.
 In the BPMN specification, execution semantics are described using the concept of moving \textit{tokens}~\cite{objectmanagementgroupBusinessProcessModel2013}.
 % Universally used token concept
-The concept of tokens is used in BPMN tools in the industry to depict process execution information~\cite{camundaservicesgmbhBpmnjsTokenSimulation2024} and in many BPMN formalizations~\cite{vangorpVisualTokenbasedFormalization2013,krauterFormalizationAnalysisBPMN2023,houhouFirstOrderLogicVerification2022,corradiniFormalisingAnimatingMultiple2022}.
+The concept of tokens is used in BPMN tools in the industry to depict process execution information~\cite{camundaservicesgmbhBpmnjsTokenSimulation2024} and in many BPMN formalizations~\cite{corradiniFormalApproachAnalysis2021,houhouFirstOrderLogicVerification2022,krauterFormalizationAnalysisBPMN2023}.
 
 We use tokens in our tool to \textit{interactively} visualize the counter-examples, i.e., violation witnesses of our soundness properties.
 Our soundness checker provides counter-examples for all properties besides no dead activities.
@@ -445,11 +445,11 @@ Exclusive gateways do not synchronize, and thus, execution can continue.
 	\label{fig:optionToComplete}
 \end{figure}
 
-Another way to fix violations is to find the split in the sequence flow, for example, the exclusive gateway in \autoref{fig:optionToComplete}, and make this split a parallelization, see quick fix \textbf{(b)} in \autoref{fig:noDeadActivitiesQuickFix}.
+Another way to fix violations is to find the split in the sequence flow, for example, the exclusive gateway in \autoref{fig:optionToComplete}, and make this split a parallelization, see quick fix \textbf{(b)} in \autoref{fig:optionToComplete}.
 We present both possible resolutions to the user, who can choose the appropriate one.
 Similar to the quick fixes
 
-In the example in \autoref{fig:noDeadActivitiesQuickFix}, it is possible to spot the mismatching gateways.
+In the example in \autoref{fig:optionToComplete}, it is possible to spot the mismatching gateways.
 However, this might not be straightforward in bigger BPMN models with more flow nodes and sequence flows.
 
 \textbf{Resolutions for (2):} We have not yet implemented any quick fixes for events, but many interesting possibilities exist.
@@ -462,26 +462,17 @@ Finding the most fitting trigger can be done in various ways by analyzing the ot
 \subsubsection{No Dead Activities}
 A dead activity might have multiple reasons:
 
-\textbf{(1):} The simplest reason is that the activity is disconnected, i.e., it has no incoming sequence flow.
-Disconnected activities must not be dead, but they violate best practices see lint rule \textit{no-disconnected} in~\cite{camundaservicesgmbhBpmnlint2024}.
-
-\textbf{(2):} An activity can also be part of the BPMN model that is not reachable during execution because a parallel gateway preceding the activity cannot be executed.
+\begin{enumerate}
+	\item The simplest reason is that the activity is disconnected, i.e., it has no incoming sequence flow.
+	Disconnected activities must not be dead, but they violate best practices see lint rule \textit{no-disconnected} in~\cite{camundaservicesgmbhBpmnlint2024}.
+	\item An activity can also be part of the BPMN model that is not reachable during execution because, for example, a parallel gateway preceding the activity cannot be executed.
+\end{enumerate}
 % Could also be behind events that are never triggered.
 
 \textbf{Resolutions for (1)}: If the activity is disconnected, we can propose connecting it to the nearest flow node.
 However, this flow node should not be disconnected or dead itself.
-Concretely, we assume modeling from left to find the leftmost nearest flow-node to connect.
-\autoref{fig:noDeadActivitiesQuickFix} shows an example where this quick fix is applied.
-As in the other examples, new elements are colored in green.
 
-\begin{figure}[ht]
-	\centering
-	\includegraphics[width=0.6\textwidth]{images/dead}
-	\caption{Example quick fix for \textit{No Dead Activities}}
-	\label{fig:noDeadActivitiesQuickFix}
-\end{figure}
-
-\textbf{Resolutions for (2)}: When the dead activity is connected, this will often lead to processes that cannot terminate, i.e., violate \textit{Option to Complete}.
+\textbf{Resolutions for (2)}: When the dead activity is connected, this often means it is unreachable during execution and often the process itself cannot terminate, i.e., violates \textit{Option to Complete}.
 Thus, other quick fixes can apply, which will also resolve dead activities, see \autoref{subsec:optionToComplete}.
 
 \section{Implementation}
@@ -493,7 +484,7 @@ To achieve this, we keep the design of our tool modular such that one can either
 \subsection{Tool summary}
 Our tool is open-source and available as an artifact~\cite{noauthorgivenBPM2024Artifacts2024}.
 The tool architecture is shown in \autoref{fig:overview}, while screenshots of our tool with different features enabled are given in \autoref{fig:violations}, \autoref{fig:counter-example}, and \autoref{fig:quick-fixes}.
-The front-end of the tool is build in web technologies using the bpmn-js ecosystem~\cite{camundaservicesgmbhBpmnjs2024,camundaservicesgmbhBpmnjsTokenSimulation2024}, while the soundness and safeness checking is implemented in the Rust programming language.
+The front-end of the tool is build in web technologies using the bpmn-js ecosystem~\cite{camundaservicesgmbhBpmnjsTokenSimulation2024}, while the soundness and safeness checking is implemented in the Rust programming language.
 
 We developed the model checking in Rust due to its low memory overhead, absence of garbage collection, and performance comparable to programming languages such as C and C++.
 A fast programming language and direct implementation of the BPMN semantics plays a key role to achieve \textit{instantaneous} soundness checking of realistic process models.
@@ -502,7 +493,7 @@ In addition, partial-order reduction techniques are not implemented which are co
 % Zero-copy? --> Currently, we are copying things but still achieve better performance (Tradeoff with readability)
 
 Our tool can provide model checking as a \textit{web-service} or command-line application to be integrated with any BPMN modeler.
-Otherwise, one can use or reuse parts of the user interface described in \autoref{sec:soundness} which is built on the bpmn-js ecosystem~\cite{camundaservicesgmbhBpmnjs2024}.
+Otherwise, one can use or reuse parts of the user interface described in \autoref{sec:soundness}.
 This allows for many ways to smoothly integrate soundness checking into existing BPMN modeling tools such that it is comprehensible for most BPMN modelers.
 
 \subsection{Pragmatic BPMN Semantics Encoding}
@@ -526,41 +517,40 @@ Nevertheless, one must always be sure that such optimizations do not compromise 
 
 \section{Related Work}
 
+\textbf{BPMN specification coverage:}
 Most related work focuses on the BPMN formalization which allows for soundness and safeness checking.
 Thus, these approaches show how different BPMN elements can be formalized and compare themselves with each other regarding supported elements~\cite{corradiniFormalApproachAnalysis2021,houhouFirstOrderLogicVerification2022,krauterFormalizationAnalysisBPMN2023,krauterHigherorderTransformationApproach2023}.
 The supported BPMN elements come close to the capabilities of popular process orchestration platforms such as Camunda.
 Thus, it is now clear how to formalize nearly all BPMN elements used in practice.
 Consequently, we take a different more pragmatic approach solely focusing on soundness checking performance and understandability with the goal to seamlessly integrate it into BPMN modeling tools.
 
-% Performance
+% Performance using different benchmarks. --> Needs its own paper where everyone can contribute. --> Usually not done but quite important for industrial use. Model checking has to have adequate performance!
+\textbf{Soundness checking performance:}
 Comparing tool performance without standardized benchmarks and a reproducible environment is difficult.
 However, reports from researchers indicate that tools operating with five parallel branches show a noticeable delay, with execution times reaching several seconds, suggesting diminishing performance as complexity increases.
 % One cannot have definite conclusions and performance was not the focus of other approaches BUT our approach seems to be much faster since it is much more pragmatic. --> Cannot check all properties either
 % We invite other researchers to check the same models we have in this paper our come together and make a benchmark for soundness checking.
 
-% Capabilities
+% Capabilities (Which soundness properties are supported, custom properties, counter-example visualization, tool maturity, tool integration, actionability of the tool, etc.) --> Highlighting problematic elements is sometimes supported, but interactive counter-example visualization is not (to the best of our knowledge)
+\textbf{Tool capabilities:}
 % Quick-fixes never discussed.
 In addition, to the best of our knowledge, our tool is the only one which provides \textit{quick fixes}, i.e., automatic resolutions if soundness properties are violated. 
 
 % Different ways of comparison
-% 1. BPMN features supported (sub of 2.) --> Not rly a focus in this publication
-% 2. Capabilities (Which soundness properties are supported, custom properties, counter-example visualization, tool maturity, tool integration, actionability of the tool, etc.) --> Highlighting problematic elements is sometimes supported, but interactive counter-example visualization is not (to the best of our knowledge)
-% 3. Performance using different benchmarks. --> Needs its own paper where everyone can contribute. --> Usually not done but quite important for industrial use. Model checking has to have adequate performance!
-% We should mention the first two but focus on the third since this is where we shine. One and two can be improved in the feature if needed.
 
-Bprove \cite{corradiniFormalApproachAnalysis2021}
-
-\cite{houhouFirstOrderLogicVerification2022}
-
-Animation previously in \cite{corradiniFormalisingAnimatingMultiple2022,camundaservicesgmbhBpmnjsTokenSimulation2024} but not used for counter examples!
+Bprove has something interesting? \cite{corradiniFormalApproachAnalysis2021}
 
 
-Our performance seems better than other tools but hard to say without rerunning benchmarks. \textbf{Pragmatic fast implementation}
+\textbf{Animation} previously in \cite{corradiniFormalisingAnimatingMultiple2022,camundaservicesgmbhBpmnjsTokenSimulation2024} but not used for counter examples!
+
+\textbf{Counter example visualization}
+fbpmn \cite{houhouFirstOrderLogicVerification2022}
+
+% Summary
+% Our tool comprises many ideas implemented before and improves upon them. In addition we have quick fixes and excellent performance with room for improvement (implementation optimization: zero-copy and other tricks? bloom filters etc., partial-order reduction).
 
 \section{Limitations \& Threats to Validity}
-
-% Discuss linear model size increase, i.e., no parallel degree increase --> BPMN models are linear in practice and much smaller than in this benchmark. cite instantaneous paper
-% However, one could add more complex BPMN features than given in the three blocks.
+% Benchmarking problem: Different machines etc. makes it hard to compare runtime
 
 % Hard to find industrial models?
 % Other approaches are implemented in a more formal setting; thus, a comparison may not be apples to apples.
@@ -572,7 +562,7 @@ Our performance seems better than other tools but hard to say without rerunning 
 
 % Future work: Ranking quick fixes (least change, learn from the user, etc.)
 % Futurew work: Quick fixes for more complex BPMN features. We only looked at gateways/end events being problematic so far.
-% Problems: Only checking four properties
+% Problems: Only checking four properties not custom properties
 % Loops for quick fixes?
 
 \bibliographystyle{splncs04}
