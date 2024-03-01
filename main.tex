@@ -16,24 +16,20 @@ pdfkeywords={BPM, Verification, Soundness, Safeness}
 \usepackage{graphicx}
 % If you use the hyperref package, please uncomment the following line
 % to display URLs in blue roman font according to Springer's eBook style:
-% \renewcommand\UrlFont{\color{blue}\rmfamily}
+%\renewcommand\UrlFont{\color{blue}\rmfamily}
 % Modern tables
 \usepackage{tabularray}
-% Diagonal lines
-\UseTblrLibrary{diagbox}
 
 \begin{document}
 %
 \title{Instantaneous, Understandable, and Fixable Soundness Checking of Realistic BPMN Models}
 %
 \titlerunning{Instantaneous, Understandable, and Fixable BPMN Soundness Checking}
-% If the paper title is too long for the running head, you can set
-% an abbreviated paper title here
-%
 % \author{Tim Kr\"{a}uter\inst{1}\orcidID{0000-0003-1795-0611} \and
 % Adrian Rutle\inst{1}\orcidID{0000-0002-4158-1644} \and
 % Harald K\"{o}nig\inst{2,1}\orcidID{0000-0001-6304-6311} \and
 % Yngve Lamo\inst{1}\orcidID{0000-0001-9196-1779}}
+% TODO: Patrick
 % \authorrunning{T. Kräuter et al.}
 % \institute{Western Norway University of Applied Sciences, Bergen, Norway
 % \email{tkra@hvl.no, aru@hvl.no, yla@hvl.no} \and
@@ -43,7 +39,14 @@ pdfkeywords={BPM, Verification, Soundness, Safeness}
 \maketitle              % typeset the header of the contribution
 %
 \begin{abstract}
-TODO
+	
+Many business process models have control-flow errors, such as deadlocks, which can hinder code generation and proper execution.
+In this paper, we introduce our new soundness-checking tool that can instantaneously identify errors in BPMN models, make them understandable for modelers, and even suggest fixes to eliminate them automatically.
+We demonstrate that our tool's soundness checking is instantaneous, taking less than 500ms, by benchmarking our tool against synthetic BPMN models with increasing size and state space complexity, as well as realistic models provided in the literature.
+Moreover, the tool displays possible soundness violations directly in the modeler and provides an interactive token-flow animation that illustrates each violation.
+Additionally, it provides fixes to resolve the found violations, which, to the best of our knowledge, is not currently available in other tools.
+The tool is open-source, modular, extensible, and smoothly integrated into a BPMN editor.
+
 \keywords{
 BPM \and
 Verification \and
@@ -60,7 +63,7 @@ Safeness
 \section{Introduction} \label{sec:introduction}
 
 % Problem statement
-% Why useful?
+% Why useful? Check fahland
 \cite{fahlandAnalysisDemandInstantaneous2011}
 % Claims a lot of problems in workflow models, which can be found using soundness checks.
 
@@ -148,7 +151,7 @@ Each model is sound and safe which means that our tool exhaustively searches the
 \end{figure}
 
 % Results
-One can see that our tool spends from 10 ms up to 100 ms for the BPMN models.
+One can see that our tool spends from 10 ms up to 70 ms for the BPMN models.
 Thus, our tool can check soundness instantaneously according to the definition (runtime below 500 ms) even if the model size increases to over 2400 BPMN elements as in the synthetic data set provided in~\cite{krauterHigherorderTransformationApproach2023}.
 Models of this size are not human-readable anymore and are divided into smaller models according to best practices \cite{fahlandAnalysisDemandInstantaneous2011}.
 Thus, models found in practice are likely to be smaller than in our benchmark.
