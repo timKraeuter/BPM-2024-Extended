@@ -8,9 +8,9 @@ bookmarksopenlevel=1,
 bookmarksdepth=2,
 pdftex,
 pdfauthor={No Author Given},
-pdftitle={Instantaneous, Understandable, and Actionable Soundness Checking of Industrial BPMN Models},
+pdftitle={Instantaneous, Understandable, and Fixable Soundness Checking of Industrial BPMN Models},
 pdfsubject={BPMN soundness checking},
-pdfkeywords={BPM, BPMN, BPMN analysis, Soundness checking}
+pdfkeywords={Business Process Modeling, Verification, Soundness, Safeness}
 ]{hyperref}
 %
 \usepackage{graphicx}
@@ -24,7 +24,7 @@ pdfkeywords={BPM, BPMN, BPMN analysis, Soundness checking}
 
 \begin{document}
 %
-\title{Instantaneous, Understandable, and Actionable Soundness Checking of Realistic BPMN Models}
+\title{Instantaneous, Understandable, and Fixable Soundness Checking of Realistic BPMN Models}
 %
 \titlerunning{Instantaneous Soundness Checking of Realistic BPMN Models}
 % If the paper title is too long for the running head, you can set
@@ -45,10 +45,10 @@ pdfkeywords={BPM, BPMN, BPMN analysis, Soundness checking}
 \begin{abstract}
 TODO
 \keywords{
-Business Process Modeling \and
+BPM \and
 Verification \and
-BPMN Soundness\and
-Quality assurance
+Soundness \and
+Safeness
 }
 \end{abstract}
 
@@ -67,11 +67,11 @@ Quality assurance
 % Motivation
 
 % Solution
-% Describe the figure and go over all three claims briefly: instantaneous (Definition), understandable (soundness properties are hard to understand for modelers), and actionable (comparable to quick fixes).
+% Describe the figure and go over all three claims briefly: instantaneous (Definition), understandable (soundness properties are hard to understand for modelers), and  (comparable to quick fixes).
 
 % Also add the times measured by other tools for some models. These range into seconds. It would be nice to try the same models later.
 
-% Understandable/Visualization is missing in the figure: instantaneous and actionable are there.
+% Understandable/Visualization is missing in the figure: instantaneous and fixable are there.
 \begin{figure}[ht]
 	\centering
 	\includegraphics[width=0.7\textwidth]{images/overview}
@@ -88,7 +88,7 @@ Quality assurance
 % Wrong gateway usage?
 % Instantaneous: The model checks in 500ms or less.
 % Understandable: Highlight problematic elements + show the visualization of a counterexample using that model.
-% Actionable: Provide quick fixes that resolve soundness violation --> check if changes fix the property before showing it to the user.
+% Fixable: Provide quick fixes that resolve soundness violation --> check if changes fix the property before showing it to the user.
 
 \section{Soundness Checking of BPMN Models} \label{sec:soundness}
 
@@ -104,7 +104,7 @@ Soundness is composed of three following sub-properties \cite{corradiniClassific
 In addition, we also check \textit{safeness}.
 A BPMN model is \textit{safe} if, during its execution, no more than one token occurs along the same sequence flow \cite{corradiniClassificationBPMNCollaborations2018}.
 
-In remainder of this section we describe how we achieve \textit{instantaneous}, \textit{understandable}, and \textit{actionable} soundness checking of realistic BPMN models.
+In remainder of this section we describe how we achieve \textit{instantaneous}, \textit{understandable}, and \textit{fixable} soundness checking of realistic BPMN models.
 
 
 \subsection{Instantaneous Soundness Checking} \label{subsec:instantaneous}
@@ -326,7 +326,7 @@ In summary, we aim to make soundness checking quickly \textit{understandable} ev
 First, we directly highlight problematic elements in the BPMN editor.
 Second, we provide an \textit{interactive} visualization of counter-examples in the BPMN editor with the ability to pause the visualization, control the visualization speed, and show an execution log, which makes understanding the property violation straightforward.
 
-\subsection{Actionable Soundness Checking}
+\subsection{Fixable Soundness Checking}
 
 When possible, we detect errors in the BPMN model and provide an automatic fix similar to \textit{quick fixes} in Integrated Development Environments (IDEs).
 Modelers can then select these quick fixes to resolve a soundness property violation.
