@@ -38,7 +38,7 @@ pdfkeywords={BPM, Verification, Soundness, Safeness}
 \begin{abstract}
 	
 Many business process models have control-flow errors, such as deadlocks, which can hinder code generation and proper execution.
-In this paper, we introduce our new soundness-checking tool that can instantaneously identify errors in BPMN models, make them comprehensible for modelers, and even suggest fixes to eliminate them automatically.
+In this paper, we introduce our new soundness checking tool that can instantaneously identify errors in BPMN models, make them comprehensible for modelers, and even suggest fixes to eliminate them automatically.
 We demonstrate that our tool's soundness checking is instantaneous, taking less than 500ms, by benchmarking our tool against synthetic BPMN models with increasing size and state space complexity, as well as realistic models provided in the literature.
 Moreover, the tool directly displays possible soundness violations in the modeler and provides an interactive token-flow animation illustrating each violation.
 Additionally, it provides fixes to resolve the violations found, which, to the best of our knowledge, is not currently available in other tools.
@@ -542,12 +542,20 @@ To sum up, our tool incorporates several ideas from the state of the art while e
 However, the most crucial aspect of our tool is its practical approach that prioritizes performance and understanding above all else to ensure seamless integration into BPMN modeling tools.
 
 \section{Limitations \& Threats to Validity}
-% Benchmarking problem: Different machines etc. make it hard to compare runtime
-% Other researchers have probably not optimized for performance
-% Other approaches are implemented in a more formal setting; thus, a comparison may not be apples to apples as we use a pragmatic encoding of semantics directly implemented in Rust.
+% Limitations
+Assessing tool performance becomes difficult when there are no standardized benchmarks for comparison.
+In this publication, a direct comparison of our tool's performance with related work is not feasible.
+This is due to variations in benchmark conditions, such as hardware, operating systems, and employed methodologies.
+Thus, we claim that our tool can deal with most BPMN models instantaneously, as previously discussed.
+It is advisable to consider the results reported by other researchers on the same models only as a general reference.
+To solve this problem we advocate for defining a standardized benchmarking process to directly and transparently compare tool performance.
 
-% Hard to find industrial models?
-% We have to build a specific tool for BPMN, while others have used generic tools: groove, Maude, and other general-purpose model checkers.
+% External validity instantaneous soundness checking: 
+The main threat to the external validity~\cite{wohlinExperimentationSoftwareEngineering2012} of our instantaneous soundness checking claim is that we could not test our tool with a large set of models from an industrial setting.
+To mitigate this threat, we validated our claim against models sourced from existing literature, public repositories, and two artificial datasets featuring extensive and complex BPMN models.
+We believe these datasets closely resemble or even surpass industrial models in terms of model size and complexity (state space).
+
+Furthermore, regarding comprehensive soundness checking, we plan to study how well modelers understand soundness violations using the provided highlighting and interactive visualization and how the provided quick fixes impact the resolution.
 
 \section{Conclusion \& Future work}
 
