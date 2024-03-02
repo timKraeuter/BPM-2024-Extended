@@ -13,6 +13,8 @@ This folder describes the benchmarks of the realistic models.
 2. Models from houhou et al. (2022)
    - The models e001, e002, and e020 are provided in the paper ["A First-Order Logic verification framework for communication-parametric and time-aware BPMN collaborations"](https://www.doi.org/10.1016/j.is.2021.101765) by Houhou et al. (2022).
 
+In addition, the [modelInfo.csv](./modelInfo.csv) file states the number of gateways, flow nodes, sequence flows, and flow elements for each model.
+
 ## Benchmark
 
 **Windows:**

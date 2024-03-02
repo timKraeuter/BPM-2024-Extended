@@ -18,6 +18,7 @@ Generates 400 models with 1-20 parallel branches of length 1-20 in the `./models
 The source code for the CLI-application is available at [TBD after review](https://github.com/).
 
 The precomputed models are located in the `models.zip` file and the 10 models used in the benchmark are located in the `models` directory.
+In addition, the [modelInfo.csv](./modelInfo.csv) file states the number of gateways, flow nodes, sequence flows, and flow elements for each model.
 
 ## Benchmark
 

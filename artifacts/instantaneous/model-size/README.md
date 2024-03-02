@@ -3,6 +3,7 @@
 This folder contains the models with **growing model size** used in the paper.
 
 See the [models001-300.zip](./models001-300.zip) and [models301-500.zip](./models001-300.zip) files for the models.
+In addition, the [modelInfo.csv](./modelInfo.csv) file states the number of gateways, flow nodes, sequence flows, and flow elements for each model.
 
 **Model generation help:**
 ```bash
