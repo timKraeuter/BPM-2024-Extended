@@ -485,13 +485,13 @@ The front-end of the tool is built in web technologies using the bpmn-js ecosyst
 
 We developed the model checking in Rust due to its low memory overhead, absence of garbage collection, and performance comparable to programming languages such as C and C++.
 A fast programming language and direct implementation of the BPMN semantics play a key role in achieving \textit{instantaneous} soundness checking of realistic process models.
-Currently, our tool is not yet heavily optimized for performance to avoid code complexity.
-In addition, partial-order reduction techniques, which are common in other model checkers, are not implemented to tackle the state space explosion problem.
+However, our tool is not yet heavily optimized for performance to avoid code complexity.
+In addition, partial-order reduction techniques, common in other model checkers, are not implemented to tackle the state space explosion problem.
 % Zero-copy? --> Currently, we are copying things but still achieve better performance (Tradeoff with readability)
 
 Our tool can provide model checking as a \textit{web-service} or command-line application to be integrated with any BPMN modeler.
 Otherwise, one can reuse parts of the user interface described in \autoref{sec:soundness}.
-This allows for many ways to smoothly integrate soundness checking into existing BPMN modeling tools, making it comprehensible for most BPMN modelers.
+This allows many ways to smoothly integrate soundness checking into existing BPMN modeling tools, making it understandable for most BPMN modelers.
 
 \subsection{Pragmatic BPMN Semantics Encoding}
 In addition to selecting an efficient programming language for developing the soundness checker, we also opted for a practical, straightforward encoding of BPMN semantics.
@@ -507,8 +507,7 @@ As discussed earlier, this simple abstraction avoids one additional state and pa
 	\label{fig:activityEncoding}
 \end{figure}
 
-% For example: Message start events? Message events in general?
-% Leaving tokens in front of gateways? Event-based gateway, for example.
+% For example: Message start events? Message events in general? Event-based gateways.
 We use similar minimal encodings for other BPMN elements related to message flow to keep the state space small.
 Nevertheless, one must always be sure that such optimizations do not compromise the checked properties, similar to when applying partial-order reduction techniques~\cite{valmariStateExplosionProblem1998}.
 
@@ -521,14 +520,12 @@ The supported BPMN elements come close to the capabilities of popular process or
 Thus, how to formalize nearly all BPMN elements used in practice is straightforward.
 Consequently, in this publication, we focus on tool performance and capabilities concerning soundness checking comprehension, resolution, and seamless integration into BPMN modeling tools.
 
-% Performance using different benchmarks. --> Needs its own paper where everyone can contribute. --> Usually not done but quite important for industrial use. Model checking has to have adequate performance!
 \textbf{Tool performance:}
 Comparing tool performance without standardized benchmarks and a reproducible environment is challenging.
 However, other publications indicate that tools quickly take several seconds for checking single soundness properties~\cite{corradiniFormalApproachAnalysis2021,houhouFirstOrderLogicVerification2022,krauterHigherorderTransformationApproach2023}.
 Our approach checks all soundness properties and safeness of the same models instantaneously.
 The difference in performance lies probably in our pragmatic BPMN encoding optimized for soundness checking and the direct implementation in a performant programming language such as Rust rather than a transformation of BPMN to general model checking tools.
 
-% Capabilities (Which soundness properties are supported, custom properties, counter-example visualization, tool maturity, tool integration, actionability of the tool, etc.) --> Highlighting problematic elements is sometimes supported, but interactive counter-example visualization is not (to the best of our knowledge)
 \textbf{Tool capabilities:}
 Another way to compare the different BPMN formalizations and soundness checking tools is to investigate their capabilities.
 Most tools formalize large parts of the BPMN specification and allow soundness and safeness checking~\cite{corradiniFormalApproachAnalysis2021,houhouFirstOrderLogicVerification2022,krauterFormalizationAnalysisBPMN2023,krauterHigherorderTransformationApproach2023}.
@@ -554,7 +551,7 @@ However, the most crucial aspect of our tool is its practical approach that prio
 
 \section{Conclusion \& Future work}
 
-% Benchmarks in the instantaneous section are a contribution
+% Benchmarks in the instantaneous section are a contribution --> We even provides tools to generate more models.
 
 % Future work: Ranking quick fixes (least change, learn from the user, etc.)
 % Future work: Quick fixes for more complex BPMN features. We only looked at gateways/end events being problematic so far.
