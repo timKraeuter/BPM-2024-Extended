@@ -15,7 +15,7 @@ In addition, each directory contains instructions to run the soundness checking 
 
 ### Benchmark environment
 - The benchmarks were run with hyperfine version **1.18.0** (binaries available for windows/linux in the **artifacts** folder).
-- The benchmarks were run on the WSL in Windows 11 with an AMD Ryzen 7700X processor with 32 GB DDR5-5600 RAM on NVMe SSD storage.
+- The benchmarks were run on the WSL (Ubuntu 22.04) in Windows 11 with an AMD Ryzen 7700X processor with 32 GB DDR5-5600 RAM on NVMe SSD storage.
 - The benchmarks were run with our bpmn-analyzer tool version **0.2.0** (binaries available for windows/linux in the **artifacts** folder).
 
 ## Implementation
