@@ -110,10 +110,10 @@ In the remainder of this section, we describe how we achieve \textit{instantaneo
 \subsection{Instantaneous Soundness Checking} \label{subsec:instantaneous}
 \textit{Instantaneous} soundness checking is defined as taking 500 ms or less in~\cite{fahlandAnalysisDemandInstantaneous2011}.
 In this section, we demonstrate that our soundness checker is instantaneous by validating it from three viewpoints.
-First, we investigate how our tools react to rapidly \textit{growing model size} in \autoref{subsec:model-size}.
+First, we investigate how our tools react to rapidly \textit{growing model size}.
 We use a benchmark based on synthetically generated BPMN models.
-Second, we study how our tool deals with a growing number of \textit{parallel branches} of varying size in \autoref{subsec:degrees-of-parallelism}.
-Third, we run soundness checking for realistic BPMN process models available in public datasets, see \autoref{subsec:realistic-models}.
+Second, we study how our tool deals with a \textit{growing number of parallel branches} of varying size.
+Third, we run soundness checking for realistic BPMN process models available in the literature and public datasets.
 
 % General info
 % We use hyperfine for each benchmark with runs stuff 10x and averages. See my other papers
@@ -123,13 +123,14 @@ The benchmarks were run on the Windows Subsystem for Linux (WSL) with an AMD Ryz
 All used BPMN models and our tools to generate them are given in the artifacts of this paper~\cite{noauthorgivenBPM2024Artifacts2024}.
 Furthermore, we provide the scripts to replicate our benchmarks.
 
-\subsubsection{Growing Model Size} \label{subsec:model-size}
+\subsubsection{Growing Model Size}
 We use the data set of models provided in~\cite{krauterHigherorderTransformationApproach2023}, which consists of 300 synthetically generated BPMN models, and extend it to 500 models.
 % Briefly recap the method.
 Every BPMN model contains a start event, a fixed amount of \textit{blocks}, and an end event.
 The number of blocks ranges from 1 to 500, and three unique blocks are used repeatedly.
-\autoref{fig:three-block-example} shows the third BPMN model in the data set, which contains each block once ~\cite{krauterHigherorderTransformationApproach2023}.
-Subsequently, we progressively add more blocks to the models until we reach 500.
+For example, \autoref{fig:three-block-example} shows the third BPMN model in the data set, which contains each block once ~\cite{krauterHigherorderTransformationApproach2023}.
+We then progressively add more blocks to the models until we reach 500.
+We provide a tool to generate models such as \autoref{fig:three-block-example} and the 500 models itself~\cite{noauthorgivenBPM2024Artifacts2024}.
 
 \begin{figure}[ht]
 	\centering
@@ -150,8 +151,8 @@ Our tool explores the entire state space while simultaneously verifying all prop
 
 % Results
 One can see that our tool spends from 20 ms up to 128 ms for the BPMN models.
-Thus, our tool can check soundness instantaneously according to the definition (runtime below 500 ms) even if the model size increases to over 4000 BPMN elements (500 blocks).
-Models of this size are not human-readable anymore and are divided into smaller models according to best practices \cite{fahlandAnalysisDemandInstantaneous2011}.
+Thus, our tool can check soundness \textit{instantaneously} (runtime below 500 ms) even if the model size increases to over 4000 BPMN elements (500 blocks).
+Models of this size are not human-readable anymore and are usually divided into smaller models according to best practices \cite{fahlandAnalysisDemandInstantaneous2011}.
 Thus, models found in practice are likely to be smaller than in our benchmark.
 However, they might be more complex, leading to a larger state space, as discussed in the next section.
 % States for the previous:
@@ -164,7 +165,7 @@ However, they might be more complex, leading to a larger state space, as discuss
 % 300: 1302, 1302
 % 500: 2168, 2168
 
-\subsubsection{Growing Number of Parallel Branches} \label{subsec:degrees-of-parallelism}
+\subsubsection{Growing Number of Parallel Branches}
 % Cite the other paper here with parallelism and introduce the set of models.
 An increased model size leads to a bigger state space that must be analyzed.
 In the previous section, a linear increase in model size led to a similar growth in the state space.
@@ -173,7 +174,8 @@ In this section, we benchmark our tool against a synthetic data set of models th
 This represents a \textit{worst case} scenario for soundness checking tools.
 
 We generated a data set of models~\cite{noauthorgivenBPM2024Artifacts2024} with a growing number of parallel branches of increasing length, similar to~\cite{corradiniFormalApproachAnalysis2021}.
-\autoref{fig:parallel-branches-models} depicts how a model with \textit{n} parallel branches of length \textit{m} is generated.
+\autoref{fig:parallel-branches-models} depicts how a model with \textit{n} parallel branches with length \textit{m} is generated.
+We provide a tool to generate models as shown in \autoref{fig:parallel-branches-models} and the models itself~\cite{noauthorgivenBPM2024Artifacts2024}.
 
 \begin{figure}[ht]
 	\centering
@@ -182,7 +184,6 @@ We generated a data set of models~\cite{noauthorgivenBPM2024Artifacts2024} with 
 	\label{fig:parallel-branches-models}
 \end{figure}
 
-We provide a tool to generate models as shown in \autoref{fig:parallel-branches-models} and the models used in this publication~\cite{noauthorgivenBPM2024Artifacts2024}.
 \autoref{tab:parallel-branches-benchmark} shows the average runtime of our tool when checking soundness and safeness for BPMN models with a varying number of parallel branches and branch lengths.
 Our tool explores the entire state space while simultaneously verifying all properties.
 
@@ -198,30 +199,28 @@ Our tool explores the entire state space while simultaneously verifying all prop
 			hline{8, 10} = {-}{dashed},
 			vline{2-Y} = {2-Z}{solid}, % Y is the second to last row/column
 		}
-		\textbf{Branches/Branch Length} &\textbf{Runtime} & \textbf{States} \\
-		5/1 & 20 ms& 35 \\
-		10/1 & 25 ms& 1.027 \\
-		15/1 & 388 ms& 32.771 \\
-		16/1 & 860 ms& 65.539 \\
-		17/1 & 1.886 ms& 131.075 \\
-		20/1 & 20.719 ms& 1.048.579 \\
-		5/3 & 23 ms& 1.027 \\
-		5/5 & 48 ms& 7.779 \\
-		3/10 & 23 ms& 1.334 \\
-		3/20 & 50 ms& 9.264 \\
+		\textbf{Branches} & \textbf{Branch Length} &\textbf{Runtime} & \textbf{States} \\
+		5 & 1 & 20 ms& 35 \\
+		10 & 1 & 25 ms& 1.027 \\
+		15 & 1 & 388 ms& 32.771 \\
+		16 & 1 & 860 ms& 65.539 \\
+		17 & 1 & 1.886 ms& 131.075 \\
+		20 & 1 & 20.719 ms& 1.048.579 \\
+		5 & 3 & 23 ms& 1.027 \\
+		5 & 5 & 48 ms& 7.779 \\
+		3 & 10 & 23 ms& 1.334 \\
+		3 & 20 & 50 ms& 9.264 \\
 	\end{tblr}
 \end{table}
 
-The state space of the models grows exponentially (in our case, the number of states is given by $(m+1)^n + 3$) when increasing the number of parallel branches and their length, clearly showing state space explosion.
-Thus, our analysis is not instantaneous anymore when approaching 15 parallel branches of length 1 (see \autoref{tab:parallel-branches-benchmark}).
+The state space of the models grows exponentially (in our case, the number of states is given by $(m+1)^n + 3$), clearly showing state space explosion.
+Thus, our analysis is not instantaneous anymore when approaching 16 parallel branches of length 1 (see \autoref{tab:parallel-branches-benchmark}).
 However, analysis is still instantaneous for more reasonable models with five parallel branches of length 5 or 3 parallel branches of length 10-20.
+We believe that models with a high degree of parallelism, such that analysis is not instantaneous, are the exception, not the rule.
 
-We believe that models with a high degree of parallelism, such that analysis is not instantaneous, are the exception, not the rule, but we will explore this and the state space explosion problem further in the discussion section.
-
-\subsubsection{Realistic Models} \label{subsec:realistic-models}
+\subsubsection{Realistic Models}
 We apply our tool to eight realistic models, where three models (e001, e002, e020) are taken from \cite{houhouFirstOrderLogicVerification2022} and the remaining five models are part of the Camunda BPMN for research repository\footnote{\url{https://github.com/camunda/bpmn-for-research} \label{footnote:camundaResearch}}.
 We had to slightly adapt the Camunda models such that they can be executed standalone, which is described in our artifacts~\cite{noauthorgivenBPM2024Artifacts2024}.
-
 
 \autoref{tab:realistic-models-benchmark} shows the average runtime of soundness and safeness checking using our tool and the number of states for each model.
 The results show that our tool can check soundness and safeness \textit{instantaneously} even for these realistic models.
