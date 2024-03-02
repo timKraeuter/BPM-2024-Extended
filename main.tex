@@ -324,8 +324,8 @@ Second, we provide an \textit{interactive} visualization of counter-examples in 
 
 \subsection{Fixable Soundness Checking}
 
-When possible, we detect errors in the BPMN model and provide an automatic fix similar to \textit{quick fixes} in Integrated Development Environments (IDEs).
-Modelers can then select these quick fixes to resolve a soundness property violation.
+If possible, we provide an automatic fix similar to \textit{quick fixes} in Integrated Development Environments (IDEs) for detected soundness and safeness violations.
+Modelers can then select these quick fixes to resolve violations.
 \autoref{fig:quick-fixes} shows a screenshot of our tool, where quick fixes are depicted as green overlays containing a light bulb icon.
 This icon is typically used to indicate quick fixes in IDEs.
 Our tool simultaneously shows soundness violations (\autoref{fig:violations}) and quick fixes (\autoref{fig:quick-fixes}).
@@ -337,46 +337,47 @@ Our tool simultaneously shows soundness violations (\autoref{fig:violations}) an
 	\label{fig:quick-fixes}
 \end{figure}
 
-The user can apply a quick fix by clicking on the green overlays and immediately see the changes in soundness since checking is \textit{instantaneous} as discussed in \autoref{subsec:instantaneous}.
-If he is unhappy with the result, a user can undo all changes as a whole since each quick fix is a \textit{command}, according to the command pattern.
+The user can apply a quick fix by clicking on a green overlay and immediately see the changes in soundness since checking is \textit{instantaneous} as discussed previously.
+If unhappy with the result, a user can undo all changes since each quick fix is a \textit{command}, according to the command pattern.
 A user might not like a quick fix if it not only fixes a specific property but also has unintended side effects.
 For example, it might invalidate a different soundness property.
 
-In the following sections, we describe the implemented resolution strategies for the different soundness properties in detail.
+In the following sections, we describe the implemented resolution strategies for the different soundness properties.
 However, we do not expect these strategies to cover all possible resolutions and fit all applications.
-Thus, our framework is extensible, so other developers can provide additional or custom resolution strategies.
-This is possible since we \textit{decoupled} the soundness analysis from showing violations and providing quick fixes in our implementation, which facilitates customization by using dependency injection.
+Thus, our framework is extensible, so other language engineers can provide custom resolution strategies.
+This is possible due to the \textit{modular} design of the tool, which \textit{decouples} the soundness analysis from showing violations and providing quick fixes and facilitates customization by using dependency injection.
 
-\subsubsection{Safeness} \label{subsec:safeness}
+\subsubsection{Safeness}
 The soundness checker will provide a counter-example and identify the unsafe sequence flows.
 We use this information together with the structure of the BPMN model to find resolutions for \textit{Safeness} violations.
-In general, safeness violations can have multiple reasons.
+Possible reasons for \textit{Safeness} violations which we address are:
 
 \begin{enumerate}
-	\item An exclusive gateway with multiple incoming sequence flows activated more than once will lead to multiple tokens at its outgoing sequence flows.
-	\item One can also implicitly encode an exclusive gateway, for example, using an activity, by having multiple incoming sequence flows.
-	Implicitly encoding exclusive gateways is allowed but violates best practices (see lint rule \textit{fake-join} in~\cite{camundaservicesgmbhBpmnlint2024}).
-	Similar to \textbf{(1)}, this leads to unsafe sequence flows if activated more than once.
+	\item An exclusive gateway with multiple incoming sequence flows might be executed more than once, leading to multiple tokens at its outgoing sequence flows.
+	\item Similarly, implicitly encoded exclusive gateway exist, for example, if an activity has multiple incoming sequence flows.
+	Implicitly encoding exclusive gateways is allowed but violates best practices~\cite{camundaservicesgmbhBpmnlint2024}.
+	Similar to \textbf{(1)}, this leads to unsafe sequence flows if the activity is executed more than once.
 \end{enumerate}
 
 
-\textbf{Resolutions for (1):} A straightforward solution is to change the exclusive gateway to a parallel one.
+\textbf{Resolutions for (1):} A straightforward solution is to change the exclusive gateway to a parallel gateway.
 Since the gateway was activated multiple times, it indicates that it perhaps should have been a parallel gateway or that there was an unintended parallelization before.
 Thus, we can analyze the BPMN model and find the parallelization that causes the \textit{Safeness} violation.
 If it is a parallel gateway, another solution is to change this parallel gateway to an exclusive one.
-So, there are two solutions, but the goal is to have matching gateways.
-The parallelization can also be an implicitly encoded parallel gateway, for example, an activity with multiple outgoing sequence flows, which does not comply with best practices but is allowed.
-In this case, we can add an exclusive gateway to eliminate the implicit parallelization and achieve matching gateways.
-% It would be nice to mention the command here already.
+This leads to two solutions where the overarching goal is obtaining matching gateways.
+
+The parallelization can also be an implicitly encoded parallel gateway, for example, an activity with multiple outgoing sequence flows, which does not comply with best practices~\cite{camundaservicesgmbhBpmnlint2024} but is allowed.
+In this case, we can add an explicit exclusive gateway to eliminate the implicit parallelization and achieve matching gateways.
 
 \textbf{Resolutions for (2):} Similarly to \textbf{(1)}, the goal of each quick fix is to obtain matching gateways.
 Thus, one solution is to find the parallelization that causes the \textit{Safeness} violation and change it to an exclusive gateway, as described in \textbf{(1)}.
 Quick fix \textbf{(a)} in \autoref{fig:safeness} shows this solution, where a parallel gateway is changed to an exclusive one.
-We color all changes and additions green in figures, highlighting quick fixes.
+We color the changed and added elements in green to highlight the effect of quick fixes.
+
 Another solution is to remove the implicit exclusive gateway and add a parallel gateway instead, see quick fix \textbf{(b)} in \autoref{fig:safeness}.
-The quick fix moves elements automatically to make space to insert the parallel gateway and then reconnects as well as adds sequence flows accordingly.
+The quick fix moves elements automatically to make space to insert the parallel gateway and then reconnects and adds sequence flows accordingly.
 Even though these are multiple individual operations, we ensured that an undo operation would revert the entire quick fix.
-All the implemented quick fixes can be reverted using one simple undo operation.
+All the implemented quick fixes can be reverted using one undo operation.
 
 \begin{figure}[ht]
 	\centering
@@ -385,22 +386,21 @@ All the implemented quick fixes can be reverted using one simple undo operation.
 	\label{fig:safeness}
 \end{figure}
 
-% TODO: Add demo application and artifacts anonymously.
-Our demo application in x contains examples of the Safeness quick fixes and all other soundness properties.
+Our demo application in the artifacts~\cite{noauthorgivenBPM2024Artifacts2024} contains examples of the Safeness quick fixes discussed here and all upcoming soundness properties.
 
 \subsubsection{Proper Completion}
-The soundness checker will provide a counter-example and the end events that consume more than one token.
-Violations of \textit{Proper Completion} at a specific end event can have multiple reasons.
+For \textit{Proper Completion}, our soundness checker will provide a counter-example and identify the problematic end events that consume more than one token.
+Possible reasons for \textit{Proper Completion} violations which we address are:
 
 \begin{enumerate}
-	\item An end event can have multiple incoming sequence flows that can hold tokens.
+	\item End event with multiple incoming sequence flows can be executed twice or more.
 	This could be due to a parallelization that is never synchronized.
 	\item If there is only one incoming sequence flow, then this flow must be unsafe, i.e., hold more than one token in a possible execution.
 \end{enumerate}
 
-\textbf{Resolution for (1):} If multiple incoming sequence flows are the cause, we can add a unique end event for each except the first.
-\autoref{fig:properCompletion} shows an example of this quick fix being applied, where the changed elements are colored in green.
-We ensured an undo operation would revert the quick fix using the command pattern.
+\textbf{Resolution for (1):} If multiple incoming sequence flows are the cause, we can add additional end events to match the number of sequence flows.
+\autoref{fig:properCompletion} shows an example of applying this quick fix.
+We ensure an undo operation would revert the quick fix using the command pattern.
 
 % Can save a lot of space in this figure if needed. Go to two activities and put them closer together
 \begin{figure}[ht]
@@ -411,15 +411,15 @@ We ensured an undo operation would revert the quick fix using the command patter
 \end{figure}
 
 \textbf{Resolution for (2):} If a problematic end event only has one incoming sequence flow, it must be unsafe.
-Thus, other \textit{Safeness} quick fixes can apply, which will also resolve \textit{Proper Completion}, see \autoref{subsec:safeness}.
+Thus, other \textit{Safeness} quick fixes can apply, which will also resolve \textit{Proper Completion}.
 
 
-\subsubsection{Option to Complete} \label{subsec:optionToComplete}
+\subsubsection{Option to Complete}
 Violations of \textit{Option to Complete} can have multiple reasons.
 
 \begin{enumerate}
 	\item A parallel gateway that synchronizes multiple incoming sequence flows but never executes leads to a violation.
-	\item An event that is never triggered but relied upon in the process execution leads to a violation.
+	\item An event that is never triggered but relied upon leads to a violation.
 \end{enumerate}
 
 To know the reason for a given violation, we analyze the counter example provided by the soundness checker.
@@ -427,9 +427,10 @@ The counter-example provides a trace that leads to a state in which the process 
 By analyzing the last state in this trace, i.e., the state in which execution cannot continue, we can determine which element is the cause.
 Thus, we can provide quick fixes for the possible reasons.
 
-\textbf{Resolutions for (1):} A straightforward way to fix sequence flow not continuing past a parallel gateway is to change it from parallel to exclusive.
+\textbf{Resolutions for (1):} A straightforward way to fix sequence flow not continuing past a parallel gateway is to change it to an exclusive gateway.
+Similar to the safeness quick fixes, we obtain matching gateways.
 Exclusive gateways do not synchronize, and thus, execution can continue.
-\autoref{fig:optionToComplete} \textbf{(a)} shows an example of this quick fix where the replaced gateway is highlighted in green.
+\autoref{fig:optionToComplete} \textbf{(a)} shows an example of this quick fix.
 
 \begin{figure}[ht]
 	\centering
@@ -440,39 +441,35 @@ Exclusive gateways do not synchronize, and thus, execution can continue.
 
 Another way to fix violations is to find the split in the sequence flow, for example, the exclusive gateway in \autoref{fig:optionToComplete}, and make this split a parallelization, see quick fix \textbf{(b)} in \autoref{fig:optionToComplete}.
 We present both possible resolutions to the user, who can choose the appropriate one.
-Similar to the quick fixes
-
 In the example in \autoref{fig:optionToComplete}, it is possible to spot the mismatching gateways.
 However, this might not be straightforward in bigger BPMN models with more flow nodes and sequence flows.
 
 \textbf{Resolutions for (2):} We have not yet implemented any quick fixes for events, but many possibilities exist.
 For example, for message catch events without incoming message flows, one could add a fitting message flow from a message throw event or send task.
 One can use different factors, such as spatial proximity and name similarity, to find the right source of the new message flow.
-The idea for any event would be to add the missing trigger.
-Finding the most fitting trigger can be done in various ways by analyzing the other elements in the BPMN model.
-
+Generalizing this idea to different event types requires adding the missing trigger.
+Finding the most fitting trigger can be done by analyzing the other elements in the BPMN model or even asking the modeler.
 
 \subsubsection{No Dead Activities}
 A dead activity might have multiple reasons:
 
 \begin{enumerate}
 	\item The simplest reason is that the activity is disconnected, i.e., it has no incoming sequence flow.
-	Disconnected activities must not be dead, but they violate best practices see lint rule \textit{no-disconnected} in~\cite{camundaservicesgmbhBpmnlint2024}.
-	\item An activity can also be part of the BPMN model that is not reachable during execution because, for example, a parallel gateway preceding the activity cannot be executed.
+	Disconnected activities must not be dead but violate best practices~\cite{camundaservicesgmbhBpmnlint2024}.
+	\item An activity can also be part of the BPMN model that is not reachable during execution because, for example, a parallel gateway or event preceding the activity cannot be executed.
 \end{enumerate}
-% Could also be behind events that are never triggered.
 
 \textbf{Resolutions for (1)}: If the activity is disconnected, we can propose connecting it to the nearest flow node.
-However, this flow node should not be disconnected or dead itself.
+However, we ensure this node is not disconnected or dead itself.
 
 \textbf{Resolutions for (2)}: When the dead activity is connected, this often means it is unreachable during execution, and often the process itself cannot terminate, i.e., violates \textit{Option to Complete}.
-Thus, other quick fixes can apply, which will also resolve dead activities, see \autoref{subsec:optionToComplete}.
+Thus, other quick fixes can apply that also resolve dead activities.
 
 \section{Implementation}
 
 In this section, we briefly describe and highlight key elements in our implementation of the BPMN soundness checking tool.
 The main goal of the tool is to be well integrated into modeling tools without introducing friction in the modeling process.
-To achieve this, we keep the design of our tool modular such that one can either fully integrate it, pick only specific features of the tool, or even extend it, for example to add custom quick fix providers.
+To achieve this, we keep the design of our tool modular such that one can either fully integrate it, pick only specific features of the tool, or even extend it, for example, to add custom quick fix providers.
 
 \subsection{Tool summary}
 Our tool is open-source and available as an artifact~\cite{noauthorgivenBPM2024Artifacts2024}.
