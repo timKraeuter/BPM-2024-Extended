@@ -36,13 +36,13 @@ pdfkeywords={BPM, Verification, Soundness, Safeness}
 \maketitle              % typeset the header of the contribution
 %
 \begin{abstract}
-	
+% TODO: Resubmit abstract at the end!	
 Many business process models have control-flow errors, such as deadlocks, which can hinder code generation and proper execution.
 In this paper, we introduce our new soundness checking tool that can instantaneously identify errors in BPMN models, make them comprehensible for modelers, and even suggest fixes to eliminate them automatically.
 We demonstrate that our tool's soundness checking is instantaneous, taking less than 500ms, by benchmarking our tool against synthetic BPMN models with increasing size and state space complexity, as well as realistic models provided in the literature.
-Moreover, the tool directly displays possible soundness violations in the modeler and provides an interactive token-flow animation illustrating each violation.
+Moreover, the tool directly displays possible soundness violations in the model and provides an interactive token-flow animation illustrating each violation.
 Additionally, it provides fixes to resolve the violations found, which, to the best of our knowledge, is not currently available in other tools.
-The tool is open-source, modular, extensible, and smoothly integrated into a BPMN editor.
+The tool is open-source, modular, extensible, and smoothly integrated into a BPMN modeling tool.
 
 \keywords{
 BPM \and
