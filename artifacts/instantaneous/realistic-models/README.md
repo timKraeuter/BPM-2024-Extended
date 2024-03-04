@@ -20,13 +20,13 @@ In addition, the [modelInfo.csv](./modelInfo.csv) file states the number of gate
 **Windows:**
 ```bash
 cd ../..
-hyperfine.exe -L bpmnModel instantaneous/realistic-models/models/e001.bpmn,instantaneous/realistic-models/models/e002.bpmn,instantaneous/realistic-models/models/e020.bpmn,instantaneous/realistic-models/models/camunda-adopted/dispatch-of-goods.bpmn,instantaneous/realistic-models/models/camunda-adopted/credit-scoring-synchronous.bpmn "bpmnanalyzer.exe -f {bpmnModel} -p safeness,option-to-complete,proper-completion,no-dead-activities" --output ./instantaneous/realistic-models/output.txt --export-json ./instantaneous/realistic-models/results.json
+hyperfine.exe -L bpmnModel instantaneous/realistic-models/models/e001.bpmn,instantaneous/realistic-models/models/e002.bpmn,instantaneous/realistic-models/models/e020.bpmn,instantaneous/realistic-models/models/camunda-adopted/credit-scoring-synchronous.bpmn,instantaneous/realistic-models/models/camunda-adopted/credit-scoring-asynchronous.bpmn,instantaneous/realistic-models/models/camunda-adopted/dispatch-of-goods.bpmn,instantaneous/realistic-models/models/camunda-adopted/recourse.bpmn,instantaneous/realistic-models/models/camunda-adopted/self-service-restaurant.bpmn "bpmnanalyzer.exe -f {bpmnModel} -p safeness,option-to-complete,proper-completion,no-dead-activities" --output ./instantaneous/realistic-models/output.txt --export-json ./instantaneous/realistic-models/results.json
 ```
 
 **Linux:**
 ```bash
 cd ../..
-hyperfine -L bpmnModel instantaneous/realistic-models/models/e001.bpmn,instantaneous/realistic-models/models/e002.bpmn,instantaneous/realistic-models/models/camunda-adopted/dispatch-of-goods.bpmn,instantaneous/realistic-models/models/camunda-adopted/credit-scoring-synchronous.bpmn "bpmnanalyzer.exe -f {bpmnModel} -p safeness,option-to-complete,proper-completion,no-dead-activities" --output ./instantaneous/realistic-models/output.txt --export-json ./instantaneous/realistic-models/results.json
+hyperfine -L bpmnModel instantaneous/realistic-models/models/e001.bpmn,instantaneous/realistic-models/models/e002.bpmn,instantaneous/realistic-models/models/e020.bpmn,instantaneous/realistic-models/models/camunda-adopted/credit-scoring-synchronous.bpmn,instantaneous/realistic-models/models/camunda-adopted/credit-scoring-asynchronous.bpmn,instantaneous/realistic-models/models/camunda-adopted/dispatch-of-goods.bpmn,instantaneous/realistic-models/models/camunda-adopted/recourse.bpmn,instantaneous/realistic-models/models/camunda-adopted/self-service-restaurant.bpmn "bpmnanalyzer.exe -f {bpmnModel} -p safeness,option-to-complete,proper-completion,no-dead-activities" --output ./instantaneous/realistic-models/output.txt --export-json ./instantaneous/realistic-models/results.json
 ```
 
 ## Results

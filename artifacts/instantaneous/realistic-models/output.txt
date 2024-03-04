@@ -1,9 +1,9 @@
-State space generation successful in 907µs!
-States: 99, Transitions: 99
-Terminated states: 2
+State space generation successful in 406.2µs!
+States: 74, Transitions: 74
+Terminated states: 6
 
 Option to complete is not fulfilled. 
-    Counter example: messages: {}, snapshots: { Process_0hiditg: {"SequenceFlow_0rrtx7k": 1} } --Task_16winvj--> messages: {"MessageFlow_1mm30jd": 1}, snapshots: { Process_0hiditg: {"SequenceFlow_06b4pjd": 1} } --StartEvent_0o849un--> messages: {}, snapshots: { Process_0hiditg: {"SequenceFlow_06b4pjd": 1}, Process_1dc1p3b: {"SequenceFlow_158pur5": 1} } --Task_1r15hqs--> messages: {}, snapshots: { Process_0hiditg: {"SequenceFlow_06b4pjd": 1}, Process_1dc1p3b: {"SequenceFlow_049ghuo": 1} } --Task_04l4kzo--> messages: {"Flow_1yy77dv": 1}, snapshots: { Process_0hiditg: {"SequenceFlow_06b4pjd": 1}, Process_1dc1p3b: {"SequenceFlow_04a402p": 1} } --ExclusiveGateway_0rtdod4--> messages: {}, snapshots: { Process_0hiditg: {"SequenceFlow_06b4pjd": 1}, Process_1dc1p3b: {"SequenceFlow_154teg7": 1} } --Task_1hd2ybe--> messages: {}, snapshots: { Process_0hiditg: {"SequenceFlow_06b4pjd": 1}, Process_1dc1p3b: {"SequenceFlow_1o0d2v1": 1} } --Task_07vbn2i--> messages: {"MessageFlow_1nttl77": 1}, snapshots: { Process_0hiditg: {"SequenceFlow_06b4pjd": 1}, Process_1dc1p3b: {"SequenceFlow_1xqy47o": 1} } --ExclusiveGateway_125lzox--> messages: {}, snapshots: { Process_0hiditg: {"SequenceFlow_06b4pjd": 1}, Process_1dc1p3b: {"SequenceFlow_0t0wbx3": 1} } --EndEvent_0khk0tq--> messages: {}, snapshots: { Process_0hiditg: {"SequenceFlow_06b4pjd": 1}, Process_1dc1p3b: {} }
+    Counter example: messages: {}, snapshots: { Process_1: {"SequenceFlow_0zyokrw": 1} } --Task_1kt8dzo--> messages: {}, snapshots: { Process_1: {"SequenceFlow_04y6oom": 1} } --Task_1udyby3--> messages: {}, snapshots: { Process_1: {"SequenceFlow_01zmlbv": 1} } --IntermediateCatchEvent_1nu2fvu--> messages: {}, snapshots: { Process_1: {"SequenceFlow_1y1wgan": 1} } --Task_0a2rm9v--> messages: {"MessageFlow_0f4weom": 1}, snapshots: { Process_1: {"SequenceFlow_00exxjf": 1} } --Task_12h2fs9--> messages: {"MessageFlow_11f80hy": 1}, snapshots: { Process_1: {"SequenceFlow_1hg9yiz": 1} }
 Safeness is fulfilled.
 Proper completion is fulfilled.
 No dead activities is fulfilled.
