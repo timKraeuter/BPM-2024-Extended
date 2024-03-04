@@ -239,14 +239,14 @@ The results show that our tool can check soundness and safeness \textit{instanta
 			vline{2-Y} = {2-Z}{solid}, % Y is the second to last row/column
 		}
 		\textbf{Model name} &\textbf{Runtime} & \textbf{States} & \textbf{Violated Properties} \\
-		
+		% TODO: Run benchmark on fastest machine using WSL.
 		e001~\cite{houhouFirstOrderLogicVerification2022} & 10 ms & 31 & Option To Complete, No Dead Activities \\
 		e002~\cite{houhouFirstOrderLogicVerification2022} & 10 ms & 31 & Option To Complete, No Dead Activities \\
-		e020~\cite{houhouFirstOrderLogicVerification2022} & TBD ms & TBD & TBD \\   % Should be Option To Complete. State space was between 3k-3.5k
-		credit-scoring-async\footref{footnote:camundaResearch} & TBD ms & TBD & TBD \\  % Should be Option To Complete
+		e020~\cite{houhouFirstOrderLogicVerification2022} & 20 ms & 2112 & Option To Complete \\
+		credit-scoring-async\footref{footnote:camundaResearch} & 10 ms & 50 & Option To Complete \\
 		credit-scoring-sync\footref{footnote:camundaResearch} & 10 ms & 99 & Option To Complete \\
 		dispatch-of-goods\footref{footnote:camundaResearch} & 10 ms & 103 & Safeness, Proper Completion\\ 
-		recourse\footref{footnote:camundaResearch} & TBD ms & TBD & TBD \\ % Should be Option To Complete
+		recourse\footref{footnote:camundaResearch} & 10 ms & 71 & Option To Complete \\
 		self-service-restaurant\footref{footnote:camundaResearch} & TBD ms & TBD & TBD \\  % Couldnt run in my other analyzer.
 	\end{tblr}
 \end{table}
