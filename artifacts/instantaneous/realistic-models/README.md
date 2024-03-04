@@ -7,7 +7,7 @@ This folder describes the benchmarks of the realistic models.
 
 1. Camunda BPMN for research models
    - We used the Camunda BPMN for research models available from [Camunda](https://github.com/camunda/bpmn-for-research).
-   - We used the five provided solution models and slightly adopted them to be executable standalone.
+   - We used the five provided solution models and slightly adopted them to be executable standalone (see differences in the `./diffs` directory).
    - The original solution models can be found in the `camunda-bpmn-for-research-original` directory.
    - The adopted models can be found in the `camunda-adopted` directory.
 2. Models from houhou et al. (2022)

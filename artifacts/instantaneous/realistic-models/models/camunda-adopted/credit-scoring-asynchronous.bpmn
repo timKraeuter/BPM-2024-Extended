@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<bpmn:definitions xmlns:bpmn="http://www.omg.org/spec/BPMN/20100524/MODEL" xmlns:bpmndi="http://www.omg.org/spec/BPMN/20100524/DI" xmlns:di="http://www.omg.org/spec/DD/20100524/DI" xmlns:dc="http://www.omg.org/spec/DD/20100524/DC" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" id="Definitions_1" targetNamespace="http://bpmn.io/schema/bpmn" exporter="Camunda Modeler" exporterVersion="5.20.0">
+<bpmn:definitions xmlns:bpmn="http://www.omg.org/spec/BPMN/20100524/MODEL" xmlns:bpmndi="http://www.omg.org/spec/BPMN/20100524/DI" xmlns:di="http://www.omg.org/spec/DD/20100524/DI" xmlns:dc="http://www.omg.org/spec/DD/20100524/DC" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" id="Definitions_1" targetNamespace="http://bpmn.io/schema/bpmn" exporter="Camunda Modeler" exporterVersion="5.7.0">
   <bpmn:collaboration id="Collaboration_1y0blh3">
     <bpmn:participant id="Participant_0e81yis" name="credit scoring (bank)" processRef="Process_0hiditg" />
     <bpmn:participant id="Participant_1xfb3ml" name="scoring service" processRef="Process_1dc1p3b" />
@@ -7,17 +7,8 @@
     <bpmn:messageFlow id="MessageFlow_1136yi9" sourceRef="Task_07vbn2i" targetRef="IntermediateCatchEvent_0yg7cuh" />
     <bpmn:messageFlow id="MessageFlow_0bgkr12" sourceRef="Task_06dqs9t" targetRef="IntermediateCatchEvent_0a8iz14" />
     <bpmn:messageFlow id="MessageFlow_1nwyn8k" sourceRef="Task_01ouvha" targetRef="IntermediateCatchEvent_0ujob24" />
-    <bpmn:textAnnotation id="TextAnnotation_0si9ilm">
-      <bpmn:text>inkl. ID for message
-queueing</bpmn:text>
-    </bpmn:textAnnotation>
-    <bpmn:association id="Association_1ctd4ma" sourceRef="Task_01ouvha" targetRef="TextAnnotation_0si9ilm" />
   </bpmn:collaboration>
   <bpmn:process id="Process_0hiditg" isExecutable="false">
-    <bpmn:task id="Task_16winvj" name="request credit score">
-      <bpmn:incoming>SequenceFlow_0rrtx7k</bpmn:incoming>
-      <bpmn:outgoing>SequenceFlow_0o5t8lw</bpmn:outgoing>
-    </bpmn:task>
     <bpmn:exclusiveGateway id="ExclusiveGateway_11dldcm">
       <bpmn:incoming>SequenceFlow_1i1amgb</bpmn:incoming>
       <bpmn:incoming>SequenceFlow_1fy80l7</bpmn:incoming>
@@ -54,11 +45,13 @@ queueing</bpmn:text>
       <bpmn:outgoing>SequenceFlow_0e97dad</bpmn:outgoing>
       <bpmn:outgoing>SequenceFlow_1kdut76</bpmn:outgoing>
     </bpmn:eventBasedGateway>
+    <bpmn:task id="Task_16winvj" name="request credit score">
+      <bpmn:incoming>SequenceFlow_0rrtx7k</bpmn:incoming>
+      <bpmn:outgoing>SequenceFlow_0o5t8lw</bpmn:outgoing>
+    </bpmn:task>
     <bpmn:startEvent id="StartEvent_1els7eb" name="scoring request received">
       <bpmn:outgoing>SequenceFlow_0rrtx7k</bpmn:outgoing>
     </bpmn:startEvent>
-    <bpmn:sequenceFlow id="SequenceFlow_0rrtx7k" sourceRef="StartEvent_1els7eb" targetRef="Task_16winvj" />
-    <bpmn:sequenceFlow id="SequenceFlow_0o5t8lw" sourceRef="Task_16winvj" targetRef="EventBasedGateway_02s95tm" />
     <bpmn:sequenceFlow id="SequenceFlow_1i1amgb" sourceRef="IntermediateCatchEvent_0a8iz14" targetRef="ExclusiveGateway_11dldcm" />
     <bpmn:sequenceFlow id="SequenceFlow_1fy80l7" sourceRef="IntermediateCatchEvent_0yg7cuh" targetRef="ExclusiveGateway_11dldcm" />
     <bpmn:sequenceFlow id="SequenceFlow_12a77en" sourceRef="ExclusiveGateway_11dldcm" targetRef="Task_1fzfxey" />
@@ -67,6 +60,8 @@ queueing</bpmn:text>
     <bpmn:sequenceFlow id="SequenceFlow_08fsgff" sourceRef="Task_0l942o9" targetRef="IntermediateCatchEvent_0a8iz14" />
     <bpmn:sequenceFlow id="SequenceFlow_1kdut76" sourceRef="EventBasedGateway_02s95tm" targetRef="IntermediateCatchEvent_0yg7cuh" />
     <bpmn:sequenceFlow id="SequenceFlow_0e97dad" sourceRef="EventBasedGateway_02s95tm" targetRef="IntermediateCatchEvent_0ujob24" />
+    <bpmn:sequenceFlow id="SequenceFlow_0o5t8lw" sourceRef="Task_16winvj" targetRef="EventBasedGateway_02s95tm" />
+    <bpmn:sequenceFlow id="SequenceFlow_0rrtx7k" sourceRef="StartEvent_1els7eb" targetRef="Task_16winvj" />
   </bpmn:process>
   <bpmn:process id="Process_1dc1p3b" isExecutable="false">
     <bpmn:task id="Task_07vbn2i" name="send credit score">
@@ -115,14 +110,16 @@ queueing</bpmn:text>
     <bpmn:sequenceFlow id="SequenceFlow_0dkbeo7" sourceRef="Task_06dqs9t" targetRef="ExclusiveGateway_125lzox" />
     <bpmn:sequenceFlow id="SequenceFlow_0t0wbx3" sourceRef="ExclusiveGateway_125lzox" targetRef="EndEvent_0khk0tq" />
     <bpmn:sequenceFlow id="SequenceFlow_158pur5" sourceRef="StartEvent_0o849un" targetRef="Task_1r15hqs" />
+    <bpmn:textAnnotation id="TextAnnotation_0si9ilm">
+      <bpmn:text>inkl. ID for message
+queueing</bpmn:text>
+    </bpmn:textAnnotation>
+    <bpmn:association id="Association_1ctd4ma" sourceRef="Task_01ouvha" targetRef="TextAnnotation_0si9ilm" />
   </bpmn:process>
   <bpmndi:BPMNDiagram id="BPMNDiagram_1">
     <bpmndi:BPMNPlane id="BPMNPlane_1" bpmnElement="Collaboration_1y0blh3">
       <bpmndi:BPMNShape id="Participant_0e81yis_di" bpmnElement="Participant_0e81yis" isHorizontal="true">
         <dc:Bounds x="121" y="85" width="1343" height="379" />
-      </bpmndi:BPMNShape>
-      <bpmndi:BPMNShape id="Task_16winvj_di" bpmnElement="Task_16winvj">
-        <dc:Bounds x="306" y="224" width="100" height="80" />
       </bpmndi:BPMNShape>
       <bpmndi:BPMNShape id="ExclusiveGateway_11dldcm_di" bpmnElement="ExclusiveGateway_11dldcm" isMarkerVisible="true">
         <dc:Bounds x="1068" y="239" width="50" height="50" />
@@ -166,7 +163,10 @@ queueing</bpmn:text>
           <dc:Bounds x="496.9876670092498" y="389" width="90" height="20" />
         </bpmndi:BPMNLabel>
       </bpmndi:BPMNShape>
-      <bpmndi:BPMNShape id="Event_1m3slzu_di" bpmnElement="StartEvent_1els7eb">
+      <bpmndi:BPMNShape id="Task_16winvj_di" bpmnElement="Task_16winvj">
+        <dc:Bounds x="306" y="224" width="100" height="80" />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="Event_140gpuf_di" bpmnElement="StartEvent_1els7eb">
         <dc:Bounds x="204" y="246" width="36" height="36" />
         <bpmndi:BPMNLabel>
           <dc:Bounds x="184" y="282" width="77" height="27" />
