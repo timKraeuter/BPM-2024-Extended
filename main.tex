@@ -464,9 +464,8 @@ Thus, other quick fixes can apply that also resolve dead activities.
 
 \section{Implementation}
 
-In this section, we briefly describe and highlight key elements in our implementation of the BPMN soundness checking tool.
+In this section, we briefly describe key elements in our implementation of the BPMN soundness checking tool.
 The main goal of the tool is to be well integrated into modeling tools without introducing friction in the modeling process.
-To achieve this, we keep the design of our tool modular such that one can either fully integrate it, pick only specific features of the tool, or even extend it, for example, to add custom quick fix providers.
 
 \subsection{Tool summary}
 Our tool is open-source and available as an artifact~\cite{noauthorgivenBPM2024Artifacts2024}.
@@ -480,8 +479,7 @@ Our tool is not yet heavily optimized for performance to avoid code complexity a
 % Zero-copy? --> Currently, we are copying things but still achieve better performance (Tradeoff with readability)
 
 Our tool can be integrated into existing BPMN modeling tools since it provide model checking as a \textit{web-service} or \textit{command-line application}.
-Furthermore, the front-end is \textit{modular} which means one can reuse it as a whole or only selected parts.
-In addition, one can extend the front-end in various ways, for example, to support more quick-fixes as discussed in \autoref{subsec:fixable-checking}.
+Furthermore, the tool front-end is \textit{modular} such that one can either fully integrate it, pick only specific features, or extend it, for example, to add custom quick fixes.
 
 \subsection{Pragmatic BPMN Semantics Encoding}
 In addition to selecting an efficient programming language for developing the soundness checker, we also opted for a practical, straightforward encoding of BPMN semantics.
