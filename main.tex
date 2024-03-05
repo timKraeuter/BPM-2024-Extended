@@ -36,8 +36,8 @@ pdfkeywords={BPM, Verification, Soundness, Safeness}
 \maketitle              % typeset the header of the contribution
 %
 \begin{abstract}
-% TODO: Update artifacts (full delete of the repo and init again)	
-% TODO: Resubmit the abstract at the end!	
+% TODO: Update artifacts (full delete of the repo and init again)
+% TODO: Resubmit the abstract at the end!
 Many business process models have control-flow errors, such as deadlocks, which can hinder code generation and proper execution.
 In this paper, we introduce our new soundness-checking tool that can instantaneously identify errors in BPMN models, make them comprehensible for modelers, and even suggest corrections to resolve them automatically.
 We demonstrate that our tool's soundness checking is instantaneous, i.e., it takes less than 500ms, by benchmarking our tool against synthetic BPMN models with increasing size and state space complexity, as well as realistic models provided in the literature.
@@ -117,7 +117,7 @@ Third, we run soundness checking for realistic BPMN process models available in 
 % General info
 % We use hyperfine for each benchmark with runs stuff 10x and averages. See my other papers
 For all our benchmarks, we use the hyperfine benchmarking tool~\cite{peterHyperfine2023} (version 1.18.0), which calculates the average runtime when executing each soundness check ten or more times.
-The benchmarks were run on the Windows Subsystem for Linux (WSL) with an AMD Ryzen 7700X processor and 32 GB of RAM.
+The benchmarks were run on Ubuntu 22.04.4 with an AMD Ryzen 7700X processor and 32 GB of RAM.
 % Artifacts using a Zenodo link at the end. Anonymous GitHub account before.
 All used BPMN models and our tools to generate them are given in the artifacts of this paper~\cite{noauthorgivenBPM2024Artifacts2024}.
 Furthermore, we provide the scripts to replicate our benchmarks.
@@ -249,7 +249,7 @@ The results show that our tool can check soundness and safeness \textit{instanta
 		e020~\cite{houhouFirstOrderLogicVerification2022} & 13 ms & 2.112 & Option To Complete \\
 		credit-scoring-async\footref{footnote:camundaResearch} & 5 ms & 50 & Option To Complete \\
 		credit-scoring-sync\footref{footnote:camundaResearch} & 5 ms & 99 & Option To Complete \\
-		dispatch-of-goods\footref{footnote:camundaResearch} & 5 ms & 103 & Safeness, Proper Completion\\ 
+		dispatch-of-goods\footref{footnote:camundaResearch} & 5 ms & 103 & Safeness, Proper Completion\\
 		recourse\footref{footnote:camundaResearch} & 5 ms & 71 & Option To Complete \\
 		self-service-restaurant\footref{footnote:camundaResearch} & 5 ms & 74 & Option To Complete \\
 	\end{tblr}
@@ -539,7 +539,7 @@ Thus, we claim that our tool can deal with most BPMN models instantaneously, as 
 It is advisable to consider the results reported by other researchers on the same models only as a general reference.
 To solve this problem, we advocate defining a standardized benchmarking process to compare tool performance directly and transparently.
 
-% External validity instantaneous soundness checking: 
+% External validity instantaneous soundness checking:
 The main threat to the external validity~\cite{wohlinExperimentationSoftwareEngineering2012} of our instantaneous soundness checking claim is that we could not test our tool with a large set of models from an industrial setting.
 To mitigate this threat, we validated our claim against models sourced from existing literature, public repositories, and two artificial datasets featuring extensive and complex BPMN models.
 We believe these datasets closely resemble or even surpass industrial models in terms of model size and complexity (state space).
