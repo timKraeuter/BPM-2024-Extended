@@ -333,15 +333,15 @@ Our tool simultaneously shows soundness violations (\autoref{fig:violations}) an
 	\label{fig:quick-fixes}
 \end{figure}
 
-The user can apply a quick fix by clicking on a green overlay and immediately see the changes in soundness since checking is \textit{instantaneous} as discussed previously.
-If unhappy with the result, a user can undo all changes since each quick fix is a \textit{command}, according to the command pattern.
+The user can apply a quick fix by clicking on a green overlay and instantly see the changes in soundness and safeness.
+If unhappy with the result, a user can undo all changes since each quick fix is entirely revertible due to the command pattern.
 A user might not like a quick fix if it not only fixes a specific property but also has unintended side effects.
 For example, it might invalidate a different soundness property.
 
 In the following sections, we describe the implemented resolution strategies for the different soundness properties.
-However, we do not expect these strategies to cover all possible resolutions and fit all applications.
-Thus, our framework is extensible, so one can provide custom resolution strategies.
-This is possible due to the \textit{modular} design of the tool, which \textit{decouples} the soundness analysis from reporting violations, visualizing counterexamples, and providing quick fixes.
+However, we do not expect these strategies to cover all possible resolutions and fit all BPMN models.
+Thus, our tool is extensible, so one can provide custom resolution strategies.
+This is possible due to its \textit{modular} design, which \textit{decouples} the soundness analysis from reporting violations, visualizing counterexamples, and providing quick fixes.
 
 \subsubsection{Safeness}
 The soundness checker will provide a counterexample and identify the unsafe sequence flows.
@@ -460,8 +460,6 @@ However, we ensure this node is not disconnected or dead itself.
 
 \textbf{Resolutions for (2)}: When the dead activity is connected, this often means it is unreachable during execution, and often the process itself cannot terminate, i.e., violates \textit{Option to Complete}.
 Thus, other quick fixes can apply that also resolve dead activities.
-
-\subsubsection{Discussion}
 
 \section{Implementation}
 
