@@ -200,16 +200,16 @@ Our tool explores the entire state space while simultaneously verifying all prop
 			vline{2-Y} = {2-Z}{solid}, % Y is the second to last row/column
 		}
 		\textbf{Branches} & \textbf{Branch Length} &\textbf{Runtime} & \textbf{States} \\
-		5 & 1 & 20 ms& 35 \\
+		5 & 1 & 21 ms& 35 \\
 		10 & 1 & 25 ms& 1.027 \\
-		15 & 1 & 388 ms& 32.771 \\
-		16 & 1 & 860 ms& 65.539 \\
-		17 & 1 & 1.886 ms& 131.075 \\
-		20 & 1 & 20.719 ms& 1.048.579 \\
-		5 & 3 & 23 ms& 1.027 \\
-		5 & 5 & 48 ms& 7.779 \\
-		3 & 10 & 23 ms& 1.334 \\
-		3 & 20 & 50 ms& 9.264 \\
+		15 & 1 & 325 ms& 32.771 \\
+		16 & 1 & 697 ms& 65.539 \\
+		17 & 1 & 1.533 ms& 131.075 \\
+		20 & 1 & 14.663 ms& 1.048.579 \\
+		5 & 3 & 24 ms& 1.027 \\
+		5 & 5 & 46 ms& 7.779 \\
+		3 & 10 & 25 ms& 1.334 \\
+		3 & 20 & 51 ms& 9.264 \\
 	\end{tblr}
 \end{table}
 
@@ -219,7 +219,7 @@ However, analysis is still instantaneous for more reasonable models with five pa
 We believe that models with a high degree of parallelism, such that analysis is not instantaneous, are the exception, not the rule.
 
 \subsubsection{Realistic Models}
-We apply our tool to eight realistic models, where three models (e001, e002, e020) are taken from \cite{houhouFirstOrderLogicVerification2022} and the remaining five models are part of the Camunda BPMN for research repository\footnote{\url{https://github.com/camunda/bpmn-for-research} \label{footnote:camundaResearch}}.
+We apply our tool to eight realistic models, where three models (e001, e002, e020) are taken from~\cite{houhouFirstOrderLogicVerification2022} and the remaining five models are part of the Camunda BPMN for research repository\footnote{\url{https://github.com/camunda/bpmn-for-research} \label{footnote:camundaResearch}}.
 We had to slightly adapt the Camunda models such that they can be executed standalone, which is described in our artifacts~\cite{noauthorgivenBPM2024Artifacts2024}.
 
 \autoref{tab:realistic-models-benchmark} shows the average runtime of soundness and safeness checking using our tool and the number of states for each model.
@@ -239,15 +239,15 @@ The results show that our tool can check soundness and safeness \textit{instanta
 			vline{2-Y} = {2-Z}{solid}, % Y is the second to last row/column
 		}
 		\textbf{Model name} &\textbf{Runtime} & \textbf{States} & \textbf{Violated Properties} \\
-		% TODO: Run benchmark on fastest machine using WSL.
-		e001 & 10 ms & 31 & Option To Complete, No Dead Activities \\
-		e002 & 10 ms & 31 & Option To Complete, No Dead Activities \\
-		e020 & 20 ms & 2112 & Option To Complete \\
-		credit-scoring-async\footref{footnote:camundaResearch} & 10 ms & 50 & Option To Complete \\
-		credit-scoring-sync\footref{footnote:camundaResearch} & 10 ms & 99 & Option To Complete \\
-		dispatch-of-goods\footref{footnote:camundaResearch} & 10 ms & 103 & Safeness, Proper Completion\\ 
-		recourse\footref{footnote:camundaResearch} & 10 ms & 71 & Option To Complete \\
-		self-service-restaurant\footref{footnote:camundaResearch} & 20 ms & 74 & Option To Complete \\
+		% TODO: Run benchmark on fastest machine using WSL. Currently windows.
+		e001~\cite{houhouFirstOrderLogicVerification2022} & 4 ms & 31 & Option To Complete, No Dead Activities \\
+		e002~\cite{houhouFirstOrderLogicVerification2022} & 4 ms & 31 & Option To Complete, No Dead Activities \\
+		e020~\cite{houhouFirstOrderLogicVerification2022} & 13 ms & 2112 & Option To Complete \\
+		credit-scoring-async\footref{footnote:camundaResearch} & 5 ms & 50 & Option To Complete \\
+		credit-scoring-sync\footref{footnote:camundaResearch} & 5 ms & 99 & Option To Complete \\
+		dispatch-of-goods\footref{footnote:camundaResearch} & 5 ms & 103 & Safeness, Proper Completion\\ 
+		recourse\footref{footnote:camundaResearch} & 5 ms & 71 & Option To Complete \\
+		self-service-restaurant\footref{footnote:camundaResearch} & 5 ms & 74 & Option To Complete \\
 	\end{tblr}
 \end{table}
 
