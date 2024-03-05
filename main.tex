@@ -223,7 +223,7 @@ We apply our tool to eight realistic models, where three models (e001, e002, e02
 We had to slightly adapt the Camunda models such that they can be executed standalone, which is described in our artifacts~\cite{noauthorgivenBPM2024Artifacts2024}.
 
 \autoref{tab:realistic-models-benchmark} shows the average runtime of soundness and safeness checking using our tool and the number of states for each model.
-The results show that our tool can check soundness and safeness \textit{instantaneously} even for these realistic models.
+The results show that our tool can check soundness and safeness \textit{instantaneously} for the given realistic models.
 
 % Maybe make the camunda thing a real citation.
 \begin{table}
@@ -250,6 +250,12 @@ The results show that our tool can check soundness and safeness \textit{instanta
 		self-service-restaurant\footref{footnote:camundaResearch} & 5 ms & 74 & Option To Complete \\
 	\end{tblr}
 \end{table}
+
+Each model violates one or more soundness property.
+\textit{Option To Complete} is violated since the given models might not terminate if their execution order leads to losing messages.
+\textit{Safeness} and \textit{Proper Completion} are violated in \textsf{dispatch-of-goods} due to a parallelization which is not synchronized later.
+How to automatically fix violated properties is discussed in the \autoref{subsec:fixable-checking}.
+For example, the violations in \textsf{dispatch-of-goods} are automatically resolvable.
 
 \subsubsection{Discussion}
 % Summarize and discuss further points
@@ -322,7 +328,9 @@ In summary, we aim to make soundness checking quickly \textit{comprehensible} ev
 First, we directly highlight problematic elements in the BPMN editor.
 Second, we provide an \textit{interactive} visualization of counter-examples in the BPMN editor with the ability to pause the visualization, control the visualization speed, and show an execution log, which makes understanding the property violation straightforward.
 
-\subsection{Fixable Soundness Checking}
+\subsubsection{Discussion}
+
+\subsection{Fixable Soundness Checking} \label{subsec:fixable-checking}
 
 If possible, we provide an automatic fix similar to \textit{quick fixes} in Integrated Development Environments (IDEs) for detected soundness and safeness violations.
 Modelers can then select these quick fixes to resolve violations.
@@ -465,6 +473,8 @@ However, we ensure this node is not disconnected or dead itself.
 \textbf{Resolutions for (2)}: When the dead activity is connected, this often means it is unreachable during execution, and often the process itself cannot terminate, i.e., violates \textit{Option to Complete}.
 Thus, other quick fixes can apply that also resolve dead activities.
 
+\subsubsection{Discussion}
+
 \section{Implementation}
 
 In this section, we briefly describe and highlight key elements in our implementation of the BPMN soundness checking tool.
@@ -491,12 +501,13 @@ In addition to selecting an efficient programming language for developing the so
 Our encoding contains sufficient detail to check soundness and safeness while omitting unnecessary intermediate states, which leads to smaller state spaces.
 For example, \autoref{fig:activityEncoding} shows that we do not encode the start and end of a task but rather the execution as a whole.
 As discussed earlier, this simple abstraction avoids one additional state and pays off, especially in models with many parallel branches, which can significantly reduce the overall state space.
+For example, our tool finds only 2.112 states for the BPMN model \textsf{e020}, as showin in \autoref{subsec:instantaneous}, compared to the 3.558 in~\cite{houhouFirstOrderLogicVerification2022} or 3.060 in~\cite{krauterFormalizationAnalysisBPMN2023}.
 
 % This could be made smaller by reducing the space between the flow nodes.
 \begin{figure}[ht]
 	\centering
-	\includegraphics[width=0.7\textwidth]{images/pragmatic-encoding}
-	\caption{Pragmatic task execution encoding vs. Detailed encoding}
+	\includegraphics[width=0.6\textwidth]{images/pragmatic-encoding}
+	\caption{Pragmatic task execution encoding (left) and detailed encoding (right)}
 	\label{fig:activityEncoding}
 \end{figure}
 
@@ -510,8 +521,8 @@ Nevertheless, one must always be sure that such optimizations do not compromise 
 Most related work focuses on the BPMN formalization which allows for soundness and safeness checking.
 Thus, these approaches show how different BPMN elements can be formalized and compare themselves with each other regarding supported elements~\cite{corradiniFormalApproachAnalysis2021,houhouFirstOrderLogicVerification2022,krauterFormalizationAnalysisBPMN2023,krauterHigherorderTransformationApproach2023}.
 The supported BPMN elements come close to the capabilities of popular process orchestration platforms such as Camunda.
-Thus, how to formalize nearly all BPMN elements used in practice is straightforward.
-Consequently, in this publication, we focus on tool performance and capabilities concerning soundness checking comprehension, resolution, and seamless integration into BPMN modeling tools.
+Our tools does not support the same depth of BPMN elements as, for example~\cite{krauterFormalizationAnalysisBPMN2023}, but we are confident that we can add support for necessary elements in the future.
+We focus on tool performance and capabilities concerning soundness checking comprehension, resolution, and seamless integration into BPMN modeling tools.
 
 \textbf{Tool performance:}
 Comparing tool performance without standardized benchmarks and a reproducible environment is challenging.
