@@ -74,7 +74,7 @@ Safeness
 % Comprehensible/Visualization is missing in the figure: instantaneous and fixable are there.
 \begin{figure}[ht]
 	\centering
-	\includegraphics[width=0.7\textwidth]{images/overview}
+	\includegraphics[width=0.6\textwidth]{images/overview}
 	\caption{Overview of the approach}
 	\label{fig:overview}
 \end{figure}
@@ -84,8 +84,6 @@ Safeness
 % Soundness stuff taken from which adopted it for BPMN
 \cite{corradiniClassificationBPMNCollaborations2018}
 
-% One example should be introduced here, which then is picked up throughout the paper.
-% Wrong gateway usage?
 % Instantaneous: The model checks in 500ms or less.
 % Comprehensible: Highlight problematic elements + show the visualization of a counterexample using that model.
 % Fixable: Provide quick fixes that resolve soundness violation --> check if changes fix the property before showing it to the user.
@@ -151,11 +149,11 @@ Our tool explores the entire state space while simultaneously verifying all prop
 
 % Results
 One can see that our tool spends from 20 ms up to 128 ms for the BPMN models.
-Thus, our tool can check soundness \textit{instantaneously} (runtime below 500 ms) even if the model size increases to over 4000 BPMN elements (500 blocks).
+Thus, our tool can check soundness \textit{instantaneously} (runtime below 500 ms) even if the model size increases to over 4000 BPMN elements (500 blocks, 2168 states).
 Models of this size are not human-readable anymore and are usually divided into smaller models according to best practices \cite{fahlandAnalysisDemandInstantaneous2011}.
 Thus, models found in practice are likely to be smaller than in our benchmark.
 However, they might be more complex, leading to a larger state space, as discussed in the next section.
-% States for the previous:
+% States:
 % 1: 5, 5
 % 50: 218, 218
 % 100: 434, 434
@@ -166,16 +164,15 @@ However, they might be more complex, leading to a larger state space, as discuss
 % 500: 2168, 2168
 
 \subsubsection{Growing Number of Parallel Branches}
-% Cite the other paper here with parallelism and introduce the set of models.
 An increased model size leads to a bigger state space that must be analyzed.
 In the previous section, a linear increase in model size led to a similar growth in the state space.
 However, models with a growing number of parallel branches lead to an exponential increase in the state space, i.e., a state space explosion~\cite{valmariStateExplosionProblem1998}.
 In this section, we benchmark our tool against a synthetic data set of models that lead to a state space explosion.
 This represents a \textit{worst case} scenario for soundness checking tools.
 
-We generated a data set of models~\cite{noauthorgivenBPM2024Artifacts2024} with a growing number of parallel branches of increasing length, similar to~\cite{corradiniFormalApproachAnalysis2021}.
+We generated a data set of models with a growing number of parallel branches with increasing length, similar to~\cite{corradiniFormalApproachAnalysis2021}.
 \autoref{fig:parallel-branches-models} depicts how a model with \textit{n} parallel branches with length \textit{m} is generated.
-We provide a tool to generate models as shown in \autoref{fig:parallel-branches-models} and the models itself~\cite{noauthorgivenBPM2024Artifacts2024}.
+We provide the used models and a tool to generate such models in~\cite{noauthorgivenBPM2024Artifacts2024}.
 
 \begin{figure}[ht]
 	\centering
@@ -213,10 +210,15 @@ Our tool explores the entire state space while simultaneously verifying all prop
 	\end{tblr}
 \end{table}
 
-The state space of the models grows exponentially (in our case, the number of states is given by $(m+1)^n + 3$), clearly showing state space explosion.
-Thus, our analysis is not instantaneous anymore when approaching 16 parallel branches of length 1 (see \autoref{tab:parallel-branches-benchmark}).
-However, analysis is still instantaneous for more reasonable models with five parallel branches of length 5 or 3 parallel branches of length 10-20.
+The state space of the models grows exponentially.
+In our case, the number of states is given by $(m+1)^n + 3$, clearly showing state space explosion.
+Our analysis is not instantaneous anymore when approaching 16 parallel branches of length 1 (see \autoref{tab:parallel-branches-benchmark}).
+However, analysis is still instantaneous for more reasonable models with five parallel branches of length 5 or 3 branches of length 10-20.
+
 We believe that models with a high degree of parallelism, such that analysis is not instantaneous, are the exception, not the rule.
+If such models are more common than we think one can implement \textit{partial order reduction}, which has shown great results for the Petri Net model checker LoLA in~\cite{fahlandAnalysisDemandInstantaneous2011}.
+Due to partial order reduction they managed to check previously intractable models and further reduced the analysis time.
+One can implement partial order reduction similarly in our tool since the semantics of BPMN and Petri Nets have many similarities. 
 
 \subsubsection{Realistic Models}
 We apply our tool to eight realistic models, where three models (e001, e002, e020) are taken from~\cite{houhouFirstOrderLogicVerification2022} and the remaining five models are part of the Camunda BPMN for research repository\footnote{\url{https://github.com/camunda/bpmn-for-research} \label{footnote:camundaResearch}}.
@@ -242,7 +244,7 @@ The results show that our tool can check soundness and safeness \textit{instanta
 		% TODO: Run benchmark on fastest machine using WSL. Currently windows.
 		e001~\cite{houhouFirstOrderLogicVerification2022} & 4 ms & 31 & Option To Complete, No Dead Activities \\
 		e002~\cite{houhouFirstOrderLogicVerification2022} & 4 ms & 31 & Option To Complete, No Dead Activities \\
-		e020~\cite{houhouFirstOrderLogicVerification2022} & 13 ms & 2112 & Option To Complete \\
+		e020~\cite{houhouFirstOrderLogicVerification2022} & 13 ms & 2.112 & Option To Complete \\
 		credit-scoring-async\footref{footnote:camundaResearch} & 5 ms & 50 & Option To Complete \\
 		credit-scoring-sync\footref{footnote:camundaResearch} & 5 ms & 99 & Option To Complete \\
 		dispatch-of-goods\footref{footnote:camundaResearch} & 5 ms & 103 & Safeness, Proper Completion\\ 
@@ -254,21 +256,8 @@ The results show that our tool can check soundness and safeness \textit{instanta
 Each model violates one or more soundness property.
 \textit{Option To Complete} is violated since the given models might not terminate if their execution order leads to losing messages.
 \textit{Safeness} and \textit{Proper Completion} are violated in \textsf{dispatch-of-goods} due to a parallelization which is not synchronized later.
-How to automatically fix violated properties is discussed in the \autoref{subsec:fixable-checking}.
+How to automatically fix violated properties is discussed in \autoref{subsec:fixable-checking}.
 For example, the violations in \textsf{dispatch-of-goods} are automatically resolvable.
-
-\subsubsection{Discussion}
-% Summarize and discuss further points
-% The implementation is unoptimized but already works great for the models we have tested.
-% Partial-order reduction and other optimization techniques might be applied if needed.
-% especially fahlandAnalysisDemandInstantaneous2011 advocates for partial order reduction. It solves exactly this problem.
-% But do we get such models in practice? We would say no, but if we do, we need partial order reduction techniques, which show great promise in fahlandAnalysisDemandInstantaneous2011 and make models with greater state spaces tractable.
-% For proper completion, dead activities, the option to complete the order in which the parallel branches execute probably does not matter.
-% Safeness could be more difficult. But one can probably reuse/adapt what has been done in the Petri nets domain. If this is a problem.
-
-% Also check memory usage.
-
-% One could even combine the blocks idea with the parallel branches idea to create even more BPMN models.
 
 \subsection{Comprehensible Soundness Checking}
 
@@ -340,7 +329,7 @@ Our tool simultaneously shows soundness violations (\autoref{fig:violations}) an
 
 \begin{figure}[ht]
 	\centering
-	\includegraphics[width=0.6\textwidth]{images/quickfixes}
+	\includegraphics[width=0.5\textwidth]{images/quickfixes}
 	\caption{\textit{Quick fixes} in the analysis tool}
 	\label{fig:quick-fixes}
 \end{figure}
@@ -389,7 +378,7 @@ All the implemented quick fixes can be reverted using one undo operation.
 
 \begin{figure}[ht]
 	\centering
-	\includegraphics[width=1\textwidth]{images/safeness}
+	\includegraphics[width=0.8\textwidth]{images/safeness}
 	\caption{Example quick fixes for \textit{Safeness}}
 	\label{fig:safeness}
 \end{figure}
@@ -413,7 +402,7 @@ We ensure an undo operation would revert the quick fix using the command pattern
 % Can save a lot of space in this figure if needed. Go to two activities and put them closer together
 \begin{figure}[ht]
 	\centering
-	\includegraphics[width=0.7\textwidth]{images/properCompletion}
+	\includegraphics[width=0.5\textwidth]{images/properCompletion}
 	\caption{Example quick fix for \textit{Proper Completion}}
 	\label{fig:properCompletion}
 \end{figure}
@@ -442,7 +431,7 @@ Exclusive gateways do not synchronize, and thus, execution can continue.
 
 \begin{figure}[ht]
 	\centering
-	\includegraphics[width=1\textwidth]{images/optionToComplete}
+	\includegraphics[width=0.8\textwidth]{images/optionToComplete}
 	\caption{Example quick fixes for \textit{Option To Complete}}
 	\label{fig:optionToComplete}
 \end{figure}
