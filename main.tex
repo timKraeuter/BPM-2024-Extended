@@ -218,7 +218,8 @@ However, analysis is still instantaneous for more reasonable models with five pa
 We believe that models with a high degree of parallelism, such that analysis is not instantaneous, are the exception, not the rule.
 If such models are more common than we think one can implement \textit{partial order reduction}, which has shown great results for the Petri Net model checker LoLA in~\cite{fahlandAnalysisDemandInstantaneous2011}.
 Due to partial order reduction they managed to check previously intractable models and further reduced the analysis time.
-One can implement partial order reduction similarly in our tool since the semantics of BPMN and Petri Nets have many similarities. 
+One can implement partial order reduction similarly in our tool since the semantics of BPMN and Petri Nets have many similarities.
+However, a translation of BPMN to Petri nets is not always possible~\cite{favreDifficultyReplacingInclusive2012}.
 
 \subsubsection{Realistic Models}
 We apply our tool to eight realistic models, where three models (e001, e002, e020) are taken from~\cite{houhouFirstOrderLogicVerification2022} and the remaining five models are part of the Camunda BPMN for research repository\footnote{\url{https://github.com/camunda/bpmn-for-research} \label{footnote:camundaResearch}}.
@@ -287,21 +288,21 @@ In the BPMN specification, execution semantics are described using the concept o
 % Universally used token concept
 The concept of tokens is used in BPMN tools in the industry to depict process execution information~\cite{camundaservicesgmbhBpmnjsTokenSimulation2024} and in nearly all BPMN formalizations~\cite{corradiniFormalApproachAnalysis2021,corradiniFormalisingAnimatingMultiple2022,houhouFirstOrderLogicVerification2022,krauterFormalizationAnalysisBPMN2023,krauterHigherorderTransformationApproach2023}.
 
-We use tokens in our tool to \textit{interactively} visualize the counter-examples, i.e., violation witnesses of our soundness properties.
-Our soundness checker provides counter-examples for all properties except \textit{no dead activities}.
-Then, we visualize these counter-examples directly in the BPMN editor by showing how tokens move from the process start to a state that violates the given soundness property.
-\autoref{fig:counter-example} shows a screenshot visualizing the safeness counter-example for the same BPMN model as shown in \autoref{fig:violations}.
+We use tokens in our tool to \textit{interactively} visualize the counterexamples, i.e., violation witnesses of our soundness properties.
+Our soundness checker provides counterexamples for all properties except \textit{no dead activities}.
+Then, we visualize these counterexamples directly in the BPMN editor by showing how tokens move from the process start to a state that violates the given soundness property.
+\autoref{fig:counterexample} shows a screenshot visualizing the safeness counterexample for the same BPMN model as shown in \autoref{fig:violations}.
 
 % A bit wasteful regarding space due to the execution log.
 \begin{figure}[ht]
 	\centering
 	\includegraphics[width=0.9\textwidth]{images/counter-example}
 	\caption{Interactive \textit{counter example visualization} in the analysis tool}
-	\label{fig:counter-example}
+	\label{fig:counterexample}
 \end{figure}
 
 % Describe the figure.
-In \autoref{fig:counter-example}, the visualization has been \textit{paused} just before the \textit{unsafe} state was reached.
+In \autoref{fig:counterexample}, the visualization has been \textit{paused} just before the \textit{unsafe} state was reached.
 One token is already located at the sequence flow, which is marked as unsafe, while a second token is currently waiting at the exclusive gateway \textsf{e1}.
 The visualization can be resumed or restarted using the play and restart button on the left side.
 When resumed, the gateway \textsf{e1} will execute, resulting in two tokens at the subsequent sequence flow, i.e., an unsafe execution state.
@@ -309,15 +310,13 @@ In addition, one can control the visualization speed using the bottom buttons ne
 
 % Execution log
 Furthermore, our tool shows an \textit{execution log}, which states the history of executing BPMN elements.
-In \autoref{fig:counter-example} the parallel gateway \textsf{p1}, the activities \textsf{A} and \textsf{B}, as well as the exclusive gateway \textsf{e1} have each been executed once before the pause.
+In \autoref{fig:counterexample} the parallel gateway \textsf{p1}, the activities \textsf{A} and \textsf{B}, as well as the exclusive gateway \textsf{e1} have each been executed once before the pause.
 This is useful since an unsuspected execution order is often the culprit for property violations.
 
 % Conclusion for comprehensible
-In summary, we aim to make soundness checking quickly \textit{comprehensible} even for users unaccustomed to the BPMN execution semantics.
-First, we directly highlight problematic elements in the BPMN editor.
-Second, we provide an \textit{interactive} visualization of counter-examples in the BPMN editor with the ability to pause the visualization, control the visualization speed, and show an execution log, which makes understanding the property violation straightforward.
-
-\subsubsection{Discussion}
+In summary, we aim to make soundness checking \textit{comprehensible} even for users unaccustomed to the BPMN execution semantics.
+First, we directly highlight problematic elements in the model.
+Second, we provide an \textit{interactive} visualization of counterexamples using tokens with the ability to pause the visualization, control the visualization speed, and show an execution log.
 
 \subsection{Fixable Soundness Checking} \label{subsec:fixable-checking}
 
@@ -341,11 +340,11 @@ For example, it might invalidate a different soundness property.
 
 In the following sections, we describe the implemented resolution strategies for the different soundness properties.
 However, we do not expect these strategies to cover all possible resolutions and fit all applications.
-Thus, our framework is extensible, so other language engineers can provide custom resolution strategies.
-This is possible due to the \textit{modular} design of the tool, which \textit{decouples} the soundness analysis from showing violations and providing quick fixes and facilitates customization by using dependency injection.
+Thus, our framework is extensible, so one can provide custom resolution strategies.
+This is possible due to the \textit{modular} design of the tool, which \textit{decouples} the soundness analysis from reporting violations, visualizing counterexamples, and providing quick fixes.
 
 \subsubsection{Safeness}
-The soundness checker will provide a counter-example and identify the unsafe sequence flows.
+The soundness checker will provide a counterexample and identify the unsafe sequence flows.
 We use this information together with the structure of the BPMN model to find resolutions for \textit{Safeness} violations.
 Possible reasons for \textit{Safeness} violations which we address are:
 
@@ -386,7 +385,7 @@ All the implemented quick fixes can be reverted using one undo operation.
 Our demo application in the artifacts~\cite{noauthorgivenBPM2024Artifacts2024} contains examples of the Safeness quick fixes discussed here and all upcoming soundness properties.
 
 \subsubsection{Proper Completion}
-For \textit{Proper Completion}, our soundness checker will provide a counter-example and identify the problematic end events that consume more than one token.
+For \textit{Proper Completion}, our soundness checker will provide a counterexample and identify the problematic end events that consume more than one token.
 Possible reasons for \textit{Proper Completion} violations which we address are:
 
 \begin{enumerate}
@@ -420,7 +419,7 @@ Violations of \textit{Option to Complete} can have multiple reasons.
 \end{enumerate}
 
 To know the reason for a given violation, we analyze the counter example provided by the soundness checker.
-The counter-example provides a trace that leads to a state in which the process cannot complete.
+The counterexample provides a trace that leads to a state in which the process cannot complete.
 By analyzing the last state in this trace, i.e., the state in which execution cannot continue, we can determine which element is the cause.
 Thus, we can provide quick fixes for the possible reasons.
 
@@ -472,18 +471,18 @@ To achieve this, we keep the design of our tool modular such that one can either
 
 \subsection{Tool summary}
 Our tool is open-source and available as an artifact~\cite{noauthorgivenBPM2024Artifacts2024}.
-The tool architecture is shown in \autoref{fig:overview}, while screenshots of our tool with different features enabled are given in \autoref{fig:violations}, \autoref{fig:counter-example}, and \autoref{fig:quick-fixes}.
+The tool architecture is shown in \autoref{fig:overview}, while screenshots of our tool with different features enabled are given in \autoref{fig:violations}, \autoref{fig:counterexample}, and \autoref{fig:quick-fixes}.
 The front-end of the tool is built in web technologies using the bpmn-js ecosystem~\cite{camundaservicesgmbhBpmnjsTokenSimulation2024}, while the soundness and safeness checking is implemented in the Rust programming language.
 
 We developed the model checking in Rust due to its low memory overhead, absence of garbage collection, and performance comparable to programming languages such as C and C++.
-A fast programming language and direct implementation of the BPMN semantics play a key role in achieving \textit{instantaneous} soundness checking of realistic process models.
-However, our tool is not yet heavily optimized for performance to avoid code complexity.
-In addition, partial-order reduction techniques, common in other model checkers, are not implemented to tackle the state space explosion problem.
+Furthermore, we benefit from Rusts memory-safety and thread-safety guarantees.
+A fast programming language and direct implementation of the BPMN semantics play a key role in achieving \textit{instantaneous} soundness checking.
+Our tool is not yet heavily optimized for performance to avoid code complexity and can be extended regarding BPMN features, as well as partial-order reduction to tackle state space explosion.
 % Zero-copy? --> Currently, we are copying things but still achieve better performance (Tradeoff with readability)
 
-Our tool can provide model checking as a \textit{web-service} or command-line application to be integrated with any BPMN modeler.
-Otherwise, one can reuse parts of the user interface described in \autoref{sec:soundness}.
-This allows many ways to smoothly integrate soundness checking into existing BPMN modeling tools, making it understandable for most BPMN modelers.
+Our tool can be integrated into existing BPMN modeling tools since it provide model checking as a \textit{web-service} or \textit{command-line application}.
+Furthermore, the front-end is \textit{modular} which means one can reuse it as a whole or only selected parts.
+In addition, one can extend the front-end in various ways, for example, to support more quick-fixes as discussed in \autoref{subsec:fixable-checking}.
 
 \subsection{Pragmatic BPMN Semantics Encoding}
 In addition to selecting an efficient programming language for developing the soundness checker, we also opted for a practical, straightforward encoding of BPMN semantics.
@@ -528,7 +527,7 @@ Moreover, some tools provide interactive BPMN simulation using token-flow animat
 
 Our tool focuses on \textit{instantaneous} soundness and safeness checking and does not support custom properties or data and time.
 We do not provide BPMN simulation since other tools already offer this.
-However, we use token-flow animation to visualize counter-examples for soundness violations interactively.
+However, we use token-flow animation to visualize counterexamples for soundness violations interactively.
 This improves comprehension compared to previous static, less interactive visualizations.
 In addition, to the best of our knowledge, our tool is the only one that provides \textit{quick fixes}, i.e., automatic resolutions if soundness properties are violated.
 To sum up, our tool incorporates several ideas from the state of the art while enhancing them with novel concepts.
