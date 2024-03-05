@@ -35,11 +35,8 @@ Tool binaries are located in
 
 ### Source code
 We will make the source code available after review of the paper since the code is located in different repository and might compromise the double-blind review process.
-If reviewers want access to the code before we can anonymize the repositories on demand.
+If reviewers want access to the code before, we can anonymize the repositories on demand.
 
-- Analysis tool written in **Rust**:
-
-https://github.com/
-- User interface implemented using the [bpmn-js](https://github.com/bpmn-io/bpmn-js) ecosystem, especially [bpmn-js-token-simulation](https://github.com/bpmn-io/bpmn-js-token-simulation):
-
-https://github.com/
+1. Analysis tool written in **Rust**: [TBD](https://github.com/)
+2. Front-end implemented using the [bpmn-js](https://github.com/bpmn-io/bpmn-js) ecosystem, especially [bpmn-js-token-simulation](https://github.com/bpmn-io/bpmn-js-token-simulation): [TBD](https://github.com/)
+3. CLI tools to generate the synthetic BPMN models: [TBD](https://github.com/)
