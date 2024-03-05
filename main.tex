@@ -37,7 +37,7 @@ pdfkeywords={BPM, Verification, Soundness, Safeness}
 %
 \begin{abstract}
 % TODO: Update artifacts (full delete of the repo and init again)	
-% TODO: Resubmit abstract at the end!	
+% TODO: Resubmit the abstract at the end!	
 Many business process models have control-flow errors, such as deadlocks, which can hinder code generation and proper execution.
 In this paper, we introduce our new soundness checking tool that can instantaneously identify errors in BPMN models, make them comprehensible for modelers, and even suggest fixes to eliminate them automatically.
 We demonstrate that our tool's soundness checking is instantaneous, taking less than 500ms, by benchmarking our tool against synthetic BPMN models with increasing size and state space complexity, as well as realistic models provided in the literature.
@@ -169,7 +169,7 @@ An increased model size leads to a bigger state space that must be analyzed.
 In the previous section, a linear increase in model size led to a similar growth in the state space.
 However, models with a growing number of parallel branches lead to an exponential increase in the state space, i.e., a state space explosion~\cite{valmariStateExplosionProblem1998}.
 In this section, we benchmark our tool against a synthetic data set of models that lead to a state space explosion.
-This represents a \textit{worst case} scenario for soundness checking tools.
+This represents a \textit{worst case} scenario for soundness checking.
 
 We generated a data set of models with a growing number of parallel branches with increasing length, similar to~\cite{corradiniFormalApproachAnalysis2021}.
 \autoref{fig:parallel-branches-models} depicts how a model with \textit{n} parallel branches with length \textit{m} is generated.
@@ -218,12 +218,12 @@ However, analysis is still instantaneous for more reasonable models with five pa
 
 We believe that models with a high degree of parallelism, such that analysis is not instantaneous, are the exception, not the rule.
 If such models are more common than we think one can implement \textit{partial order reduction}, which has shown great results for the Petri Net model checker LoLA in~\cite{fahlandAnalysisDemandInstantaneous2011}.
-Due to partial order reduction they managed to check previously intractable models and further reduced the analysis time.
+Due to partial order reduction, they checked previously intractable models and reduced the analysis time.
 One can implement partial order reduction similarly in our tool since the semantics of BPMN and Petri Nets have many similarities.
-However, a translation of BPMN to Petri nets is not always possible~\cite{favreDifficultyReplacingInclusive2012}.
+However, translating BPMN to Petri nets is not always possible~\cite{favreDifficultyReplacingInclusive2012}.
 
 \subsubsection{Realistic Models}
-We apply our tool to eight realistic models, where three models (e001, e002, e020) are taken from~\cite{houhouFirstOrderLogicVerification2022} and the remaining five models are part of the Camunda BPMN for research repository\footnote{\url{https://github.com/camunda/bpmn-for-research} \label{footnote:camundaResearch}}.
+We apply our tool to eight realistic models, where three models (e001, e002, e020) are taken from~\cite{houhouFirstOrderLogicVerification2022}, and the remaining five models are part of the Camunda BPMN for research repository\footnote{\url{https://github.com/camunda/bpmn-for-research} \label{footnote:camundaResearch}}.
 We had to slightly adapt the Camunda models such that they can be executed standalone, which is described in our artifacts~\cite{noauthorgivenBPM2024Artifacts2024}.
 
 \autoref{tab:realistic-models-benchmark} shows the average runtime of soundness and safeness checking using our tool and the number of states for each model.
@@ -255,7 +255,7 @@ The results show that our tool can check soundness and safeness \textit{instanta
 	\end{tblr}
 \end{table}
 
-Each model violates one or more soundness property.
+Each model violates one or more soundness properties.
 \textit{Option To Complete} is violated since the given models might not terminate if their execution order leads to losing messages.
 \textit{Safeness} and \textit{Proper Completion} are violated in \textsf{dispatch-of-goods} due to a parallelization which is not synchronized later.
 How to automatically fix violated properties is discussed in \autoref{subsec:fixable-checking}.
@@ -280,9 +280,9 @@ In addition, there is a summary panel in the top-right corner.
 \end{figure}
 
 Using the overlays, one can immediately see which elements cause soundness violations, which helps to pinpoint the root problems in the BPMN models.
-For \textit{safeness}, we highlight sequence flows that can become \textit{unsafe}, i.e., two tokens can be located at the sequence flow.
-For \textit{proper completion}, we identify the end events that can consume more than one token, and for \textit{no dead activities}, we highlight the dead activities+.
-In contrast, for \textit{option to complete} we cannot highlight elements since it means the process execution must not always terminate which cannot easily be attributed to single BPMN elements.
+For \textit{Safeness}, we highlight sequence flows that can become \textit{unsafe}, i.e., two tokens can be located at the sequence flow.
+For \textit{Proper Completion}, we identify the end events that can consume more than one token, and for \textit{No Dead Activities}, we highlight the dead activities+.
+In contrast, for \textit{option to complete}, we cannot highlight elements since it means the process execution must not always terminate, which cannot easily be attributed to single BPMN elements.
 
 However, just by looking at the BPMN model, it can still be hard to understand soundness violations due to the interplay of the BPMN element's execution semantics.
 In the BPMN specification, execution semantics are described using the concept of moving \textit{tokens}~\cite{objectmanagementgroupBusinessProcessModel2013}.
@@ -290,9 +290,9 @@ In the BPMN specification, execution semantics are described using the concept o
 The concept of tokens is used in BPMN tools in the industry to depict process execution information~\cite{camundaservicesgmbhBpmnjsTokenSimulation2024} and in nearly all BPMN formalizations~\cite{corradiniFormalApproachAnalysis2021,corradiniFormalisingAnimatingMultiple2022,houhouFirstOrderLogicVerification2022,krauterFormalizationAnalysisBPMN2023,krauterHigherorderTransformationApproach2023}.
 
 We use tokens in our tool to \textit{interactively} visualize the counterexamples, i.e., violation witnesses of our soundness properties.
-Our soundness checker provides counterexamples for all properties except \textit{no dead activities}.
+Our soundness checker provides counterexamples for all properties except \textit{No Dead Activities}.
 Then, we visualize these counterexamples directly in the BPMN editor by showing how tokens move from the process start to a state that violates the given soundness property.
-\autoref{fig:counterexample} shows a screenshot visualizing the safeness counterexample for the same BPMN model as shown in \autoref{fig:violations}.
+\autoref{fig:counterexample} shows a screenshot visualizing the Safeness counterexample for the same BPMN model as shown in \autoref{fig:violations}.
 
 % A bit wasteful regarding space due to the execution log.
 \begin{figure}[ht]
@@ -351,7 +351,7 @@ Possible reasons for \textit{Safeness} violations which we address are:
 
 \begin{enumerate}
 	\item An exclusive gateway with multiple incoming sequence flows might be executed more than once, leading to multiple tokens at its outgoing sequence flows.
-	\item Similarly, implicitly encoded exclusive gateway exist, for example, if an activity has multiple incoming sequence flows.
+	\item Similarly, implicitly encoded exclusive gateways exist, for example, if an activity has multiple incoming sequence flows.
 	Implicitly encoding exclusive gateways is allowed but violates best practices~\cite{camundaservicesgmbhBpmnlint2024}.
 	Similar to \textbf{(1)}, this leads to unsafe sequence flows if the activity is executed more than once.
 \end{enumerate}
@@ -369,7 +369,7 @@ In this case, we can add an explicit exclusive gateway to eliminate the implicit
 \textbf{Resolutions for (2):} Similarly to \textbf{(1)}, the goal of each quick fix is to obtain matching gateways.
 Thus, one solution is to find the parallelization that causes the \textit{Safeness} violation and change it to an exclusive gateway, as described in \textbf{(1)}.
 Quick fix \textbf{(a)} in \autoref{fig:safeness} shows this solution, where a parallel gateway is changed to an exclusive one.
-We color the changed and added elements in green to highlight the effect of quick fixes.
+We color the changes and additions in green to highlight the effect of quick fixes.
 
 Another solution is to remove the implicit exclusive gateway and add a parallel gateway instead, see quick fix \textbf{(b)} in \autoref{fig:safeness}.
 The quick fix moves elements automatically to make space to insert the parallel gateway and then reconnects and adds sequence flows accordingly.
@@ -445,7 +445,7 @@ However, this might not be straightforward in bigger BPMN models with more flow 
 For example, for message catch events without incoming message flows, one could add a fitting message flow from a message throw event or send task.
 One can use different factors, such as spatial proximity and name similarity, to find the right source of the new message flow.
 Generalizing this idea to different event types requires adding the missing trigger.
-Finding the most fitting trigger can be done by analyzing the other elements in the BPMN model or even asking the modeler.
+Finding the most fitting trigger can be done by analyzing the other elements in the BPMN model or asking the modeler.
 
 \subsubsection{No Dead Activities}
 A dead activity might have multiple reasons:
@@ -470,15 +470,16 @@ The main goal of the tool is to be well integrated into modeling tools without i
 \subsection{Tool summary}
 Our tool is open-source and available as an artifact~\cite{noauthorgivenBPM2024Artifacts2024}.
 The tool architecture is shown in \autoref{fig:overview}, while screenshots of our tool with different features enabled are given in \autoref{fig:violations}, \autoref{fig:counterexample}, and \autoref{fig:quick-fixes}.
-The front-end of the tool is built in web technologies using the bpmn-js ecosystem~\cite{camundaservicesgmbhBpmnjsTokenSimulation2024}, while the soundness and safeness checking is implemented in the Rust programming language.
+The front-end of the tool is built in web technologies using the \textit{bpmn-js} ecosystem~\cite{camundaservicesgmbhBpmnjsTokenSimulation2024}, while the soundness and safeness checking is implemented in the Rust programming language.
 
 We developed the model checking in Rust due to its low memory overhead, absence of garbage collection, and performance comparable to programming languages such as C and C++.
-Furthermore, we benefit from Rusts memory-safety and thread-safety guarantees.
+Furthermore, we benefit from Rust's memory-safety and thread-safety guarantees.
 A fast programming language and direct implementation of the BPMN semantics play a key role in achieving \textit{instantaneous} soundness checking.
-Our tool is not yet heavily optimized for performance to avoid code complexity and can be extended regarding BPMN features, as well as partial-order reduction to tackle state space explosion.
+Our tool is not yet heavily optimized for performance to avoid code complexity.
+In addition, it can be extended regarding BPMN features and partial-order reduction to tackle state space explosion.
 % Zero-copy? --> Currently, we are copying things but still achieve better performance (Tradeoff with readability)
 
-Our tool can be integrated into existing BPMN modeling tools since it provide model checking as a \textit{web-service} or \textit{command-line application}.
+Our tool can be integrated into existing BPMN modeling tools since it provides model checking as a \textit{web-service} or \textit{command-line application}.
 Furthermore, the tool front-end is \textit{modular} such that one can either fully integrate it, pick only specific features, or extend it, for example, to add custom quick fixes.
 
 \subsection{Pragmatic BPMN Semantics Encoding}
@@ -486,7 +487,7 @@ In addition to selecting an efficient programming language for developing the so
 Our encoding contains sufficient detail to check soundness and safeness while omitting unnecessary intermediate states, which leads to smaller state spaces.
 For example, \autoref{fig:activityEncoding} shows that we do not encode the start and end of a task but rather the execution as a whole.
 As discussed earlier, this simple abstraction avoids one additional state and pays off, especially in models with many parallel branches, which can significantly reduce the overall state space.
-For example, our tool finds only 2.112 states for the BPMN model \textsf{e020}, as showin in \autoref{subsec:instantaneous}, compared to the 3.558 in~\cite{houhouFirstOrderLogicVerification2022} or 3.060 in~\cite{krauterFormalizationAnalysisBPMN2023}.
+For example, our tool finds only 2.112 states for the BPMN model \textsf{e020}, as shown in \autoref{subsec:instantaneous}, compared to the 3.558 in~\cite{houhouFirstOrderLogicVerification2022} or 3.060 in~\cite{krauterFormalizationAnalysisBPMN2023}.
 
 % This could be made smaller by reducing the space between the flow nodes.
 \begin{figure}[ht]
@@ -496,8 +497,7 @@ For example, our tool finds only 2.112 states for the BPMN model \textsf{e020}, 
 	\label{fig:activityEncoding}
 \end{figure}
 
-% For example: Message start events? Message events in general? Event-based gateways.
-Similar minimal encodings can be applied for other BPMN elements, for example message events, to keep the state space small.
+Similar minimal encodings can be applied to other BPMN elements, such as message events, to keep the state space small.
 Nevertheless, one must always be sure that such optimizations do not compromise the checked properties, similar to when applying partial-order reduction techniques~\cite{valmariStateExplosionProblem1998}.
 
 \section{Related Work}
