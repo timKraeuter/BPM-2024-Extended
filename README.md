@@ -30,11 +30,12 @@ Tool binaries are located in
 #### Screenshot during modeling:
 ![Screenshot 1 of the tool](./artifacts/images/Screenshot1.png)
 
-#### Screenshot of counter example visualization:
+#### Screenshot of counterexample visualization:
 ![Screenshot 2 of the tool](./artifacts/images/Screenshot2.png)
 
 ### Source code
-We will make the source code available after review of the paper since it might compromise the double-blind review process.
+We will make the source code available after review of the paper since the code is located in different repository and might compromise the double-blind review process.
+If reviewers want access to the code before we can anonymize the repositories on demand.
 
 - Analysis tool written in **Rust**:
 
