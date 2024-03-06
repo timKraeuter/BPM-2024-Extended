@@ -466,7 +466,7 @@ The tool architecture is shown in \autoref{fig:overview}, while screenshots of o
 The front-end of the tool is built in web technologies using the \textit{bpmn-js} ecosystem~\cite{camundaservicesgmbhBpmnjsTokenSimulation2024}, while the soundness and safeness checking is implemented in the Rust programming language.
 
 We developed the model checking in Rust due to its low memory overhead, absence of garbage collection, and performance comparable to programming languages such as C and C++.
-Furthermore, we benefit from Rust's memory-safety and thread-safety guarantees.
+Furthermore, we benefit from Rust's memory-safety guarantees.
 A fast programming language and direct implementation of the BPMN semantics play a key role in achieving \textit{instantaneous} soundness checking.
 Our tool is not yet heavily optimized for performance to avoid code complexity.
 In addition, it can be extended regarding BPMN features and partial-order reduction to tackle state space explosion.
@@ -503,7 +503,7 @@ Our tool does not support the same depth of BPMN elements as, for example,~\cite
 We focus on tool performance and capabilities concerning soundness, checking comprehension, resolution, and seamless integration into BPMN modeling tools.
 
 \textbf{Tool performance:}
-Comparing tool performance without standardized benchmarks and a reproducible environment is challenging.
+Comparing tool performance without standard benchmarks and a reproducible environment is challenging.
 However, other publications indicate that tools quickly take several seconds for checking single soundness properties~\cite{corradiniFormalApproachAnalysis2021,houhouFirstOrderLogicVerification2022,krauterHigherorderTransformationApproach2023}.
 Our approach checks all soundness properties and safeness of the same models instantaneously.
 The difference in performance lies probably in our pragmatic BPMN encoding optimized for soundness checking and the direct implementation in a performant programming language such as Rust rather than a transformation of BPMN to general model checking tools.
@@ -521,7 +521,7 @@ However, we use token-flow animation to visualize counterexamples for soundness 
 This improves comprehension compared to previous static, less interactive visualizations.
 In addition, to the best of our knowledge, our tool is the only one that provides \textit{quick fixes}, i.e., automatic resolutions if soundness properties are violated.
 To sum up, our tool incorporates several ideas from the state of the art while enhancing them with novel concepts.
-However, the most crucial aspect of our tool is its practical approach that prioritizes performance and understanding above all else to ensure seamless integration into BPMN modeling tools.
+However, the most crucial aspect of our tool is its pragmatic approach that prioritizes performance and understanding above all else to ensure seamless integration into BPMN modeling tools.
 
 \section{Limitations \& Threats to Validity}
 % Limitations
