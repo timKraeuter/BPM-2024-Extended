@@ -2,7 +2,7 @@
 
 Artifacts for the paper _**Instantaneous, Understandable, and Actionable Soundness Checking of Industrial BPMN Models**_ submitted to BPM-2024.
 
-Our tool is available as an artifact (see the implementation section below).
+Our tool is available as an artifact (see the implementation section below) or (online)[https://bpm-2024.whitefield-c9fed487.northeurope.azurecontainerapps.io/].
 
 ## Instantaneous Soundness Checking
 
