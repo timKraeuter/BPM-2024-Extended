@@ -37,6 +37,7 @@ pdfkeywords={BPM, Verification, Soundness, Safeness}
 %
 \begin{abstract}
 % TODO: Update artifacts (full delete of the repo and init again)
+% TODO: Make artifacts URL clickable at the end (add \url in bib file)
 % TODO: Resubmit the abstract at the end!
 Many business process models have control-flow errors, such as deadlocks, which can hinder code generation and proper execution.
 In this paper, we introduce our new soundness-checking tool that can instantaneously identify errors in BPMN models, make them comprehensible for modelers, and even suggest corrections to resolve them automatically.
@@ -86,11 +87,11 @@ In this paper, we describe our new tool, which checks BPMN models for soundness 
 \section{Soundness Checking of BPMN Models} \label{sec:soundness}
 
 % Describe soundness checking for BPMN models.
-Soundness was introduced for workflow nets in \cite{vanderaalstAPPLICATIONPETRINETS1998} and stems from the field of Petri Nets.
+Soundness was introduced for workflow nets in \cite{vanderaalstApplicationPetriNets1998} and stems from the field of Petri Nets.
 We will use the formal definition directly given for BPMN by \cite{corradiniClassificationBPMNCollaborations2018}.
 
 % Soundness does not include safeness.
-Soundness is composed of three following sub-properties \cite{corradiniClassificationBPMNCollaborations2018}:
+Soundness is composed of the three following sub-properties \cite{corradiniClassificationBPMNCollaborations2018}:
 \textit{(i) Option to complete}: any running process instance must eventually complete,
 \textit{(ii) Proper Completion}: at the moment of completion, each token of the process instance must be in a different end event and
 \textit{(iii) No dead activities}: any activity can be executed in at least one process instance.
@@ -205,7 +206,7 @@ Our tool explores the entire state space while simultaneously verifying all prop
 	\end{tblr}
 \end{table}
 
-The state space of the models grows exponentially.
+The models' state space grows exponentially, leading to the same growth in runtime.
 In our case, the number of states is given by $(m+1)^n + 3$, clearly showing state space explosion.
 Our analysis is not instantaneous anymore when approaching 16 parallel branches of length 1 (see \autoref{tab:parallel-branches-benchmark}).
 However, analysis is still instantaneous for more reasonable models with five parallel branches of length 5 or 3 branches of length 10-20.
@@ -274,7 +275,7 @@ In addition, there is a summary panel in the top-right corner.
 
 Using the overlays, one can immediately see which elements cause soundness violations, which helps to pinpoint the root problems in the BPMN models.
 For \textit{Safeness}, we highlight sequence flows that can become \textit{unsafe}, i.e., two tokens can be located at the sequence flow.
-For \textit{Proper Completion}, we identify the end events that can consume more than one token, and for \textit{No Dead Activities}, we highlight the dead activities+.
+For \textit{Proper Completion}, we identify the end events that can consume more than one token, and for \textit{No Dead Activities}, we highlight the dead activities.
 In contrast, for \textit{option to complete}, we cannot highlight elements since it means the process execution must not always terminate, which cannot easily be attributed to single BPMN elements.
 
 However, just by looking at the BPMN model, it can still be hard to understand soundness violations due to the interplay of the BPMN element's execution semantics.
@@ -436,9 +437,9 @@ However, this might not be straightforward in bigger BPMN models with more flow 
 
 \textbf{Resolutions for (2):} We have not yet implemented any quick fixes for events, but many possibilities exist.
 For example, for message catch events without incoming message flows, one could add a fitting message flow from a message throw event or send task.
-One can use different factors, such as spatial proximity and name similarity, to find the right source of the new message flow.
+To find the right source of the new message flow, different factors, such as spatial proximity and name similarity, can be considered.
 Generalizing this idea to different event types requires adding the missing trigger.
-Finding the most fitting trigger can be done by analyzing the other elements in the BPMN model or asking the modeler.
+Analyzing other elements in the model or involving the modeler can help find the most fitting trigger.
 
 \subsubsection{No Dead Activities}
 A dead activity might have multiple reasons:
@@ -482,7 +483,7 @@ For example, \autoref{fig:activityEncoding} shows that we do not encode the star
 As discussed earlier, this simple abstraction avoids one additional state and pays off, especially in models with many parallel branches, which can significantly reduce the overall state space.
 For example, our tool finds only 2.112 states for the BPMN model \textsf{e020}, as shown in \autoref{subsec:instantaneous}, compared to the 3.558 in~\cite{houhouFirstOrderLogicVerification2022} or 3.060 in~\cite{krauterFormalizationAnalysisBPMN2023}.
 
-% This could be made smaller by reducing the space between the flow nodes.
+% This figure can be made smaller by reducing the space between the flow nodes.
 \begin{figure}[ht]
 	\centering
 	\includegraphics[width=0.6\textwidth]{images/pragmatic-encoding}
@@ -492,6 +493,9 @@ For example, our tool finds only 2.112 states for the BPMN model \textsf{e020}, 
 
 Similar minimal encodings can be applied to other BPMN elements, such as message events, to keep the state space small.
 Nevertheless, one must always be sure that such optimizations do not compromise the checked properties, similar to when applying partial-order reduction techniques~\cite{valmariStateExplosionProblem1998}.
+
+Our pragmatic encoding has potential downsides if one wants to check custom properties in the future, such as: Activity A and B do not execute simultaneously.
+Since we are only interested in soundness and safeness, we are consciously trading a smaller state space for the inability to check such custom properties in the future.
 
 \section{Related Work}
 
