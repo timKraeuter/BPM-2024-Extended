@@ -55,7 +55,6 @@ Safeness
 \end{abstract}
 
 % Up to 16 pages, including everything!
-
 % Redefine enumerations
 \renewcommand{\labelenumi}{(\textbf{\arabic{enumi})}}
 
@@ -71,7 +70,7 @@ Safeness
 % Solution
 In this paper, we describe our new tool, which checks BPMN models for soundness and safeness~\cite{corradiniClassificationBPMNCollaborations2018}.
 % Tie to the motivation and describe the figure and go over all three claims briefly: instantaneous (Definition), comprehensible (soundness properties are hard to understand for modelers), and  (comparable to quick fixes).
-\autoref{fig:overview} shows an overview of our tool.
+\autoref{fig:overview} shows an overview of our tool and we provide a prototype available online~\cite{noauthorgivenBPM2024Artifacts2024}.
 
 \begin{figure}[ht]
 	\centering
@@ -83,6 +82,9 @@ In this paper, we describe our new tool, which checks BPMN models for soundness 
 % Instantaneous: The model checks in 500ms or less.
 % Comprehensible: Highlight problematic elements + show the visualization of a counterexample using that model.
 % Fixable: Provide quick fixes that resolve soundness violation --> check if changes fix the property before showing it to the user.
+
+% Paper structure
+The remainder of the paper is structured as follows.
 
 \section{Soundness Checking of BPMN Models} \label{sec:soundness}
 
