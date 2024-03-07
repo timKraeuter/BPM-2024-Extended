@@ -74,14 +74,15 @@ Safeness
 
 
 % Problem statement
-Business Process Modeling Notation (BPMN) is becoming increasingly popular for process automation and orchestration of people and systems.
+Business Process Modeling Notation (BPMN) is becoming increasingly popular for automating processes and orchestrating people and systems.
 However, many process models suffer from control-flow errors, such as deadlocks and lack of synchronization~\cite{fahlandAnalysisDemandInstantaneous2011}.
-These errors hinder correct execution of BPMN models and may be detected late in the development process, resulting in elevated costs.
+These errors hinder the correct execution of BPMN models and may be detected late in the development process, resulting in elevated costs.
 
 % Solution
 In this paper, we describe our new tool, which checks BPMN process models for soundness and safeness~\cite{corradiniClassificationBPMNCollaborations2018}, which entails finding control-flow errors already during modeling.
 \autoref{fig:overview} shows an overview of our tool, which we provide as a prototype online~\cite{noauthorgivenBPM2024Artifacts2024}.
-The tool front-end is based on the popular \textit{bpmn.io} ecosystem, while the soundness checker is implemented in Rust for fast performance, memory-efficiency, and memory safety. % Even blazingly fast performance
+The tool front-end is based on the popular \textit{bpmn.io} ecosystem, while the soundness checker is implemented in Rust for fast performance, memory efficiency, and memory safety.
+% Even blazingly fast performance
 
 \begin{figure}[ht]
 	\centering
@@ -90,13 +91,13 @@ The tool front-end is based on the popular \textit{bpmn.io} ecosystem, while the
 	\label{fig:overview}
 \end{figure}
 
-The tool is able to check models after every change since the soundness checker is \textit{instantaneous}, i.e., takes 500ms or less~\cite{fahlandAnalysisDemandInstantaneous2011}.
+The tool can check models after each change since the soundness checker is \textit{instantaneous}, i.e., takes 500ms or less~\cite{fahlandAnalysisDemandInstantaneous2011}.
 Furthermore, we ensure the results are \textit{comprehensible} by highlighting possible violations directly in the model and animating counterexamples.
 Finally, the tool suggests \textit{fixes} for the most common soundness violations and can be extended to suggest more fixes independent of the soundness checker.
 
 % Paper structure
 In the remainder of the paper, we describe how instantaneous, comprehensive, and fixable soundness checking is achieved in \autoref{sec:soundness}.
-Then we explain our tool implementation in \autoref{sec:impl} before presenting related work (\autoref{sec:related-work}).
+Then, we explain our tool implementation in \autoref{sec:impl} before presenting related work (\autoref{sec:related-work}).
 Finally, we discuss possible limitations in \autoref{sec:limitations} and conclude in \autoref{sec:conclusion}.
 
 \section{Soundness Checking of BPMN Models} \label{sec:soundness}
@@ -108,7 +109,7 @@ Soundness is composed of the three following sub-properties~\cite{corradiniClass
 \textit{(i) Option to complete}: any running process instance must eventually complete,
 \textit{(ii) Proper Completion}: at the moment of completion, each token of the process instance must be in a different end event and
 \textit{(iii) No dead activities}: any activity can be executed in at least one process instance.
-Option to complete is vital since it guarantees the absence of deadlocks, while proper completion is less important but helps to enforce BPMN best practices, such as not reusing end events.
+Option to complete is vital since it guarantees the absence of deadlocks, while proper completion is less important, but it helps to enforce BPMN best practices, such as not reusing end events.
 Furthermore, It is crucial not to have dead activities since, similar to dead code, they should be removed or indicate a deeper issue that must be investigated.
 
 In addition, we also check \textit{safeness} to find possible missing synchronizations.
@@ -485,7 +486,7 @@ Our tool is open-source and available as an artifact~\cite{noauthorgivenBPM2024A
 The tool architecture is shown in \autoref{fig:overview}, while screenshots of our tool with different features enabled are given in \autoref{fig:violations}, \autoref{fig:counterexample}, and \autoref{fig:quick-fixes}.
 The front-end of the tool is built in web technologies using the \textit{bpmn.io} ecosystem, especially the bpmn-js-token-simulation~\cite{camundaservicesgmbhBpmnjsTokenSimulation2024}, while the soundness and safeness checking is implemented in the Rust programming language.
 
-We developed soundness checking in Rust due to its memory efficiency, memory-safety guarantees, absence of garbage collection, and fast performance comparable to programming languages such as C and C++.
+We developed soundness checking in Rust due to its memory efficiency, memory safety guarantees, absence of garbage collection, and fast performance comparable to programming languages such as C and C++.
 A fast programming language and direct implementation of the BPMN semantics play a key role in achieving \textit{instantaneous} soundness checking.
 Our tool is not yet heavily optimized for performance and can be extended regarding BPMN features or partial-order reduction to tackle state space explosion.
 % Zero-copy? --> Currently, we are copying things but still achieve better performance (Tradeoff with readability)
