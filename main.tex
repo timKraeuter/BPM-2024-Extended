@@ -16,26 +16,38 @@ pdfkeywords={BPM, Verification, Soundness, Safeness}
 \usepackage{graphicx}
 % Modern tables
 \usepackage{tabularray}
+%\usepackage{orcidlink} % Orcid links
 
 \begin{document}
 %
 \title{Instantaneous, Comprehensible, and Fixable Soundness Checking of Realistic BPMN Models}
 %
 \titlerunning{Instantaneous, Comprehensible, and Fixable BPMN Soundness Checking}
-% \author{Tim Kr\"{a}uter\inst{1}\orcidID{0000-0003-1795-0611} \and
-% Adrian Rutle\inst{1}\orcidID{0000-0002-4158-1644} \and
-% Harald K\"{o}nig\inst{2,1}\orcidID{0000-0001-6304-6311} \and
-% Yngve Lamo\inst{1}\orcidID{0000-0001-9196-1779}}
-% TODO: Patrick
+% TODO: Finaly submission: Add authors, change artifact link, publish all source code.
+% \author{
+% 	Tim Kr\"{a}uter\inst{1}\orcidlink{0000-0003-1795-0611} \and
+% 	Patrick St\"{u}nkel\inst{1}\orcidlink{0000-0002-0537-295X} \and
+% 	Adrian Rutle\inst{1}\orcidlink{0000-0002-4158-1644} \and
+% 	Harald K\"{o}nig\inst{2,1}\orcidlink{0000-0001-6304-6311} \and
+% 	Yngve Lamo\inst{1}\orcidlink{0000-0001-9196-1779}
+% }
 % \authorrunning{T. Kräuter et al.}
-% \institute{Western Norway University of Applied Sciences, Bergen, Norway
-% \email{tkra@hvl.no, aru@hvl.no, yla@hvl.no} \and
+% \institute{Western Norway University of Applied Sciences, Bergen, Norway \\
+% \email{tkra@hvl.no, patrick.stuenkel@hvl.no, aru@hvl.no, yla@hvl.no} \and
 % University of Applied Sciences, FHDW, Hanover, Germany\\
 % \email{harald.koenig@fhdw.de}}
-%
+
 \maketitle              % typeset the header of the contribution
 %
 \begin{abstract}
+% Ideas to reduce space:
+% - subsubsection vspace adjust or move to a different custom command
+% - Merge the figure 5 and 7.
+% - Redo fig. 11 to make it more compact and maybe not side by side.
+% - Check other figures and sizes.
+% - Dont use itemize to list the reasons for property violations but just put it in the text.
+% - Footnote instead of citation for camunda things.
+% - Check overflowing sentences etc.
 % TODO: Update artifacts (full delete of the repo and init again)
 % TODO: Make artifacts URL clickable at the end (add \url in bib file)
 % TODO: Resubmit the abstract at the end!
@@ -79,7 +91,7 @@ Our front-end is based on the popular \textit{bpmn.io} ecosystem, while the soun
 	\label{fig:overview}
 \end{figure}
 
-The tool is able to check models after every change since the soundness checker is \textit{instantaneous}, i.e., taking 500ms or less~\cite{fahlandAnalysisDemandInstantaneous2011}
+The tool is able to check models after every change since the soundness checker is \textit{instantaneous}, i.e., takes 500ms or less~\cite{fahlandAnalysisDemandInstantaneous2011}.
 Furthermore, we ensure the results are \textit{comprehensible} by highlighting possible violations directly in the model and animating counterexamples.
 Finally, the tool suggests \textit{fixes} for the most common soundness violations and can be extended to suggest more fixes independent of the soundness checker.
 
@@ -98,7 +110,7 @@ Soundness is composed of the three following sub-properties~\cite{corradiniClass
 \textit{(ii) Proper Completion}: at the moment of completion, each token of the process instance must be in a different end event and
 \textit{(iii) No dead activities}: any activity can be executed in at least one process instance.
 Option to complete is vital since it guarantees the absence of deadlocks, while proper completion is less important but helps to enforce BPMN best practices, such as not reusing end events.
-Furthermore, It is crucial not to have dead activities since, similar to dead code, they should be removed or point to a bigger problem in the model that must be investigated.
+Furthermore, It is crucial not to have dead activities since, similar to dead code, they should be removed or indicate a deeper issue that must be investigated.
 
 In addition, we also check \textit{safeness} to find possible missing synchronizations.
 A BPMN model is \textit{safe} if, during its execution, no more than one token occurs simultaneously along the same sequence flow~\cite{corradiniClassificationBPMNCollaborations2018}.
