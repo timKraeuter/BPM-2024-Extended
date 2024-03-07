@@ -51,7 +51,7 @@ pdfkeywords={BPM, Verification, Soundness, Safeness}
 % TODO: Update artifacts (full delete of the repo and init again)
 % TODO: Make artifacts URL clickable at the end (add \url in bib file)
 % TODO: Resubmit the abstract at the end!
-Many business process models have control-flow errors, such as deadlocks, which can hinder code generation and proper execution.
+Many business process models have control-flow errors, such as deadlocks, which can hinder proper execution.
 In this paper, we introduce our new soundness-checking tool that can instantaneously identify errors in BPMN models, make them comprehensible for modelers, and even suggest corrections to resolve them automatically.
 We demonstrate that our tool's soundness checking is instantaneous, i.e., it takes less than 500ms, by benchmarking our tool against synthetic BPMN models with increasing size and state space complexity, as well as realistic models provided in the literature.
 Moreover, the tool directly displays possible soundness violations in the model and provides an interactive token-flow animation illustrating each violation.
@@ -73,17 +73,15 @@ Safeness
 \section{Introduction} \label{sec:introduction}
 
 
-% Problem statement/Motivation
-% Why useful? Check
-Many process models suffer from control-flow errors, such as deadlocks and lack of synchronization~\cite{fahlandAnalysisDemandInstantaneous2011}.
-These errors 
-% Claims a lot of problems in workflow models, which can be found using soundness checks.
+% Problem statement
+Business Process Modeling Notation (BPMN) is becoming increasingly popular for process automation and orchestration of people and systems.
+However, many process models suffer from control-flow errors, such as deadlocks and lack of synchronization~\cite{fahlandAnalysisDemandInstantaneous2011}.
+These errors hinder correct execution of BPMN models and may be detected late in the development process, resulting in elevated costs.
 
 % Solution
-In this paper, we describe our new tool, which checks BPMN process models for soundness and safeness~\cite{corradiniClassificationBPMNCollaborations2018}, which entails finding deadlocks, lack of synchronization, and dead activities.
-% Tie to the motivation and describe the figure and go over all three claims briefly: instantaneous (Definition), comprehensible (soundness properties are hard to understand for modelers), and  (comparable to quick fixes).
+In this paper, we describe our new tool, which checks BPMN process models for soundness and safeness~\cite{corradiniClassificationBPMNCollaborations2018}, which entails finding control-flow errors already during modeling.
 \autoref{fig:overview} shows an overview of our tool, which we provide as a prototype online~\cite{noauthorgivenBPM2024Artifacts2024}.
-Our front-end is based on the popular \textit{bpmn.io} ecosystem, while the soundness checker is implemented in Rust for fast performance, memory-efficiency, and memory safety. % Even blazingly fast performance
+The tool front-end is based on the popular \textit{bpmn.io} ecosystem, while the soundness checker is implemented in Rust for fast performance, memory-efficiency, and memory safety. % Even blazingly fast performance
 
 \begin{figure}[ht]
 	\centering
@@ -570,13 +568,13 @@ Furthermore, regarding comprehensive soundness checking, we plan to study how we
 \section{Conclusion \& Future work} \label{sec:conclusion}
 
 % Consumability what we call comprehensive is the biggest challenge in fahland
+% Refer to the three challenges and how we aim to solve them
 
 % Benchmarks in the instantaneous section are a contribution --> We even provide tools to generate more models.
 
 % Future work: Ranking quick fixes (least change, learn from the user, etc.) --> similarities to model repair
 % Future work: Quick fixes for more complex BPMN features. We only looked at gateways/end events being problematic so far.
-% Problems: Only checking four properties, not custom properties
-% Loops for quick fixes?
+% Loops for quick fixes --> fix in impl
 
 \bibliographystyle{splncs04}
 \bibliography{bib}
