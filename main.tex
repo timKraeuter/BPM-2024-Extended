@@ -60,17 +60,15 @@ Safeness
 
 \section{Introduction} \label{sec:introduction}
 
-% Problem statement
+% Problem statement/Motivation
 % Why useful? Check
 \cite{fahlandAnalysisDemandInstantaneous2011}
 % Claims a lot of problems in workflow models, which can be found using soundness checks.
 
-% Motivation
-
 % Solution
 In this paper, we describe our new tool, which checks BPMN models for soundness and safeness~\cite{corradiniClassificationBPMNCollaborations2018}.
 % Tie to the motivation and describe the figure and go over all three claims briefly: instantaneous (Definition), comprehensible (soundness properties are hard to understand for modelers), and  (comparable to quick fixes).
-\autoref{fig:overview} shows an overview of our tool and we provide a prototype available online~\cite{noauthorgivenBPM2024Artifacts2024}.
+\autoref{fig:overview} shows an overview of our tool, and we provide a prototype available online~\cite{noauthorgivenBPM2024Artifacts2024}.
 
 \begin{figure}[ht]
 	\centering
@@ -439,7 +437,7 @@ However, this might not be straightforward in bigger BPMN models with more flow 
 
 \textbf{Resolutions for (2):} We have not yet implemented any quick fixes for events, but many possibilities exist.
 For example, for message catch events without incoming message flows, one could add a fitting message flow from a message throw event or send task.
-To find the right source of the new message flow, different factors, such as spatial proximity and name similarity, can be considered.
+Different factors, such as spatial proximity and name similarity, can be considered to find the right source of the new message flow.
 Generalizing this idea to different event types requires adding the missing trigger.
 Analyzing other elements in the model or involving the modeler can help find the most fitting trigger.
 
@@ -460,7 +458,7 @@ Thus, other quick fixes can apply that also resolve dead activities.
 
 \section{Implementation}
 
-In this section, we briefly describe key elements in our implementation of the BPMN soundness-checking tool.
+In this section, we briefly describe vital elements in our implementation of the BPMN soundness-checking tool.
 The main goal of the tool is to be well integrated into modeling tools without introducing friction in the modeling process.
 
 \subsection{Tool summary}
@@ -477,6 +475,10 @@ In addition, it can be extended regarding BPMN features and partial-order reduct
 
 Our tool can be integrated into existing BPMN modeling tools since it provides model checking as a \textit{web-service} or \textit{command-line application}.
 Furthermore, the tool front-end is \textit{modular} such that one can either fully integrate it, pick only specific features, or extend it, for example, to add custom quick fixes.
+
+
+\subsection{Soundness checking in Rust}
+TODO: Briefly explain how soundness checking in Rust works.
 
 \subsection{Pragmatic BPMN Semantics Encoding}
 In addition to selecting an efficient programming language for developing the soundness checker, we also opted for a practical, straightforward encoding of BPMN semantics.
