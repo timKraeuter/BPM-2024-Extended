@@ -218,7 +218,7 @@ We and other researchers believe that models with a high degree of parallelism, 
 If such models are more common than we think one can implement \textit{partial order reduction}, which has shown great results for the Petri Net model checker LoLA in~\cite{fahlandAnalysisDemandInstantaneous2011}.
 Due to partial order reduction, they checked previously intractable models and reduced the analysis time.
 One can implement partial order reduction similarly in our tool since the semantics of BPMN and Petri Nets have many similarities.
-However, translating BPMN to Petri nets is not always possible~\cite{favreDifficultyReplacingInclusive2012}.
+However, translating BPMN to Petri nets is not always possible. % ~\cite{favreDifficultyReplacingInclusive2012}.
 
 \subsubsection{Realistic Models}
 We apply our tool to eight realistic models, where three models (e001, e002, e020) are taken from~\cite{houhouFirstOrderLogicVerification2022}, and the remaining five models are part of the Camunda BPMN for research repository\footnote{\url{https://github.com/camunda/bpmn-for-research} \label{footnote:camundaResearch}}.
@@ -269,6 +269,7 @@ We highlight the problematic elements in the BPMN model that cause soundness vio
 \autoref{fig:violations} depicts how we highlight problematic elements using red overlays in our tool.
 In addition, there is a summary panel in the top-right corner.
 
+% Could be merged with figure 7 if we need space. Then also reduce unecessary space between elements.
 \begin{figure}[ht]
 	\centering
 	\includegraphics[width=0.9\textwidth]{images/violations}
@@ -282,7 +283,7 @@ For \textit{Proper Completion}, we identify the end events that can consume more
 In contrast, for \textit{option to complete}, we cannot highlight elements since it means the process execution must not always terminate, which cannot easily be attributed to single BPMN elements.
 
 However, just by looking at the BPMN model, it can still be hard to understand soundness violations due to the interplay of the BPMN element's execution semantics.
-In the BPMN specification, execution semantics are described using the concept of moving \textit{tokens}~\cite{objectmanagementgroupBusinessProcessModel2013}.
+In the BPMN specification, execution semantics are described using the concept of moving \textit{tokens}.
 % Universally used token concept
 The concept of tokens is used in BPMN tools in the industry to depict process execution information~\cite{camundaservicesgmbhBpmnjsTokenSimulation2024} and in nearly all BPMN formalizations~\cite{corradiniFormalApproachAnalysis2021,corradiniFormalisingAnimatingMultiple2022,houhouFirstOrderLogicVerification2022,krauterFormalizationAnalysisBPMN2023,krauterHigherorderTransformationApproach2023}.
 
@@ -490,6 +491,7 @@ As discussed earlier, this simple abstraction avoids one additional state and pa
 For example, our tool finds only 2.112 states for the BPMN model \textsf{e020}, as shown in \autoref{subsec:instantaneous}, compared to the 3.558 in~\cite{houhouFirstOrderLogicVerification2022} or 3.060 in~\cite{krauterFormalizationAnalysisBPMN2023}.
 
 % This figure can be made smaller by reducing the space between the flow nodes.
+% Both could be merge into one with an arrow going around if we need space.
 \begin{figure}[ht]
 	\centering
 	\includegraphics[width=0.6\textwidth]{images/pragmatic-encoding}
