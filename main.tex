@@ -87,16 +87,19 @@ The remainder of the paper is structured as follows.
 \section{Soundness Checking of BPMN Models} \label{sec:soundness}
 
 % Describe soundness checking for BPMN models.
-Soundness was introduced for workflow nets in \cite{vanderaalstApplicationPetriNets1998} and stems from the field of Petri Nets.
-We will use the formal definition directly given for BPMN by \cite{corradiniClassificationBPMNCollaborations2018}.
-
-% Soundness does not include safeness.
-Soundness is composed of the three following sub-properties \cite{corradiniClassificationBPMNCollaborations2018}:
-\textit{(i) Option to complete}: any running process instance must eventually complete, i.e., process instances can never deadlock,
+Soundness was introduced for workflow nets in~\cite{vanderaalstApplicationPetriNets1998} and stems from the field of Petri Nets.
+We will use the formal definition directly given for BPMN by~\cite{corradiniClassificationBPMNCollaborations2018}.
+Soundness is composed of the three following sub-properties~\cite{corradiniClassificationBPMNCollaborations2018}:
+\textit{(i) Option to complete}: any running process instance must eventually complete,
 \textit{(ii) Proper Completion}: at the moment of completion, each token of the process instance must be in a different end event and
 \textit{(iii) No dead activities}: any activity can be executed in at least one process instance.
-In addition, we also check \textit{safeness}.
-A BPMN model is \textit{safe} if, during its execution, no more than one token occurs simultaneously along the same sequence flow \cite{corradiniClassificationBPMNCollaborations2018}.
+Option to complete is vital since it guarantees the absence of deadlocks, while proper completion is less important but helps to enforce BPMN best practices, such as not reusing end events.
+Furthermore, It is crucial not to have dead activities since, similar to dead code, they should be removed or point to a bigger problem in the model that must be investigated.
+
+In addition, we also check \textit{safeness} to find possible missing synchronizations.
+A BPMN model is \textit{safe} if, during its execution, no more than one token occurs simultaneously along the same sequence flow~\cite{corradiniClassificationBPMNCollaborations2018}.
+Safeness helps to find \textit{lack of synchronization}~\cite{fahlandAnalysisDemandInstantaneous2011}, for example, if outgoing sequence flows of a parallel gateway are merged using an exclusive gateway.
+This would lead to all subsequent activities being executed twice, which is often not desired.
 
 In the remainder of this section, we describe how we achieve \textit{instantaneous}, \textit{comprehensible}, and \textit{fixable} soundness checking of realistic BPMN models.
 
@@ -211,7 +214,7 @@ In our case, the number of states is given by $(m+1)^n + 3$, clearly showing sta
 Our analysis is not instantaneous anymore when approaching 16 parallel branches of length 1 (see \autoref{tab:parallel-branches-benchmark}).
 However, analysis is still instantaneous for more reasonable models with five parallel branches of length 5 or 3 branches of length 10-20.
 
-We believe that models with a high degree of parallelism, such that analysis is not instantaneous, are the exception, not the rule.
+We and other researchers believe that models with a high degree of parallelism, such that analysis is not instantaneous, are the exception, not the rule~\cite{fahlandAnalysisDemandInstantaneous2011}.
 If such models are more common than we think one can implement \textit{partial order reduction}, which has shown great results for the Petri Net model checker LoLA in~\cite{fahlandAnalysisDemandInstantaneous2011}.
 Due to partial order reduction, they checked previously intractable models and reduced the analysis time.
 One can implement partial order reduction similarly in our tool since the semantics of BPMN and Petri Nets have many similarities.
