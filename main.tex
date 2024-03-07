@@ -96,7 +96,7 @@ Furthermore, we ensure the results are \textit{comprehensible} by highlighting p
 Finally, the tool suggests \textit{fixes} for the most common soundness violations and can be extended to suggest more fixes independent of the soundness checker.
 
 % Paper structure
-In the remainder of the paper, we describe how instantaneous, comprehensive, and fixable soundness checking is achieved in \autoref{sec:soundness}.
+In the remainder of the paper, we describe how instantaneous, comprehensible, and fixable soundness checking is achieved in \autoref{sec:soundness}.
 Then, we explain our tool implementation in \autoref{sec:impl} before presenting related work (\autoref{sec:related-work}).
 Finally, we discuss possible limitations in \autoref{sec:limitations} and conclude in \autoref{sec:conclusion}.
 
@@ -564,18 +564,27 @@ The main threat to the validity of our instantaneous soundness checking claim is
 To mitigate this threat, we validated our claim against models sourced from existing literature, public repositories, and two artificial datasets featuring extensive and complex BPMN models.
 We believe these datasets closely resemble or even surpass industrial models in terms of model size and complexity (state space).
 
-Furthermore, regarding comprehensive soundness checking, we plan to study how well modelers understand soundness violations using the provided highlighting and interactive visualization and how the offered quick fixes impact the resolution.
+Furthermore, regarding comprehensible soundness checking, we plan to study how well modelers understand soundness violations using the provided highlighting and interactive visualization and how the offered quick fixes impact the resolution.
 
 \section{Conclusion \& Future work} \label{sec:conclusion}
+% Summary and contributions
+In this paper, we describe a novel tool that provides instantaneous, comprehensible, and fixable BPMN soundness checking and is integrated into a popular BPMN modeling tool.
+We benchmarked our tool against synthetic and realistic BPMN models to demonstrate instantaneous soundness checking.
+Our artifacts contain the synthetic data sets of BPMN models and transparently describe our methodology~\cite{noauthorgivenBPM2024Artifacts2024}.
+Our methodology and data sets can be used to better benchmark the performance of soundness-checking tools in the future.
 
-% Consumability what we call comprehensive is the biggest challenge in fahland
-% Refer to the three challenges and how we aim to solve them
+Three main challenges for providing soundness-checking capabilities to non-expert users are identified in~\cite{fahlandAnalysisDemandInstantaneous2011}.
+First, a soundness checker must be able to check all or most user-created models, i.e., it must support the most used BPMN elements.
+This is not a problem for most tools, and we plan to increase our tool's BPMN coverage beyond the current prototype.
+Second, soundness checking must be \textit{instantaneous} since long runtimes are unacceptable and often interpreted as tool errors~\cite{fahlandAnalysisDemandInstantaneous2011}.
+Third, the biggest challenge for soundness checking is \textit{consumability}, i.e., reporting the found violations in a comprehensible user interface.
+Our new tool addresses all these challenges, focusing on instantaneous and comprehensible soundness checking and even providing quick fixes for common soundness violations.
+The tool is a BPMN-specific soundness checker written in Rust paired with an intuitive user interface based on the popular \textit{bpmn.io} ecosystem, which allows extending the tool, for example, to provide custom quick fix suggestions.
 
-% Benchmarks in the instantaneous section are a contribution --> We even provide tools to generate more models.
-
-% Future work: Ranking quick fixes (least change, learn from the user, etc.) --> similarities to model repair
-% Future work: Quick fixes for more complex BPMN features. We only looked at gateways/end events being problematic so far.
-% Loops for quick fixes --> fix in impl
+In future work, we aim to improve our tool by providing more quick fixes, considering advanced BPMN elements such as different events, and ranking quick fixes based on their usefulness.
+For example, the impact of quick fixes on soundness properties can be part of the ranking since the resulting model can be checked instantaneously in the background.
+Other metrics, such as least change and least surprise from the model repair field, can be used, or one can include previous user behavior.
+Finally, we aspire to test our tool in a real-world scenario to gather feedback and measure its impact on productivity.
 
 \bibliographystyle{splncs04}
 \bibliography{bib}
