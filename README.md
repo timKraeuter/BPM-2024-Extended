@@ -4,6 +4,8 @@ Artifacts for the paper _**Instantaneous, Understandable, and Actionable Soundne
 
 Our tool is available [online](https://bpm-2024.whitefield-c9fed487.northeurope.azurecontainerapps.io/) and as an artifact (see the implementation section below).
 
+We will archive this repository using Zenodo for the final version of the paper.
+
 ## Instantaneous Soundness Checking
 
 The models used in the paper are available in the `artifacts/instantaneous` directory:

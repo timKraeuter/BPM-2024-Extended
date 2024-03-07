@@ -1,5 +1,5 @@
 # Running the tool
-Run the tool from the command-line in this directory for a given BPMN file (**-f** option) and specific propertes (**-p** option).
+Run the tool from the command line in this directory for a given BPMN file (**-f** option) and specific properties (**-p** option).
 
 ## Windows
 **Usage example:**
@@ -23,7 +23,7 @@ Run the tool from the command-line in this directory for a given BPMN file (**-f
 ./bpmnanalyzer -h
 ```
 
-To make the file executable on linux run the following command:
+To make the file executable on Linux run the following command:
 
 ```bash
 chmod +x bpmnanalyzer
