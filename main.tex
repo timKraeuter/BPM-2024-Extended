@@ -75,11 +75,12 @@ Safeness
 
 % Problem statement/Motivation
 % Why useful? Check
-\cite{fahlandAnalysisDemandInstantaneous2011}
+Many process models suffer from control-flow errors, such as deadlocks and lack of synchronization~\cite{fahlandAnalysisDemandInstantaneous2011}.
+These errors 
 % Claims a lot of problems in workflow models, which can be found using soundness checks.
 
 % Solution
-In this paper, we describe our new tool, which checks BPMN models for soundness and safeness~\cite{corradiniClassificationBPMNCollaborations2018}, which entails finding deadlocks, lack of synchronization, and dead activities.
+In this paper, we describe our new tool, which checks BPMN process models for soundness and safeness~\cite{corradiniClassificationBPMNCollaborations2018}, which entails finding deadlocks, lack of synchronization, and dead activities.
 % Tie to the motivation and describe the figure and go over all three claims briefly: instantaneous (Definition), comprehensible (soundness properties are hard to understand for modelers), and  (comparable to quick fixes).
 \autoref{fig:overview} shows an overview of our tool, which we provide as a prototype online~\cite{noauthorgivenBPM2024Artifacts2024}.
 Our front-end is based on the popular \textit{bpmn.io} ecosystem, while the soundness checker is implemented in Rust for fast performance, memory-efficiency, and memory safety. % Even blazingly fast performance
@@ -230,8 +231,9 @@ In our case, the number of states is given by $(m+1)^n + 3$, clearly showing sta
 Our analysis is not instantaneous anymore when approaching 16 parallel branches of length 1 (see \autoref{tab:parallel-branches-benchmark}).
 However, analysis is still instantaneous for more reasonable models with five parallel branches of length 5 or 3 branches of length 10-20.
 
-We and other researchers believe that models with a high degree of parallelism, such that analysis is not instantaneous, are the exception, not the rule~\cite{fahlandAnalysisDemandInstantaneous2011}.
-If such models are more common than we think one can implement \textit{partial order reduction}, which has shown great results for the Petri Net model checker LoLA in~\cite{fahlandAnalysisDemandInstantaneous2011}.
+We hold the belief, supported by research~\cite{fahlandAnalysisDemandInstantaneous2011} that models with a high degree of parallelism, such that analysis is not instantaneous, are uncommon.
+For example, only 3\% of the industrial models in~\cite{fahlandAnalysisDemandInstantaneous2011} have more than 1000 states.
+If complex models are more common than anticipated one can implement \textit{partial order reduction}, which has shown great results for the Petri Net model checker LoLA in~\cite{fahlandAnalysisDemandInstantaneous2011}.
 Due to partial order reduction, they checked previously intractable models and reduced the analysis time.
 One can implement partial order reduction similarly in our tool since the semantics of BPMN and Petri Nets have many similarities.
 However, translating BPMN to Petri nets is not always possible. % ~\cite{favreDifficultyReplacingInclusive2012}.
@@ -559,13 +561,15 @@ It is advisable to consider the results reported by other researchers on the sam
 To solve this problem, we advocate defining a standardized benchmarking process to compare tool performance directly and transparently.
 
 % External validity instantaneous soundness checking:
-The main threat to the external validity~\cite{wohlinExperimentationSoftwareEngineering2012} of our instantaneous soundness checking claim is that we could not test our tool with a large set of models from an industrial setting.
+The main threat to the validity of our instantaneous soundness checking claim is that we could not test our tool with a large set of models from an industrial setting.
 To mitigate this threat, we validated our claim against models sourced from existing literature, public repositories, and two artificial datasets featuring extensive and complex BPMN models.
 We believe these datasets closely resemble or even surpass industrial models in terms of model size and complexity (state space).
 
 Furthermore, regarding comprehensive soundness checking, we plan to study how well modelers understand soundness violations using the provided highlighting and interactive visualization and how the offered quick fixes impact the resolution.
 
 \section{Conclusion \& Future work} \label{sec:conclusion}
+
+% Consumability what we call comprehensive is the biggest challenge in fahland
 
 % Benchmarks in the instantaneous section are a contribution --> We even provide tools to generate more models.
 
