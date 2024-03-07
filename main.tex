@@ -92,11 +92,11 @@ We will use the formal definition directly given for BPMN by \cite{corradiniClas
 
 % Soundness does not include safeness.
 Soundness is composed of the three following sub-properties \cite{corradiniClassificationBPMNCollaborations2018}:
-\textit{(i) Option to complete}: any running process instance must eventually complete,
+\textit{(i) Option to complete}: any running process instance must eventually complete, i.e., process instances can never deadlock,
 \textit{(ii) Proper Completion}: at the moment of completion, each token of the process instance must be in a different end event and
 \textit{(iii) No dead activities}: any activity can be executed in at least one process instance.
 In addition, we also check \textit{safeness}.
-A BPMN model is \textit{safe} if, during its execution, no more than one token occurs along the same sequence flow \cite{corradiniClassificationBPMNCollaborations2018}.
+A BPMN model is \textit{safe} if, during its execution, no more than one token occurs simultaneously along the same sequence flow \cite{corradiniClassificationBPMNCollaborations2018}.
 
 In the remainder of this section, we describe how we achieve \textit{instantaneous}, \textit{comprehensible}, and \textit{fixable} soundness checking of realistic BPMN models.
 
