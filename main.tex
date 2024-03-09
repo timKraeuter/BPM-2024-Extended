@@ -517,17 +517,18 @@ For example, our tool finds only 2.112 states for the BPMN model \textsf{e020}, 
 Similar minimal encodings can be applied to other BPMN elements, such as message events, to keep the state space small.
 Nevertheless, one must always be sure that such optimizations do not compromise the checked properties, similar to when applying partial-order reduction techniques~\cite{valmariStateExplosionProblem1998}.
 
-Our pragmatic encoding has potential downsides if one wants to check custom properties in the future, such as: Activity A and B do not execute simultaneously.
+Our pragmatic encoding has potential downsides if one wants to check custom properties in the future, such as Activity A and B not executing simultaneously.
 Since we are only interested in soundness and safeness, we are consciously trading a smaller state space for the inability to check such custom properties in the future.
 
 \section{Related Work} \label{sec:related-work}
 
 \textbf{BPMN specification coverage:}
-Most related work focuses on the BPMN formalization which allows for soundness and safeness checking.
+Most related work focuses on the depth of BPMN formalization while providing soundness and safeness checking.
 Thus, these approaches show how different BPMN elements can be formalized and compare themselves with each other regarding supported elements~\cite{corradiniFormalApproachAnalysis2021,houhouFirstOrderLogicVerification2022,krauterFormalizationAnalysisBPMN2023,krauterHigherorderTransformationApproach2023}.
 The supported BPMN elements come close to the capabilities of popular process orchestration platforms such as Camunda.
-Our tool does not support the same depth of BPMN elements as, for example,~\cite {krauterFormalizationAnalysisBPMN2023}, but we are confident that we can add support for necessary elements in the future.
-We focus on tool performance and capabilities concerning soundness, checking comprehension, resolution, and seamless integration into BPMN modeling tools.
+Our tool supports the same depth of BPMN elements as~\cite{corradiniFormalApproachAnalysis2021},i.e., the most used gateways, tasks, and events.
+Other tools, such as~\cite{krauterHigherorderTransformationApproach2023}, cover even more elements.
+We plan to support more elements step-by-step, if necessary, in the future, but currently, we focus on tool performance and capabilities concerning soundness comprehension, soundness resolution, and seamless integration into BPMN modeling tools.
 
 \textbf{Tool performance:}
 Comparing tool performance without standard benchmarks and a reproducible environment is challenging.
@@ -575,7 +576,7 @@ Our methodology and data sets can be used to better benchmark the performance of
 
 Three main challenges for providing soundness-checking capabilities to non-expert users are identified in~\cite{fahlandAnalysisDemandInstantaneous2011}.
 First, a soundness checker must be able to check all or most user-created models, i.e., it must support the most used BPMN elements.
-This is not a problem for most tools, and we plan to increase our tool's BPMN coverage beyond the current prototype.
+This is not a problem for most tools, including ours, which has similar capabilities to~\cite{corradiniFormalApproachAnalysis2021}, and we plan to increase our tool's BPMN coverage as needed.
 Second, soundness checking must be \textit{instantaneous} since long runtimes are unacceptable and often interpreted as tool errors~\cite{fahlandAnalysisDemandInstantaneous2011}.
 Third, the biggest challenge for soundness checking is \textit{consumability}, i.e., reporting the found violations in a comprehensible user interface.
 Our new tool addresses all these challenges, focusing on instantaneous and comprehensible soundness checking and even providing quick fixes for common soundness violations.
