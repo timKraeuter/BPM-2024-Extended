@@ -47,7 +47,7 @@ If reviewers want access to the code before, we can anonymize the repositories o
 
 ## Related work
 
-Detailed BPMN feature comparison with related work.
+The following table contains a detailed comparison of our supported BPMN features with related work.
 We support the most important BPMN features similar to [2] but not as many as [1].
 However, support can be extended step by step in the future, and we already support the most popular features.
 
