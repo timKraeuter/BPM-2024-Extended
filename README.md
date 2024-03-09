@@ -1,6 +1,6 @@
 # BPM-2024
 
-Artifacts for the paper _**Instantaneous, Understandable, and Actionable Soundness Checking of Industrial BPMN Models**_ submitted to BPM-2024.
+This repository contains the artifacts for the paper _**Instantaneous, Comprehensible, and Fixable Soundness Checking of Realistic BPMN Models**_ submitted to BPM-2024.
 
 Our tool is available [online](https://bpm-2024.whitefield-c9fed487.northeurope.azurecontainerapps.io/) and as an artifact (see the implementation section below).
 
@@ -13,7 +13,7 @@ The models used in the paper are available in the `artifacts/instantaneous` dire
 2. [parallel-branches](./artifacts/instantaneous/parallel-branches) contains the BPMN models with growing parallel branches and branch length.
 3. [realistic-models](./artifacts/instantaneous/realistic-models) contains the realistic BPMN models.
 
-In addition, each directory contains instructions to run the soundness checking benchmarks reported in the paper.
+In addition, each directory contains instructions on how to run the soundness checking benchmarks reported in the paper.
 
 ### Benchmark environment
 - The benchmarks were run with hyperfine version **1.18.0** (binaries available for windows/linux in the **artifacts** folder).
