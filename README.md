@@ -28,7 +28,7 @@ The tool is available [online](https://bpm-2024.whitefield-c9fed487.northeurope.
 
 In addition, the tool binaries are located in
 1. [artifacts/](./artifacts/README.md) (for the CLI application)
-2. [artifacts/tool-with-ui/](./artifacts/tool-with-ui/README.md) (tool including the UI as shown in the paper and provided above)
+2. [artifacts/tool-with-ui/](./artifacts/tool-with-ui/README.md) (tool including the UI as shown in the paper and screenshots below)
 
 #### Screenshot during modeling:
 ![Screenshot 1 of the tool](./artifacts/images/Screenshot1.png)
