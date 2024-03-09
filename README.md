@@ -23,6 +23,9 @@ In addition, each directory contains instructions to run the soundness checking 
 ## Fixable Soundness Checking
 The demo application showcasing the quick fixes is in [artifacts/tool-with-ui/](./artifacts/tool-with-ui/README.md).
 
+## Related work
+
+
 ## Implementation
 The tool is available [online](https://bpm-2024.whitefield-c9fed487.northeurope.azurecontainerapps.io/).
 
@@ -37,7 +40,7 @@ In addition, the tool binaries are located in
 ![Screenshot 2 of the tool](./artifacts/images/Screenshot2.png)
 
 ### Source code
-We will make the source code available after review of the paper since the code is located in different repository and might compromise the double-blind review process.
+We will make the source code available after the paper is reviewed since it is distributed between different repositories and might compromise the double-blind review process.
 If reviewers want access to the code before, we can anonymize the repositories on demand.
 
 1. Analysis tool written in **Rust**: [TBD](https://github.com/)
