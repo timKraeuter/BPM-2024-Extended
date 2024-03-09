@@ -37,7 +37,7 @@ In addition, the tool binaries are located in
 ![Screenshot 2 of the tool](./artifacts/images/Screenshot2.png)
 
 ### Source code
-We will make the source code available after the paper is reviewed since it is distributed between different repositories and might compromise the double-blind review process.
+We will make the source code available after the paper is reviewed since it is distributed between different repositories, which might compromise the double-blind review process.
 If reviewers want access to the code before, we can anonymize the repositories on demand.
 
 1. Analysis tool written in **Rust**: [TBD](https://github.com/)
@@ -49,7 +49,7 @@ If reviewers want access to the code before, we can anonymize the repositories o
 
 Detailed BPMN feature comparison with related work.
 We support the most important BPMN features similar to [2] but not as many as [1].
-However, support can be extended step by step in the future and we already support the most popular features.
+However, support can be extended step by step in the future, and we already support the most popular features.
 
 | Feature                                     | Kräuter [1] | Corradini [2] | Houhou [3] | This work |
 |---------------------------------------------|-------------|---------------|------------|-----------|
