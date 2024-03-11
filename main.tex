@@ -131,7 +131,7 @@ Third, we run soundness checking for realistic BPMN process models available in 
 % General info
 % We use hyperfine for each benchmark with runs stuff 10x and averages. See my other papers
 For all our benchmarks, we use the hyperfine benchmarking tool~\cite{peterHyperfine2023} (version 1.18.0), which calculates the average runtime when executing each soundness check ten or more times.
-The benchmarks were run on Ubuntu 22.04.4 with an AMD Ryzen 7700X processor and 32 GB of RAM.
+The benchmarks were run on Ubuntu 22.04.4 with an AMD Ryzen 7700X processor (4.5GHz) and 32 GB of RAM.
 % Artifacts using a Zenodo link at the end. Anonymous GitHub account before.
 All used BPMN models and our tools to generate them are given in the artifacts of this paper~\cite{noauthorgivenBPM2024Artifacts2024}.
 Furthermore, we provide the scripts to replicate our benchmarks.
@@ -163,20 +163,11 @@ Our tool explores the entire state space while simultaneously verifying all prop
 \end{figure}
 
 % Results
-One can see that our tool spends from 1 ms up to 157 ms for the BPMN models.
-Thus, our tool can be classified as \textit{instantaneous} according to~\cite{fahlandAnalysisDemandInstantaneous2011} if the model size increases to over 4000 BPMN elements (500 blocks, 2168 states).
+Our tool spends from 1 ms up to 157 ms for the BPMN models compared to 0.7 s up to 14 s in~\cite{krauterHigherorderTransformationApproach2023} for only 300 blocks on a similar machine.
+Thus, our tool can be classified as \textit{instantaneous} according to~\cite{fahlandAnalysisDemandInstantaneous2011} even if the model size increases to over 4000 BPMN elements (500 blocks, 2168 states).
 Models of this size are not human-readable anymore and are usually divided into smaller models according to best practices~\cite{fahlandAnalysisDemandInstantaneous2011}.
-Thus, models found in practice are likely to be smaller than in our benchmark.
+Thus, models found in practice are likely to be smaller than those found in our benchmark.
 However, they might be more complex, leading to a larger state space, as discussed in the next section.
-% States:
-% 1: 5, 5
-% 50: 218, 218
-% 100: 434, 434
-% 150: 652, 652
-% 200: 868, 868
-% 250: 1084, 1084
-% 300: 1302, 1302
-% 500: 2168, 2168
 
 \subsubsection{Growing Number of Parallel Branches}
 An increased model size leads to a bigger state space that must be analyzed.
@@ -230,6 +221,13 @@ In our case, the number of states is given by $(m+1)^n + 3$, clearly showing sta
 Our analysis is not instantaneous anymore when approaching 16 parallel branches of length 1 (see \autoref{tab:parallel-branches-benchmark}).
 However, analysis is still instantaneous for more reasonable models with five parallel branches of length 5 or 3 branches of length 10-20.
 
+\cite{corradiniFormalApproachAnalysis2021} report 2-3s of runtime for most soundness properties and 30 s for no dead activities for the model with five parallel branches of length 1.
+They stopped their benchmark after six parallel branches, which led to timeouts.
+However, our machine has faster hardware, which explains some but not all of the differences in the results.
+% https://cpu.userbenchmark.com/Compare/Intel-Core-i7-6700HQ-vs-AMD-Ryzen-7-7700X/m34954vs4131
+
+% Comparison to BProve
+
 We believe, supported by research~\cite{fahlandAnalysisDemandInstantaneous2011}, that models with a high degree of parallelism, such that analysis is not instantaneous, are uncommon.
 For example, only 3\% of the industrial models in~\cite{fahlandAnalysisDemandInstantaneous2011} have more than 1000 states.
 If complex models are more common than anticipated, one can implement \textit{partial order reduction}, which has shown great results for the Petri Net model checker LoLA in~\cite{fahlandAnalysisDemandInstantaneous2011}.
@@ -274,6 +272,9 @@ Each model violates one or more soundness properties.
 \textit{Safeness} and \textit{Proper Completion} are violated in \textsf{dispatch-of-goods} due to a parallelization which is not synchronized later.
 How to automatically fix violated properties is discussed in \autoref{subsec:fixable-checking}.
 For example, the violations in \textsf{dispatch-of-goods} are automatically resolvable.
+
+Furthermore, our tool takes 1-7ms for e001, e002, and e020 while~\cite{houhouFirstOrderLogicVerification2022} and~\cite{krauterFormalizationAnalysisBPMN2023} report 3.66-10.26s and 1-1.75s.
+The benchmarks in~\cite{krauterFormalizationAnalysisBPMN2023} were run on a machine with similar hardware, while the machine used in~\cite{houhouFirstOrderLogicVerification2022} was slightly less powerful.
 
 \subsection{Comprehensible Soundness Checking}
 
@@ -503,7 +504,7 @@ In addition to selecting an efficient programming language for developing the so
 Our encoding contains sufficient detail to check soundness and safeness while omitting unnecessary intermediate states, which leads to smaller state spaces.
 For example, \autoref{fig:activityEncoding} shows that we do not encode the start and end of a task but rather the execution as a whole.
 As discussed earlier, this simple abstraction avoids one additional state and pays off, especially in models with many parallel branches, which can significantly reduce the overall state space.
-For example, our tool finds only 2.112 states for the BPMN model \textsf{e020}, as shown in \autoref{subsec:instantaneous}, compared to the 3.558 in~\cite{houhouFirstOrderLogicVerification2022} or 3.060 in~\cite{krauterFormalizationAnalysisBPMN2023}.
+For example, our tool finds only 2.112 states for the BPMN model \textsf{e020} (see \autoref{subsec:instantaneous}), compared to the 3.558/3.060  in~\cite{houhouFirstOrderLogicVerification2022}/\cite{krauterFormalizationAnalysisBPMN2023}.
 
 % This figure can be made smaller by reducing the space between the flow nodes.
 % Both could be merged into one with an arrow going around if we need space.
