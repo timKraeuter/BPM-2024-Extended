@@ -23,7 +23,7 @@ pdfkeywords={BPM, Verification, Soundness, Safeness}
 \title{Instantaneous, Comprehensible, and Fixable Soundness Checking of Realistic BPMN Models}
 %
 \titlerunning{Instantaneous, Comprehensible, and Fixable BPMN Soundness Checking}
-% TODO: Final submission: Add authors, change artifact link (Zenodo), publish all source code, publish the docker container and add it to the artifacts (tool-with-ui).
+% TODO: Final submission: Add authors, change artifact link (Zenodo), publish all source code, publish the docker container, and add it to the artifacts (tool-with-ui).
 % \author{
 % 	Tim Kr\"{a}uter\inst{1}\orcidlink{0000-0003-1795-0611} \and
 % 	Patrick St\"{u}nkel\inst{1}\orcidlink{0000-0002-0537-295X} \and
@@ -42,12 +42,12 @@ pdfkeywords={BPM, Verification, Soundness, Safeness}
 \begin{abstract}
 % Ideas to reduce space:
 % - subsubsection vspace adjust or move to a different custom command
-% - Merge the figure 5 and 7.
-% - Redo fig. 11 to make it more compact and maybe not side by side.
+% - Merge the figures 5 and 7.
+% - Redo Fig. 11 to make it more compact and maybe not side by side.
 % - Check other figures and sizes.
-% - Dont use itemize to list the reasons for property violations but just put it in the text.
+% - Don't use itemize to list the reasons for property violations; just put it in the text.
 % - Footnote instead of citation for camunda things.
-% - Check overflowing sentences etc.
+% - Check overflowing sentences, etc.
 % TODO: Update artifacts (full delete of the repo and init again)
 % TODO: Make artifacts URL clickable at the end (add \url in bib file)
 % TODO: Resubmit the abstract at the end!
@@ -230,9 +230,9 @@ In our case, the number of states is given by $(m+1)^n + 3$, clearly showing sta
 Our analysis is not instantaneous anymore when approaching 16 parallel branches of length 1 (see \autoref{tab:parallel-branches-benchmark}).
 However, analysis is still instantaneous for more reasonable models with five parallel branches of length 5 or 3 branches of length 10-20.
 
-We hold the belief, supported by research~\cite{fahlandAnalysisDemandInstantaneous2011} that models with a high degree of parallelism, such that analysis is not instantaneous, are uncommon.
+We believe, supported by research~\cite{fahlandAnalysisDemandInstantaneous2011}, that models with a high degree of parallelism, such that analysis is not instantaneous, are uncommon.
 For example, only 3\% of the industrial models in~\cite{fahlandAnalysisDemandInstantaneous2011} have more than 1000 states.
-If complex models are more common than anticipated one can implement \textit{partial order reduction}, which has shown great results for the Petri Net model checker LoLA in~\cite{fahlandAnalysisDemandInstantaneous2011}.
+If complex models are more common than anticipated, one can implement \textit{partial order reduction}, which has shown great results for the Petri Net model checker LoLA in~\cite{fahlandAnalysisDemandInstantaneous2011}.
 Due to partial order reduction, they checked previously intractable models and reduced the analysis time.
 One can implement partial order reduction similarly in our tool since the semantics of BPMN and Petri Nets have many similarities.
 However, translating BPMN to Petri nets is not always possible. % ~\cite{favreDifficultyReplacingInclusive2012}.
@@ -278,7 +278,7 @@ For example, the violations in \textsf{dispatch-of-goods} are automatically reso
 \subsection{Comprehensible Soundness Checking}
 
 The first step to fixing a soundness violation is understanding the problem.
-Thus, a tool must present soundness violations clearly with the necessary details to the modeler.
+Thus, a tool must present soundness violations clearly and provide the necessary details to the modeler.
 We aim to make soundness checking comprehensible by providing textual feedback and utilizing the BPMN model's graphical structure.
 
 % Identify problematic elements using overlays.
@@ -286,7 +286,7 @@ We highlight the problematic elements in the BPMN model that cause soundness vio
 \autoref{fig:violations} depicts how we highlight problematic elements using red overlays in our tool.
 In addition, there is a summary panel in the top-right corner.
 
-% Could be merged with figure 7 if we need space. Then also reduce unecessary space between elements.
+% Could be merged with Figure 7 if we need space. Then, it also reduces unnecessary space between elements.
 \begin{figure}[ht]
 	\centering
 	\includegraphics[width=0.9\textwidth]{images/violations}
@@ -474,7 +474,7 @@ A dead activity might have multiple reasons:
 However, we ensure this node is not disconnected or dead itself.
 
 \textbf{Resolutions for (2)}: When the dead activity is connected, this often means it is unreachable during execution, and often the process itself cannot terminate, i.e., violates \textit{Option to Complete}.
-Thus, other quick fixes can apply that also resolve dead activities.
+Thus, other quick fixes can be applied to resolve dead activities.
 
 \section{Implementation} \label{sec:impl}
 
@@ -506,7 +506,7 @@ As discussed earlier, this simple abstraction avoids one additional state and pa
 For example, our tool finds only 2.112 states for the BPMN model \textsf{e020}, as shown in \autoref{subsec:instantaneous}, compared to the 3.558 in~\cite{houhouFirstOrderLogicVerification2022} or 3.060 in~\cite{krauterFormalizationAnalysisBPMN2023}.
 
 % This figure can be made smaller by reducing the space between the flow nodes.
-% Both could be merge into one with an arrow going around if we need space.
+% Both could be merged into one with an arrow going around if we need space.
 \begin{figure}[ht]
 	\centering
 	\includegraphics[width=0.6\textwidth]{images/pragmatic-encoding}
@@ -535,7 +535,7 @@ Currently, we focus on tool performance and capabilities concerning soundness co
 Comparing tool performance without standard benchmarks and a reproducible environment is challenging.
 However, other publications indicate that tools quickly take several seconds for checking single soundness properties~\cite{corradiniFormalApproachAnalysis2021,houhouFirstOrderLogicVerification2022,krauterHigherorderTransformationApproach2023}.
 Our approach checks all soundness properties and safeness of the same models instantaneously.
-The difference in performance lies probably in our pragmatic BPMN encoding optimized for soundness checking and the direct implementation in a performant programming language such as Rust rather than a transformation of BPMN to general model checking tools.
+The difference in performance lies probably in our pragmatic BPMN encoding optimized for soundness checking and its direct implementation in a performant programming language such as Rust rather than in transforming BPMN into general model-checking tools.
 
 \textbf{Tool capabilities:}
 Another way to compare the different BPMN formalizations and soundness-checking tools is to investigate their capabilities.
