@@ -220,10 +220,8 @@ The models' state space grows exponentially, leading to the same growth in runti
 In our case, the number of states is given by $(m+1)^n + 3$, clearly showing state space explosion.
 Our analysis is not instantaneous anymore when approaching 16 parallel branches of length 1 (see \autoref{tab:parallel-branches-benchmark}).
 However, analysis is still instantaneous for more reasonable models with five parallel branches of length 5 or 3 branches of length 10-20.
-
-\cite{corradiniFormalApproachAnalysis2021} report 2-3s of runtime for most soundness properties and 30 s for no dead activities for the model with five parallel branches of length 1.
-They stopped their benchmark after six parallel branches, which led to timeouts.
-However, our machine has faster hardware, which explains some but not all of the differences in the results.
+\cite{corradiniFormalApproachAnalysis2021} report 2-3s of runtime for most soundness properties and 30 s for no dead activities for the model with five parallel branches of length 1, which took 1 ms in our tool.
+The difference is probably due to faster hardware and our pragmatic encoding leading to smaller state spaces, see \autoref{sec:impl}.
 % https://cpu.userbenchmark.com/Compare/Intel-Core-i7-6700HQ-vs-AMD-Ryzen-7-7700X/m34954vs4131
 
 % Comparison to BProve
