@@ -3,5 +3,4 @@ pub fn find_unsafe_sf_ids(&self) -> Vec<&String> {
         .flat_map(|snapshot| snapshot.tokens.iter())
         .filter(|&(_, token_amount)| *token_amount >= 2)
         .map(|(sf_id, _)| sf_id)
-        .collect()
-}
+        .collect() }

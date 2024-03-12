@@ -45,7 +45,6 @@ pdfkeywords={BPM, Verification, Soundness, Safeness}
 % Ideas to reduce space:
 % - subsubsection vspace adjust or move to a different custom command
 % - Merge the figures 5 and 7.
-% - Redo Fig. 11 to make it more compact and maybe not side by side.
 % - Check other figures and sizes.
 % - Don't use itemize to list the reasons for property violations; just put it in the text.
 % - Footnote instead of citation for camunda things.
@@ -135,8 +134,7 @@ Third, we run soundness checking for realistic BPMN process models available in 
 For all our benchmarks, we use the hyperfine benchmarking tool~\cite{peterHyperfine2023} (version 1.18.0), which calculates the average runtime when executing each soundness check ten or more times.
 The benchmarks were run on Ubuntu 22.04.4 with an AMD Ryzen 7700X processor (4.5GHz) and 32 GB of RAM.
 % Artifacts using a Zenodo link at the end. Anonymous GitHub account before.
-All used BPMN models and our tools to generate them are given in the artifacts of this paper~\cite{noauthorgivenBPM2024Artifacts2024}.
-Furthermore, we provide the scripts to replicate our benchmarks.
+All used BPMN models, our tools to generate them, and benchmarking scripts are given in the artifacts of this paper~\cite{noauthorgivenBPM2024Artifacts2024}.
 
 \subsubsection{Growing Model Size}
 We use the data set of models provided in~\cite{krauterHigherorderTransformationApproach2023}, which consists of 300 synthetically generated BPMN models, and extend it to 500 models.
@@ -284,7 +282,7 @@ We aim to make soundness checking comprehensible by providing textual feedback a
 
 % Identify problematic elements using overlays.
 We highlight the problematic elements in the BPMN model that cause soundness violations.
-\autoref{fig:violations} depicts how we highlight problematic elements using red overlays in our tool.
+\autoref{fig:violations} depicts how we highlight problematic elements using red overlays.
 In addition, there is a summary panel in the top-right corner.
 
 % Could be merged with Figure 7 if we need space. Then, it also reduces unnecessary space between elements.
@@ -360,6 +358,7 @@ However, we do not expect these strategies to cover all possible resolutions and
 Thus, our tool is extensible, so one can provide custom resolution strategies.
 This is possible due to its \textit{modular} design compatible with standard mechanisms of the \textit{bpmn.io} ecosystem, which \textit{decouples} the soundness analysis from reporting violations, visualizing counterexamples, and providing quick fixes.
 
+\vspace{-1em}
 \subsubsection{Safeness}
 The soundness checker will provide a counterexample and identify the unsafe sequence flows.
 We use this information together with the structure of the BPMN model to find resolutions for \textit{Safeness} violations.
@@ -402,6 +401,7 @@ All the implemented quick fixes can be reverted using one undo operation.
 
 Our demo application in the artifacts~\cite{noauthorgivenBPM2024Artifacts2024} contains examples of the Safeness quick fixes discussed here and all upcoming soundness properties.
 
+\vspace{-1em}
 \subsubsection{Proper Completion}
 For \textit{Proper Completion}, our soundness checker will provide a counterexample and identify the problematic end events that consume more than one token.
 Possible reasons for \textit{Proper Completion} violations which we address are:
@@ -426,7 +426,7 @@ We ensure an undo operation would revert the quick fix using the command pattern
 \textbf{Resolution for (2):} If a problematic end event only has one incoming sequence flow, it must be unsafe.
 Thus, other \textit{Safeness} quick fixes can apply, which will also resolve \textit{Proper Completion}.
 
-
+\vspace{-1em}
 \subsubsection{Option to Complete}
 Violations of \textit{Option to Complete} can have multiple reasons.
 
@@ -463,6 +463,7 @@ Different factors, such as spatial proximity and name similarity, can be conside
 Generalizing this idea to different event types requires adding the missing trigger.
 Analyzing other elements in the model or involving the modeler can help find the most fitting trigger.
 
+\vspace{-1em}
 \subsubsection{No Dead Activities}
 A dead activity might have multiple reasons:
 
@@ -506,7 +507,7 @@ For example, \autoref{lst:rust} shows how we find unsafe sequence flows in a sta
 \renewcommand\thelstlisting{\arabic{lstlisting}} % Just increasing listing numbers
 \lstinputlisting[language=Rust, style=boxed, caption={Find the IDs of \textit{unsafe} sequence flows in a given state (Rust)}, label={lst:rust}]{listings/properties-snippet.rs}
 
-\textsf{Self} is a state with a vector of \textsf{snapshots}, i.e., running process instances with a map of \textsf{tokens}, that links sequence flow IDs to the number of tokens contained within them.
+\textsf{Self} is a state with a set of \textsf{snapshots}, i.e., process instances with a map of \textsf{tokens}, that links sequence flow IDs to the number of tokens they are holding.
 \autoref{lst:rust} finds all sequence flows in the state that hold two or more tokens.
 
 Similarly, for \textit{Option To Complete}, we examine whether a state is stuck.
@@ -579,9 +580,9 @@ It is advisable to consider the results reported by other researchers on the sam
 To solve this problem, we advocate defining a standardized benchmarking process to compare tool performance directly and transparently.
 
 % External validity instantaneous soundness checking:
-The main threat to the validity of our instantaneous soundness-checking claim is that we could not test our tool with a large set of models from an industrial setting.
-To mitigate this threat, we validated our claim against models sourced from existing literature, public repositories, and two artificial datasets featuring extensive and complex BPMN models.
-We believe these datasets closely resemble or even surpass industrial models in terms of model size and complexity (state space).
+The main threat to the validity of our instantaneous soundness-checking claim is that we could not test our tool with a large set of models directly from the industry.
+We validated our claim against models sourced from existing literature, public repositories, and two artificial datasets to mitigate this threat.
+We believe these datasets closely resemble or even surpass industrial models in terms of model size and state space complexity.
 
 Furthermore, regarding comprehensible soundness checking, we plan to study how well modelers understand soundness violations using the provided highlighting and interactive visualization and how quick fixes impact their resolution.
 
