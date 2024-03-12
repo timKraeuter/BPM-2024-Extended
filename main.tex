@@ -16,6 +16,8 @@ pdfkeywords={BPM, Verification, Soundness, Safeness}
 \usepackage{graphicx}
 % Modern tables
 \usepackage{tabularray}
+% Listings with Rust code
+\usepackage{listings, listings-rust}
 %\usepackage{orcidlink} % Orcid links
 
 \begin{document}
@@ -493,9 +495,13 @@ Our tool is not yet heavily optimized for performance and can be extended regard
 Our tool can be integrated into existing BPMN modeling tools since it provides model checking as a \textit{web-service} or \textit{command-line application}.
 Furthermore, the tool front-end is \textit{modular} such that one can either fully integrate it, pick only specific features, or extend it, for example, to add custom quick fixes.
 
-
 \subsection{Soundness checking in Rust}
 TODO: Briefly explain how soundness checking in Rust works.
+
+\renewcommand\thelstlisting{\arabic{lstlisting}} % Just increasing listing numbers
+\lstinputlisting[language=Rust, style=boxed, caption={Rust code to find all unsafe sequence flows in a state}, label={lst:rust}]{listings/properties-snippet.rs}
+
+\autoref{lst:rust}
 
 \subsection{Pragmatic BPMN Semantics Encoding}
 In addition to selecting an efficient programming language for developing the soundness checker, we also opted for a practical, straightforward encoding of BPMN semantics.
