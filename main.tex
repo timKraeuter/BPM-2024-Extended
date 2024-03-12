@@ -546,13 +546,13 @@ The supported BPMN elements come close to the capabilities of popular process or
 Our tool supports the same depth of BPMN elements as~\cite{corradiniFormalApproachAnalysis2021},i.e., the most used gateways, tasks, and events.
 Other tools, such as~\cite{krauterHigherorderTransformationApproach2023}, cover even more elements.
 A detailed comparison is available in~\cite{noauthorgivenBPM2024Artifacts2024}, and we plan to support more elements, if necessary, in the future.
-Currently, we focus on tool performance and capabilities concerning soundness comprehension, soundness resolution, and seamless integration into BPMN modeling tools.
+We focus on tool performance and capabilities concerning soundness comprehension, soundness resolution, and seamless integration into BPMN modeling tools.
 
 \textbf{Tool performance:}
 Comparing tool performance without standard benchmarks and a reproducible environment is challenging.
 However, other publications indicate that other tools take several seconds up to half a minute to check single soundness properties~\cite{corradiniFormalApproachAnalysis2021,houhouFirstOrderLogicVerification2022,krauterHigherorderTransformationApproach2023}.
 In contrast, our approach instantaneously checks all soundness properties and safeness of the same models.
-The difference in performance lies probably in our pragmatic BPMN encoding optimized for soundness checking and its direct implementation in a performant programming language such as Rust rather than in transforming BPMN into general model-checking tools.
+The difference in performance lies probably in our pragmatic BPMN encoding optimized for soundness checking and its direct implementation in a performant programming language rather than in transforming BPMN into general model-checking tools.
 
 \textbf{Tool capabilities:}
 Another way to compare the different BPMN formalizations and soundness-checking tools is to investigate their capabilities.
@@ -566,8 +566,8 @@ We do not provide BPMN simulation since other tools already offer this.
 However, we use token-flow animation to visualize counterexamples for soundness violations interactively.
 This improves comprehension compared to previous static, less interactive visualizations.
 In addition, to the best of our knowledge, our tool is the only one that provides \textit{quick fixes}, i.e., automatic resolutions if soundness properties are violated.
-To sum up, our tool incorporates several ideas from the state of the art while enhancing them with novel concepts.
-However, the most crucial aspect of our tool is its pragmatic approach, which prioritizes performance and understanding above all else to ensure seamless integration into BPMN modeling tools.
+To sum up, our tool incorporates and enhances several ideas from the state of the art while adding novel concepts, such as quick fixes.
+We advocate for a pragmatic approach, prioritizing performance and understanding above all else to ensure seamless integration into BPMN modeling tools.
 
 \section{Limitations \& Threats to Validity} \label{sec:limitations}
 % Limitations
@@ -583,7 +583,7 @@ The main threat to the validity of our instantaneous soundness-checking claim is
 To mitigate this threat, we validated our claim against models sourced from existing literature, public repositories, and two artificial datasets featuring extensive and complex BPMN models.
 We believe these datasets closely resemble or even surpass industrial models in terms of model size and complexity (state space).
 
-Furthermore, regarding comprehensible soundness checking, we plan to study how well modelers understand soundness violations using the provided highlighting and interactive visualization and how the offered quick fixes impact the resolution.
+Furthermore, regarding comprehensible soundness checking, we plan to study how well modelers understand soundness violations using the provided highlighting and interactive visualization and how quick fixes impact their resolution.
 
 \section{Conclusion \& Future work} \label{sec:conclusion}
 % Summary and contributions
