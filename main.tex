@@ -375,14 +375,15 @@ Possible reasons for \textit{Safeness} violations which we address are:
 
 \textbf{Resolutions for (1):} A straightforward solution is to change the exclusive gateway to a parallel gateway.
 Since the gateway was activated multiple times, it indicates that it perhaps should have been a parallel gateway or that there was an unintended parallelization before.
-Thus, we can analyze the BPMN model and find the parallelization that causes the \textit{Safeness} violation.
-If it is a parallel gateway, another solution is to change this parallel gateway to an exclusive one.
-This leads to two solutions where the overarching goal is obtaining matching gateways.
+Thus, we can analyze the BPMN model and try to find the parallelization that causes the \textit{Safeness} violation.
+If we find a parallel gateway, another solution is to change this parallel gateway to an exclusive one.
+This leads to two possible solutions with the overarching goal of matching gateways.
 
-The parallelization can also be an implicitly encoded parallel gateway, for example, an activity with multiple outgoing sequence flows, which does not comply with best practices~\cite{camundaservicesgmbhBpmnlint2024} but is allowed.
+The parallelization can also be implicitly encoded, for example, using an activity with multiple outgoing sequence flows.
+This does not comply with best practices~\cite{camundaservicesgmbhBpmnlint2024} but is allowed.
 In this case, we can add an explicit exclusive gateway to eliminate the implicit parallelization and achieve matching gateways.
 
-\textbf{Resolutions for (2):} Similarly to \textbf{(1)}, the goal of each quick fix is to obtain matching gateways.
+\textbf{Resolutions for (2):} Similarly to \textbf{(1)}, the goal of each quick fix is to obtain matching gateways if this is possible.
 Thus, one solution is to find the parallelization that causes the \textit{Safeness} violation and change it to an exclusive gateway, as described in \textbf{(1)}.
 Quick fix \textbf{(a)} in \autoref{fig:safeness} shows this solution, where a parallel gateway is changed to an exclusive one.
 We color the changes and additions in green to highlight the effect of quick fixes.
@@ -479,8 +480,8 @@ Thus, other quick fixes can be applied to resolve dead activities.
 
 \section{Implementation} \label{sec:impl}
 
-In this section, we briefly describe vital elements in our implementation of the BPMN soundness-checking tool.
-The main goal of the tool is to be well integrated into modeling tools without introducing friction in the modeling process.
+In this section, we briefly describe our implementation of the BPMN soundness-checking tool.
+The tool's main goal is to be performant, comprehensible and well-integrated into modeling tools without introducing unnecessary friction.
 
 \subsection{Tool summary}
 Our tool is open-source and available as an artifact~\cite{noauthorgivenBPM2024Artifacts2024}.
@@ -566,7 +567,7 @@ However, we use token-flow animation to visualize counterexamples for soundness 
 This improves comprehension compared to previous static, less interactive visualizations.
 In addition, to the best of our knowledge, our tool is the only one that provides \textit{quick fixes}, i.e., automatic resolutions if soundness properties are violated.
 To sum up, our tool incorporates several ideas from the state of the art while enhancing them with novel concepts.
-However, the most crucial aspect of our tool is its pragmatic approach that prioritizes performance and understanding above all else to ensure seamless integration into BPMN modeling tools.
+However, the most crucial aspect of our tool is its pragmatic approach, which prioritizes performance and understanding above all else to ensure seamless integration into BPMN modeling tools.
 
 \section{Limitations \& Threats to Validity} \label{sec:limitations}
 % Limitations
@@ -578,7 +579,7 @@ It is advisable to consider the results reported by other researchers on the sam
 To solve this problem, we advocate defining a standardized benchmarking process to compare tool performance directly and transparently.
 
 % External validity instantaneous soundness checking:
-The main threat to the validity of our instantaneous soundness checking claim is that we could not test our tool with a large set of models from an industrial setting.
+The main threat to the validity of our instantaneous soundness-checking claim is that we could not test our tool with a large set of models from an industrial setting.
 To mitigate this threat, we validated our claim against models sourced from existing literature, public repositories, and two artificial datasets featuring extensive and complex BPMN models.
 We believe these datasets closely resemble or even surpass industrial models in terms of model size and complexity (state space).
 
