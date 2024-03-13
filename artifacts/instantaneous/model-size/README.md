@@ -14,9 +14,9 @@ java -jar BPMNBlocksModelGenerator.jar -h
 java -jar BPMNBlocksModelGenerator.jar -path="./models" -number-of-blocks=500
 ```
 Generates 500 models with 1-500 blocks in the `./models` directory.
-The precomputed models are located in the `[models001-300.zip](./models001-300.zip) and [models301-500.zip](./models001-300.zip) files.
+The precomputed models are located in the [models001-300.zip](./models001-300.zip) and [models301-500.zip](./models001-300.zip) files.
 
-The source code for the CLI-application is available at [TBD after review](https://github.com/).
+The source code for the CLI application is available at [TBD after review](https://github.com/).
 
 ## Benchmark
 
