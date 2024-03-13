@@ -9,9 +9,9 @@ We will archive this repository using Zenodo for the final version of the paper.
 ## Instantaneous Soundness Checking
 
 The models used in the paper are available in the `artifacts/instantaneous` directory:
-1. [model-size](./artifacts/instantaneous/model-size) contains the BPMN models with increasing model size.
-2. [parallel-branches](./artifacts/instantaneous/parallel-branches) contains the BPMN models with growing parallel branches and branch length.
-3. [realistic-models](./artifacts/instantaneous/realistic-models) contains the realistic BPMN models.
+1. [model-size](./artifacts/instantaneous/model-size/README.md) contains the BPMN models with increasing model size.
+2. [parallel-branches](./artifacts/instantaneous/parallel-branches/README.md) contains the BPMN models with growing parallel branches and branch length.
+3. [realistic-models](./artifacts/instantaneous/realistic-models/README.md) contains the realistic BPMN models.
 
 In addition, each directory contains instructions on how to run the soundness checking benchmarks reported in the paper.
 
@@ -21,7 +21,7 @@ In addition, each directory contains instructions on how to run the soundness ch
 - The benchmarks were run with our bpmn-analyzer tool version **0.2.0** (binaries available for windows/linux in the **artifacts** folder).
 
 ## Fixable Soundness Checking
-The demo application showcasing the quick fixes is in [artifacts/tool-with-ui/](./artifacts/tool-with-ui/README.md).
+The demo application showcasing the quick fixes is available [online](https://bpm-2024.whitefield-c9fed487.northeurope.azurecontainerapps.io/) or locally in [artifacts/tool-with-ui/](./artifacts/tool-with-ui/README.md).
 
 ## Implementation
 The tool is available [online](https://bpm-2024.whitefield-c9fed487.northeurope.azurecontainerapps.io/).

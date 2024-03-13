@@ -20,7 +20,7 @@ The source code for the CLI-application is available at [TBD after review](https
 
 ## Benchmark
 
-Unpack the `models.zip` file and run the following command:
+Unpack the `models001-300.zip` and `models300-500.zip` files to the folder `models` and run the following command:
 
 **Windows:**
 ```bash
