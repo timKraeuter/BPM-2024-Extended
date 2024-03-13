@@ -11,6 +11,7 @@ The tool with the UI is available [online](https://bpm-2024.whitefield-c9fed487.
 ```
 
 For the final version, we will provide the same docker image used to deploy the tool [online](https://bpm-2024.whitefield-c9fed487.northeurope.azurecontainerapps.io/).
+A docker image to run the tool is available [here](https://hub.docker.com/TBD).
 
 The tool will be available at [http://localhost:8080](http://localhost:8080).
 The served web application is located in the folder `./public`.
