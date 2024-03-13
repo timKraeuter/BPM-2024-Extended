@@ -19,6 +19,7 @@ pdfkeywords={BPM, Verification, Soundness, Safeness}
 % Listings with Rust code
 \usepackage{listings, listings-rust}
 %\usepackage{orcidlink} % Orcid links
+\newcommand{\subpart}[1]{\vspace{1em}\noindent\textbf{#1}}
 
 \begin{document}
 %
@@ -130,20 +131,18 @@ Second, we study how our tool deals with a \textit{growing number of parallel br
 Third, we run soundness checking for realistic BPMN process models available in the literature and public datasets.
 
 % General info
-% We use hyperfine for each benchmark with runs stuff 10x and averages. See my other papers
 For all our benchmarks, we use the hyperfine benchmarking tool~\cite{peterHyperfine2023} (version 1.18.0), which calculates the average runtime when executing each soundness check ten or more times.
 The benchmarks were run on Ubuntu 22.04.4 with an AMD Ryzen 7700X processor (4.5GHz) and 32 GB of RAM.
 % Artifacts using a Zenodo link at the end. Anonymous GitHub account before.
 All used BPMN models, our tools to generate them, and benchmarking scripts are given in the artifacts of this paper~\cite{noauthorgivenBPM2024Artifacts2024}.
 
-\subsubsection{Growing Model Size}
+\subpart{Growing Model Size}
 We use the data set of models provided in~\cite{krauterHigherorderTransformationApproach2023}, which consists of 300 synthetically generated BPMN models, and extend it to 500 models.
 % Briefly recap the method.
 Every BPMN model contains a start event, a fixed amount of \textit{blocks}, and an end event.
 The three unique blocks are shown in \autoref{fig:three-block-example}.
 To generate the models, we start with the first block and add one more block at a time until we reach 500.
 \autoref{fig:three-block-example} shows the third BPMN model in the data set, which contains each block once~\cite{krauterHigherorderTransformationApproach2023}.
-We provide a tool to create models such as \autoref{fig:three-block-example} and the 500 generated models itself~\cite{noauthorgivenBPM2024Artifacts2024}.
 
 \begin{figure}[ht]
 	\centering
@@ -169,16 +168,15 @@ Models of this size are not human-readable anymore and are usually divided into 
 Thus, models found in practice are likely to be smaller than those found in our benchmark.
 However, they might be more complex, leading to a larger state space, as discussed in the next section.
 
-\subsubsection{Growing Number of Parallel Branches}
+\subpart{Growing Number of Parallel Branches}
 An increased model size leads to a bigger state space that must be analyzed.
 In the previous section, a linear increase in model size led to a similar growth in the state space.
 However, models with a growing number of parallel branches lead to an exponential increase in the state space, i.e., a state space explosion~\cite{clarkeHandbookModelChecking2018}.
 In this section, we benchmark our tool against a synthetic data set of models that lead to a state space explosion.
 This represents a \textit{worst case} scenario for soundness checking.
 
-We generated a data set of models with a growing number of parallel branches with increasing length, similar to~\cite{corradiniFormalApproachAnalysis2021}.
+We generated a data set of models~\cite{noauthorgivenBPM2024Artifacts2024} with a growing number of parallel branches with increasing length, similar to~\cite{corradiniFormalApproachAnalysis2021}.
 \autoref{fig:parallel-branches-models} depicts how a model with \textit{n} parallel branches with length \textit{m} is generated.
-We provide the used models and a tool to generate such models in~\cite{noauthorgivenBPM2024Artifacts2024}.
 
 \begin{figure}[ht]
 	\centering
@@ -226,14 +224,14 @@ The difference is probably due to faster hardware and our pragmatic encoding lea
 
 % Comparison to BProve
 
-We believe, supported by research~\cite{fahlandAnalysisDemandInstantaneous2011}, that models with a high degree of parallelism, such that analysis is not instantaneous, are uncommon.
+We believe, supported by research~\cite{fahlandAnalysisDemandInstantaneous2011}, that models with a high degree of parallelism are uncommon.
 For example, only 3\% of the industrial models in~\cite{fahlandAnalysisDemandInstantaneous2011} have more than 1000 states.
-If complex models are more common than anticipated, one can implement \textit{partial order reduction}, which has shown great results for the Petri Net model checker LoLA in~\cite{fahlandAnalysisDemandInstantaneous2011}.
-Due to partial order reduction, they checked previously intractable models and reduced the analysis time.
+If complex models are more common than anticipated, one can implement \textit{partial order reduction}~\cite{clarkeHandbookModelChecking2018}, which has shown great results for the Petri Net model checker LoLA in~\cite{fahlandAnalysisDemandInstantaneous2011}.
+Due to partial order reduction, they reduced the analysis time and checked previously intractable models.
 One can implement partial order reduction similarly in our tool since the semantics of BPMN and Petri Nets have many similarities.
 However, translating BPMN to Petri nets is not always possible. % ~\cite{favreDifficultyReplacingInclusive2012}.
 
-\subsubsection{Realistic Models}
+\subpart{Realistic Models}
 We apply our tool to eight realistic models, where three models (e001, e002, e020) are taken from~\cite{houhouFirstOrderLogicVerification2022}, and the remaining five models are part of the Camunda BPMN for research repository\footnote{\url{https://github.com/camunda/bpmn-for-research} \label{footnote:camundaResearch}}.
 We had to slightly adapt the Camunda models such that they can be executed standalone, which is described in our artifacts~\cite{noauthorgivenBPM2024Artifacts2024}.
 
@@ -335,8 +333,8 @@ Second, we provide an \textit{interactive} visualization of counterexamples usin
 
 \subsection{Fixable Soundness Checking} \label{subsec:fixable-checking}
 
-If possible, we provide an automatic fix similar to \textit{quick fixes} in Integrated Development Environments (IDEs) for detected soundness and safeness violations.
-Modelers can then select these quick fixes to resolve violations.
+If possible, we provide an automatic fix similar to \textit{quick fixes} in Integrated Development Environments (IDEs) for detected violations.
+Modelers can then select these quick fixes to restore soundness.
 \autoref{fig:quick-fixes} shows a screenshot of our tool, where quick fixes are depicted as green overlays containing a light bulb icon.
 This icon is typically used to indicate quick fixes in IDEs.
 Our tool simultaneously shows soundness violations (\autoref{fig:violations}) and quick fixes (\autoref{fig:quick-fixes}).
@@ -401,8 +399,7 @@ All the implemented quick fixes can be reverted using one undo operation.
 
 Our demo application in the artifacts~\cite{noauthorgivenBPM2024Artifacts2024} contains examples of the Safeness quick fixes discussed here and all upcoming soundness properties.
 
-\vspace{-1em}
-\subsubsection{Proper Completion}
+\subpart{Proper Completion}
 For \textit{Proper Completion}, our soundness checker will provide a counterexample and identify the problematic end events that consume more than one token.
 Possible reasons for \textit{Proper Completion} violations which we address are:
 
@@ -426,8 +423,7 @@ We ensure an undo operation would revert the quick fix using the command pattern
 \textbf{Resolution for (2):} If a problematic end event only has one incoming sequence flow, it must be unsafe.
 Thus, other \textit{Safeness} quick fixes can apply, which will also resolve \textit{Proper Completion}.
 
-\vspace{-1em}
-\subsubsection{Option to Complete}
+\subpart{Option to Complete}
 Violations of \textit{Option to Complete} can have multiple reasons.
 
 \begin{enumerate}
@@ -463,8 +459,7 @@ Different factors, such as spatial proximity and name similarity, can be conside
 Generalizing this idea to different event types requires adding the missing trigger.
 Analyzing other elements in the model or involving the modeler can help find the most fitting trigger.
 
-\vspace{-1em}
-\subsubsection{No Dead Activities}
+\subpart{No Dead Activities}
 A dead activity might have multiple reasons:
 
 \begin{enumerate}
@@ -474,10 +469,10 @@ A dead activity might have multiple reasons:
 \end{enumerate}
 
 \textbf{Resolutions for (1)}: If the activity is disconnected, we can propose connecting it to the nearest flow node.
-However, we ensure this node is not disconnected or dead itself.
+However, we this node should not be disconnected or dead itself.
 
-\textbf{Resolutions for (2)}: When the dead activity is connected, this often means it is unreachable during execution, and often the process itself cannot terminate, i.e., violates \textit{Option to Complete}.
-Thus, other quick fixes can be applied to resolve dead activities.
+\textbf{Resolutions for (2)}: When the dead activity is connected, this means it is unreachable during execution, and often the process itself cannot terminate, i.e., violates \textit{Option to Complete}.
+Thus, potentially other quick fixes can be applied.
 
 \section{Implementation} \label{sec:impl}
 
@@ -527,7 +522,7 @@ For example, our tool finds only 2.112 states for the BPMN model \textsf{e020} (
 % Both could be merged into one with an arrow going around if we need space.
 \begin{figure}[ht]
 	\centering
-	\includegraphics[width=0.7\textwidth]{images/pragmatic-encoding}
+	\includegraphics[width=0.65\textwidth]{images/pragmatic-encoding}
 	\caption{Pragmatic task execution encoding (left) and detailed encoding (right)}
 	\label{fig:activityEncoding}
 \end{figure}
@@ -536,23 +531,22 @@ Similar minimal encodings can be applied to other BPMN elements, such as message
 Nevertheless, one must always be sure that such optimizations do not compromise the checked properties, similar to when applying partial-order reduction techniques~\cite{clarkeHandbookModelChecking2018}.
 
 Our pragmatic encoding has potential downsides if one wants to check custom properties in the future, such as Activity A and B not executing simultaneously.
-Since we are only interested in soundness and safeness, we are consciously trading a smaller state space for the inability to check such custom properties in the future.
+Since we are only interested in soundness and safeness, we are consciously trading a smaller state space for the inability to check such custom properties.
 
 \section{Related Work} \label{sec:related-work}
 
 \textbf{BPMN specification coverage:}
 Most related work focuses on the depth of BPMN formalization while providing soundness and safeness checking.
 Thus, these approaches show how different BPMN elements can be formalized and compare themselves with each other regarding supported elements~\cite{corradiniFormalApproachAnalysis2021,houhouFirstOrderLogicVerification2022,krauterFormalizationAnalysisBPMN2023,krauterHigherorderTransformationApproach2023}.
-The supported BPMN elements come close to the capabilities of popular process orchestration platforms such as Camunda.
-Our tool supports the same depth of BPMN elements as~\cite{corradiniFormalApproachAnalysis2021},i.e., the most used gateways, tasks, and events.
-Other tools, such as~\cite{krauterHigherorderTransformationApproach2023}, cover even more elements.
-A detailed comparison is available in~\cite{noauthorgivenBPM2024Artifacts2024}, and we plan to support more elements, if necessary, in the future.
+The supported BPMN elements come close to the capabilities of popular process orchestration platforms.
+Our tool supports the same depth of BPMN elements as~\cite{corradiniFormalApproachAnalysis2021}, i.e., the most used gateways, tasks, and events.
+A detailed comparison is available in~\cite{noauthorgivenBPM2024Artifacts2024}, and we plan to support more elements in the future.
 We focus on tool performance and capabilities concerning soundness comprehension, soundness resolution, and seamless integration into BPMN modeling tools.
 
 \textbf{Tool performance:}
 Comparing tool performance without standard benchmarks and a reproducible environment is challenging.
 However, other publications indicate that other tools take several seconds up to half a minute to check single soundness properties~\cite{corradiniFormalApproachAnalysis2021,houhouFirstOrderLogicVerification2022,krauterHigherorderTransformationApproach2023}.
-In contrast, our approach instantaneously checks all soundness properties and safeness of the same models.
+In contrast, our approach instantaneously checks \textit{all} soundness properties and safeness of the same models.
 The difference in performance lies probably in our pragmatic BPMN encoding optimized for soundness checking and its direct implementation in a performant programming language rather than in transforming BPMN into general model-checking tools.
 
 \textbf{Tool capabilities:}
