@@ -130,11 +130,11 @@ The benchmarks were run on Ubuntu 22.04.4 with an AMD Ryzen 7700X processor (4.5
 All used BPMN models, our tools to generate them, and benchmarking scripts are given in the artifacts of this paper~\cite{noauthorgivenBPM2024Artifacts2024}.
 
 \subpart{Growing Model Size}
-We use the data set of models provided in~\cite{krauterHigherorderTransformationApproach2023}, which consists of 300 synthetically generated BPMN models, and extend it to 500 models.
+We use an extended version of the data set of models provided in~\cite{krauterHigherorderTransformationApproach2023}, which consists of 300 synthetically generated BPMN models, and increase it to 500 models.
 % Briefly recap the method.
 Every BPMN model contains a start event, a fixed amount of \textit{blocks}, and an end event.
 The three unique blocks are shown in \autoref{fig:three-block-example}.
-To generate the models, we start with the first block and add one more block at a time until we reach 500.
+To generate the models, we start with the first block and add one more block at a time, always following the same order until we reach 500.
 \autoref{fig:three-block-example} shows the third BPMN model in the data set, which contains each block once~\cite{krauterHigherorderTransformationApproach2023}.
 
 \begin{figure}[ht]
