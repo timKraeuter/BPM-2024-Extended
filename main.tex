@@ -446,11 +446,11 @@ We present both possible resolutions to the user, who can choose the appropriate
 In the example in \autoref{fig:optionToComplete}, it is possible to spot the mismatching gateways.
 However, this might not be straightforward in bigger BPMN models with more flow nodes and sequence flows.
 
-\textbf{Resolutions for (2):} We have not yet implemented any quick fixes for events, but many possibilities exist.
-For example, for message catch events without incoming message flows, one could add a fitting message flow from a message throw event or send task.
-Different factors, such as spatial proximity and name similarity, can be considered to find the right source of the new message flow.
-Generalizing this idea to different event types requires adding the missing trigger.
-Analyzing other elements in the model or involving the modeler can help find the most fitting trigger.
+\textbf{Resolutions for (2):} We have only implemented quick fixes for untriggered message events since we do not support other intermediate events.
+If an untriggered message event has no incoming message flows, we can add a message flow from the closest message throw event or send task to the event.
+Currently, we only use spatial proximity to find the right source of the new message flow, but other factors, such as name similarity or reachability, can be considered.
+Generalizing this idea to different event types requires adding the missing event trigger.
+Analyzing other elements in the model or involving the modeler can help find a potential trigger.
 
 \subpart{No Dead Activities}
 A dead activity might have multiple reasons:
