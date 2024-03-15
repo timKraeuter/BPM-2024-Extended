@@ -1,6 +1,6 @@
 # BPM-2024
 
-This repository contains the artifacts for the paper _**Instantaneous, Comprehensible, and Fixable Soundness Checking of Realistic BPMN Models**_ submitted to BPM-2024.
+This repository contains the artifacts for the paper [_**Instantaneous, Comprehensible, and Fixable Soundness Checking of Realistic BPMN Models**_](./paper.pdf) submitted to BPM-2024.
 
 Our tool is available [online](https://bpm-2024.whitefield-c9fed487.northeurope.azurecontainerapps.io/) and as an artifact (see the implementation section below).
 
