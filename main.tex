@@ -72,7 +72,7 @@ These errors hinder the correct execution of BPMN models and may be detected lat
 
 % Solution
 In this paper, we describe our new tool, which checks BPMN process models for soundness and safeness~\cite{corradiniClassificationBPMNCollaborations2018}, which entails finding control-flow errors already during modeling.
-\autoref{fig:overview} shows an overview of our tool, which we provide as a prototype online~\cite{noauthorgivenBPM2024Artifacts2024}.
+\autoref{fig:overview} shows an overview of our tool, which we provide online~\cite{noauthorgivenBPM2024Artifacts2024}.
 The tool front-end is based on the popular \textit{bpmn.io} ecosystem, while the soundness checker is implemented in Rust for fast performance, memory efficiency, and memory safety.
 % Even blazingly fast performance
 
@@ -85,7 +85,9 @@ The tool front-end is based on the popular \textit{bpmn.io} ecosystem, while the
 
 The tool can check models after each change since soundness checking is \textit{instantaneous}, i.e., takes 500ms or less~\cite{fahlandAnalysisDemandInstantaneous2011}.
 Furthermore, we ensure the results are \textit{comprehensible} by highlighting possible violations directly in the model and displaying an interactive counterexample visualization.
-Finally, the tool suggests \textit{fixes} for the most common soundness violations and can be extended to suggest more fixes independent of the soundness checker. 
+Finally, the tool suggests \textit{fixes} for the most common soundness violations and can be extended to suggest more fixes independent of the soundness checker.
+However, the tool is still a \textit{prototype} and cannot provide fixes for all possible violations due to the wide variety of possible BPMN models.
+
 % Paper structure
 In the remainder of the paper, we describe how instantaneous, comprehensible, and fixable soundness checking is achieved in \autoref{sec:soundness}.
 Then, we explain our tool implementation in \autoref{sec:impl} before presenting related work (\autoref{sec:related-work}).
@@ -368,7 +370,8 @@ The parallelization can also be implicitly encoded, for example, using an activi
 This does not comply with best practices~\cite{camundaservicesgmbhBpmnlint2024} but is allowed.
 In this case, we can add an explicit exclusive gateway to eliminate the implicit parallelization and achieve matching gateways.
 
-\textbf{Resolutions for (2):} Similarly to \textbf{(1)}, the goal of each quick fix is to obtain matching gateways if this is possible.
+\textbf{Resolutions for (2):} Similarly to \textbf{(1)}, the goal of each quick fix is to obtain matching gateways.
+This is not always possible since BPMN models must not be well-structured.
 Thus, one solution is to find the parallelization that causes the \textit{Safeness} violation and change it to an exclusive gateway, as described in \textbf{(1)}.
 Quick fix \textbf{(a)} in \autoref{fig:safeness} shows this solution, where a parallel gateway is changed to an exclusive one.
 We color the changes and additions in green to highlight the effect of quick fixes.
@@ -554,6 +557,9 @@ We advocate for a pragmatic approach, prioritizing performance and understanding
 
 \section{Limitations \& Threats to Validity} \label{sec:limitations}
 % Limitations
+Our tool is a \textit{prototype} that focuses on soundness and safeness and does not check custom properties.
+Furthermore, the suggested quick fixes cannot repair all possible violations since the structure of BPMN models allows nearly arbitrary combinations of elements.
+
 Assessing tool performance becomes difficult when there are no standardized benchmarks for comparison.
 In this publication, a direct comparison of our tool's performance with related work is not feasible.
 This is due to variations in benchmark conditions, such as hardware, operating systems, and employed methodologies.
@@ -565,8 +571,6 @@ To solve this problem, we advocate defining a standardized benchmarking process 
 The main threat to the validity of our instantaneous soundness-checking claim is that we could not test our tool with a large set of models directly from the industry.
 We validated our claim against models sourced from existing literature, public repositories, and two artificial datasets to mitigate this threat.
 We believe these datasets closely resemble or even surpass industrial models in terms of model size and state space complexity.
-
-Furthermore, regarding comprehensible soundness checking, we plan to study how well modelers understand soundness violations using the provided highlighting and interactive visualization and how quick fixes impact their resolution.
 
 \section{Conclusion \& Future work} \label{sec:conclusion}
 % Summary and contributions
