@@ -474,26 +474,25 @@ Our tool is open-source and available as an artifact~\cite{noauthorgivenBPM2024A
 The tool architecture is shown in \autoref{fig:overview}, while screenshots of our tool with different features enabled are given in \autoref{fig:violations}, \autoref{fig:counterexample}, and \autoref{fig:quick-fixes}.
 The front-end of the tool is built in web technologies using the \textit{bpmn.io} ecosystem, especially the bpmn-js-token-simulation~\cite{camundaservicesgmbhBpmnjsTokenSimulation2024}, while the soundness and safeness checking is implemented in the Rust programming language.
 
-We developed soundness checking in Rust due to its memory efficiency, memory safety guarantees, absence of garbage collection, and fast performance comparable to programming languages such as C and C++.
-A fast programming language and direct implementation of the BPMN semantics play a key role in achieving \textit{instantaneous} soundness checking.
-Our tool is not yet heavily optimized for performance and can be extended regarding BPMN features or partial-order reduction to tackle state space explosion.
+We developed soundness checking in Rust due to its memory efficiency, absence of garbage collection and lightweight hardware abstractions, resulting in an execution performance comparable to C or C++, while retaining memory safety guarantees.
+A fast programming language and direct implementation of the BPMN semantics play the key role for achieving \textit{instantaneous} soundness checking.
+We would like to emphasize that the current implementation does feature specific optimization techniques such as partial order reduction, therefore, we assume that performance may be amplified even further for certain types of models or violations, see, e.g., the parallel branches example. 
 % Zero-copy? --> Currently, we are copying things but still achieve better performance (Tradeoff with readability)
 
-Our tool can be integrated into existing BPMN modeling tools since it provides model checking as a \textit{web-service} or \textit{command-line application}.
-Furthermore, the tool front-end is \textit{modular} such that one can either fully integrate it, pick only specific features, or extend it, for example, to add custom quick fixes.
+The tool can be integrated into existing BPMN modeling tools since its model capabilities are invoked through a \textit{web-service} interface or as \textit{command-line application}.
+Furthermore, the front-end is \textit{modular} such that one can either fully integrate it, pick only specific features, or extend it, for example, to add custom quick fixes.
 
 \subsection{Soundness checking in Rust}
 % State space generation and search at the same time
 % \cite{clarkeHandbookModelChecking2018} section 5.2 basic search algorithm. fig1
-We implemented a standard breadth-first state space generation in Rust~\cite{clarkeHandbookModelChecking2018}.
+We implemented a standard breadth-first state space exploration~\cite{clarkeHandbookModelChecking2018}.
 While generating the state space, we can check safety properties, such as \textit{Safeness} and \textit{Option To Complete}, \textit{on-the-fly} for each found state~\cite{clarkeHandbookModelChecking2018}.
-For example, \autoref{lst:rust} shows how we find unsafe sequence flows in a state to check \textit{Safeness}.
+For example, \autoref{lst:rust} shows how to find unsafe sequence flows in a state to check \textit{Safeness} by inspecting the number of tokens in each state.
 
 \renewcommand\thelstlisting{\arabic{lstlisting}} % Just increasing listing numbers
-\lstinputlisting[language=Rust, style=boxed, caption={Find the IDs of \textit{unsafe} sequence flows in a given state (Rust)}, label={lst:rust}]{listings/properties-snippet.rs}
+\lstinputlisting[language=Rust, style=boxed, caption={Find the IDs of \textit{unsafe} sequence flows in a given state}, label={lst:rust}]{listings/properties-snippet.rs}
 
-\textsf{Self} is a state with a set of \textsf{snapshots}, i.e., process instances with a map of \textsf{tokens}, that links sequence flow IDs to the number of tokens they are holding.
-\autoref{lst:rust} finds all sequence flows in the state that hold two or more tokens.
+\textsf{Self} refers to a \textsf{struct} holding a set of \textsf{snapshots}, i.e., process instances with a map of \textsf{tokens}, that links sequence flow IDs to the number of tokens they are holding.
 
 Similarly, for \textit{Option To Complete}, we examine whether a state is stuck.
 This means that some process instance is still ongoing, indicated by the presence of tokens, and the state has no outgoing transitions.
@@ -562,7 +561,7 @@ Furthermore, the suggested quick fixes cannot repair all possible violations sin
 Assessing tool performance becomes difficult when there are no standardized benchmarks for comparison.
 In this publication, a direct comparison of our tool's performance with related work is not feasible.
 This is due to variations in benchmark conditions, such as hardware, operating systems, and employed methodologies.
-Thus, we claim that our tool can deal with most BPMN models instantaneously, as previously discussed.
+We claim that our tool can deal with most BPMN models instantaneously, as previously discussed.
 It is advisable to consider the results reported by other researchers on the same models only as a general reference.
 To solve this problem, we advocate defining a standardized benchmarking process to compare tool performance directly and transparently.
 
