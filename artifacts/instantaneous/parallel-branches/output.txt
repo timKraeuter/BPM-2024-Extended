@@ -1,5 +1,5 @@
-State space generation successful in 28.082179ms!
-States: 9264, Transitions: 9264
+State space generation successful in 25.717273ms!
+States: 9264, Transitions: 26463
 Terminated states: 1
 
 Safeness is fulfilled.

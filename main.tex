@@ -191,15 +191,15 @@ Our tool explores the entire state space while simultaneously verifying all prop
 		}
 		\textbf{Branches} & \textbf{Branch Length} &\textbf{Runtime} & \textbf{States} \\
 		5 & 1 & 1 ms& 35 \\
-		10 & 1 & 5 ms& 1.027 \\
-		15 & 1 & 324 ms& 32.771 \\
-		16 & 1 & 725 ms& 65.539 \\
-		17 & 1 & 1.615 ms& 131.075 \\
-		20 & 1 & 15.373 ms& 1.048.579 \\
-		5 & 3 & 4 ms& 1.027 \\
-		5 & 5 & 26 ms& 7.779 \\
+		10 & 1 & 4 ms& 1.027 \\
+		15 & 1 & 164 ms& 32.771 \\
+		16 & 1 & 368 ms& 65.539 \\
+		17 & 1 & 806 ms& 131.075 \\
+		20 & 1 & 8.859 ms& 1.048.579 \\
+		5 & 3 & 3 ms& 1.027 \\
+		5 & 5 & 19 ms& 7.779 \\
 		3 & 10 & 4 ms& 1.334 \\
-		3 & 20 & 31 ms& 9.264 \\
+		3 & 20 & 28 ms& 9.264 \\
 	\end{tblr}
 \end{table}
 
@@ -243,7 +243,7 @@ The results show that our tool can check soundness and safeness \textit{instanta
 		\textbf{Model name} &\textbf{Runtime} & \textbf{States} & \textbf{Violated Properties} \\
 		e001~\cite{houhouFirstOrderLogicVerification2022} & 1 ms & 31 & Option To Complete, No Dead Activities \\
 		e002~\cite{houhouFirstOrderLogicVerification2022} & 1 ms & 31 & Option To Complete, No Dead Activities \\
-		e020~\cite{houhouFirstOrderLogicVerification2022} & 7 ms & 2.112 & Option To Complete \\
+		e020~\cite{houhouFirstOrderLogicVerification2022} & 5 ms & 2.112 & Option To Complete \\
 		credit-scoring-async\footref{footnote:camundaResearch} & 1 ms & 50 & Option To Complete \\
 		credit-scoring-sync\footref{footnote:camundaResearch} & 1 ms & 99 & Option To Complete \\
 		dispatch-of-goods\footref{footnote:camundaResearch} & 1 ms & 103 & Safeness, Proper Completion\\
