@@ -205,7 +205,7 @@ Our tool explores the entire state space while simultaneously verifying all prop
 
 The models' state space grows exponentially, leading to the same growth in runtime.
 In our case, the number of states is given by $(m+1)^n + 3$ due to our pragmatic encoding (see \autoref{sec:impl}), clearly showing state space explosion.
-Our analysis is not instantaneous anymore when approaching 16 parallel branches of length 1 (see \autoref{tab:parallel-branches-benchmark}).
+Our analysis is not instantaneous anymore when approaching 17 parallel branches of length 1 (see \autoref{tab:parallel-branches-benchmark}).
 However, analysis is still instantaneous for more reasonable models with five parallel branches of length 5 or 3 branches of length 10-20.
 \cite{corradiniFormalApproachAnalysis2021} report 2-3s of runtime for most soundness properties and 30 s for no dead activities for the model with five parallel branches of length 1, which took 1 ms in our tool.
 The difference is probably due to faster hardware and our pragmatic encoding leading to smaller state spaces, see \autoref{sec:impl}.
