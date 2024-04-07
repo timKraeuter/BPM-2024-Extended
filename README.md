@@ -82,7 +82,7 @@ However, support can be extended step by step in the future, and we already supp
 | Cancel Events                               |             |               |            |           |
 | Compensation Events                         |             |               |            |           |
 | Conditional Events                          |             |               |            |           |
-| Link events                                 | X           |               |            |           |
+| Link events                                 | X           |               |            | X         |
 | Signal Events                               | X           |               |            |           |
 | Multiple Events                             |             |               |            |           |
 | Terminate events                            | X           | X             | X          | X         |
