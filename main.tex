@@ -26,7 +26,7 @@ pdfkeywords={BPM, Verification, Soundness, Safeness}
 \title{Instantaneous, Comprehensible, and Fixable Soundness Checking of Realistic BPMN Models}
 %
 \titlerunning{Instantaneous, Comprehensible, and Fixable BPMN Soundness Checking}
-% TODO: Final submission: Add authors, change artifact link (Zenodo), publish all source code, publish the docker container, and add it to the artifacts (tool-with-ui).
+% TODO: Final submission: Add authors, change artifact link (Zenodo), publish all source code, mention CLI tools for generation(include them and link to the repo), add docker container to the artifacts (tool-with-ui).
 % \author{
 % 	Tim Kr\"{a}uter\inst{1}\orcidlink{0000-0003-1795-0611} \and
 % 	Patrick St\"{u}nkel\inst{1}\orcidlink{0000-0002-0537-295X} \and
@@ -150,6 +150,7 @@ Our tool explores the entire state space while simultaneously verifying all prop
 	\label{fig:model-size-benchmark}
 \end{figure}
 
+% TODO: Update this if we use the new version of the CLI tool
 % Results
 Our tool spends from 1 ms up to 157 ms for the BPMN models compared to 0.7 s up to 14 s in~\cite{krauterHigherorderTransformationApproach2023} for only 300 blocks on a similar machine.
 Thus, our tool can be classified as \textit{instantaneous} according to~\cite{fahlandAnalysisDemandInstantaneous2011} even if the model size increases to over 4000 BPMN elements (500 blocks, 2168 states).
