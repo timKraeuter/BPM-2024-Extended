@@ -46,7 +46,7 @@ Many business process models have control-flow errors, such as deadlocks, which 
 In this paper, we introduce our new soundness-checking tool that can instantaneously identify errors in BPMN models, make them comprehensible for modelers, and even suggest corrections to resolve them automatically.
 We demonstrate that our tool's soundness checking is instantaneous, i.e., it takes less than 500ms, by benchmarking our tool against synthetic BPMN models with increasing size and state space complexity, as well as realistic models provided in the literature.
 Moreover, the tool directly displays possible soundness violations in the model and provides an interactive counterexample visualization of each violation.
-Additionally, it provides fixes to resolve the violations found, which is not currently available in other tools.
+Additionally, it provides fixes to resolve the violations found, which are not currently available in other tools.
 The tool is open-source, modular, extensible, and integrated into a popular BPMN modeling tool.
 
 \keywords{
@@ -82,10 +82,10 @@ The tool front-end is based on the popular \textit{bpmn.io} ecosystem, while the
 	\label{fig:overview}
 \end{figure}
 
-The tool can check models after each change since soundness checking is \textit{instantaneous}, i.e., takes 500ms or less~\cite{fahlandAnalysisDemandInstantaneous2011}.
+The tool can check models after each change since soundness checking is \textit{instantaneous} according to \cite{fahlandAnalysisDemandInstantaneous2011}, i.e., it takes 500ms or less.
 Furthermore, we ensure the results are \textit{comprehensible} by highlighting possible violations directly in the model and displaying an interactive counterexample visualization.
 Finally, the tool suggests \textit{fixes} for the most common soundness violations and can be extended to suggest more fixes independent of the soundness checker.
-However, the tool is still a \textit{prototype} and cannot provide fixes for all possible violations due to the wide variety of possible BPMN models.
+However, the tool is still a \textit{prototype} and cannot provide fixes for all possible violations due to the wide variety of control-flow errors.
 
 % Paper structure
 In the remainder of the paper, we describe how instantaneous, comprehensible, and fixable soundness checking is achieved in \autoref{sec:soundness}.
@@ -99,8 +99,7 @@ Soundness was introduced for workflow nets in~\cite{vanderaalstApplicationPetriN
 We will use the formal definition directly given for BPMN by~\cite{corradiniClassificationBPMNCollaborations2018}.
 Soundness is composed of the three following sub-properties~\cite{corradiniClassificationBPMNCollaborations2018}:
 \textit{(i) Option to complete}: any running process instance must eventually complete,
-\textit{(ii) Proper Completion}: at the moment of completion, each token of the process instance must be in a different end event and
-\textit{(iii) No dead activities}: any activity can be executed in at least one process instance.
+\textit{(ii) Proper Completion}: at the moment of completion, each token of the process instance must be in a different end event and \textit{(iii) No dead activities}: any activity can be executed in at least one process instance.
 Option to complete is vital since it guarantees the absence of deadlocks, while proper completion is less important, but it helps enforce BPMN best practices, such as not reusing end events.
 Furthermore, It is crucial not to have dead activities since, similar to dead code, they should be removed or they indicate a deeper issue that must be investigated.
 
@@ -209,7 +208,7 @@ In our case, the number of states is given by $(m+1)^n + 3$ due to our pragmatic
 Our analysis is not instantaneous anymore when approaching 17 parallel branches of length 1 (see \autoref{tab:parallel-branches-benchmark}).
 However, analysis is still instantaneous for more reasonable models with five parallel branches of length 5 or 3 branches of length 10-20.
 \cite{corradiniFormalApproachAnalysis2021} report 2-3s of runtime for most soundness properties and 30 s for no dead activities for the model with five parallel branches of length 1, which took 1 ms in our tool.
-The difference is probably due to faster hardware and our pragmatic encoding leading to smaller state spaces, see \autoref{sec:impl}.
+The difference is due to faster hardware and implementation differences, such as our pragmatic encoding leading to smaller state spaces, see \autoref{sec:impl}.
 % https://cpu.userbenchmark.com/Compare/Intel-Core-i7-6700HQ-vs-AMD-Ryzen-7-7700X/m34954vs4131
 
 % Comparison to BProve
@@ -468,7 +467,7 @@ Thus, other quick fixes can potentially be applied.
 \section{Implementation} \label{sec:impl}
 
 In this section, we briefly describe our implementation of the BPMN soundness-checking tool.
-The tool's main goal is to be performant, comprehensible and well-integrated into modeling tools without introducing unnecessary friction.
+The tool's main goal is to be performant, comprehensible, and well-integrated into modeling tools without introducing unnecessary friction.
 
 \subsection{Tool overview}
 Our tool is open-source and available as an artifact~\cite{noauthorgivenBPM2024Artifacts2024}.
@@ -476,7 +475,7 @@ The tool architecture is shown in \autoref{fig:overview}, while screenshots of o
 The front-end of the tool is built in web technologies using the \textit{bpmn.io} ecosystem, especially the bpmn-js-token-simulation~\cite{camundaservicesgmbhBpmnjsTokenSimulation2024}, while the soundness and safeness checking is implemented in the Rust programming language.
 
 We developed soundness checking in Rust due to its memory efficiency, absence of garbage collection and lightweight hardware abstractions, resulting in an execution performance comparable to C or C++, while retaining memory safety guarantees.
-A fast programming language and direct implementation of the BPMN semantics play the key role for achieving \textit{instantaneous} soundness checking.
+A fast programming language and direct implementation of the BPMN semantics play the key role in achieving \textit{instantaneous} soundness checking.
 We would like to emphasize that the current implementation does feature specific optimization techniques such as partial order reduction, therefore, we assume that performance may be amplified even further for certain types of models or violations, see, e.g., the parallel branches example. 
 % Zero-copy? --> Currently, we are copying things but still achieve better performance (Tradeoff with readability)
 
@@ -486,7 +485,7 @@ Furthermore, the front-end is \textit{modular} such that one can either fully in
 \subsection{Soundness checking in Rust}
 % State space generation and search at the same time
 % \cite{clarkeHandbookModelChecking2018} section 5.2 basic search algorithm. fig1
-We implemented a standard breadth-first state space exploration~\cite{clarkeHandbookModelChecking2018}.
+We implemented a standard breadth-first state space exploration~\cite{clarkeHandbookModelChecking2018}. % TODO: We are doing DFS at the moment. Should we switch to BFS for minimal counter-examples?
 While generating the state space, we can check safety properties, such as \textit{Safeness} and \textit{Option To Complete}, \textit{on-the-fly} for each found state~\cite{clarkeHandbookModelChecking2018}.
 For example, \autoref{lst:rust} shows how to find unsafe sequence flows in a state to check \textit{Safeness} by inspecting the number of tokens in each state.
 
@@ -502,7 +501,7 @@ Furthermore, \textit{Proper Completion} is checked by remembering executed end e
 
 
 \subsection{Pragmatic BPMN Semantics Encoding}
-In addition to selecting an efficient programming language for developing the soundness checker, we also opted for a practical, straightforward encoding of BPMN semantics.
+In addition to selecting an efficient programming language for developing the soundness checker, we also opted for a pragmatic, straightforward encoding of BPMN semantics.
 Our encoding contains sufficient details to check soundness and safeness while omitting unnecessary intermediate states, which leads to smaller state spaces.
 For example, \autoref{fig:activityEncoding} shows that we do not encode the start and end of a task but rather the execution as a whole.
 As discussed earlier, this simple abstraction avoids one additional state and pays off, especially in models with many parallel branches, which can significantly reduce the overall state space.
@@ -568,8 +567,8 @@ To solve this problem, we advocate defining a standardized benchmarking process 
 
 % External validity instantaneous soundness checking:
 The main threat to the validity of our instantaneous soundness-checking claim is that we could not test our tool with a large set of models directly from the industry.
-We validated our claim against models sourced from existing literature, public repositories, and two artificial datasets to mitigate this threat.
-We believe these datasets closely resemble or even surpass industrial models in terms of model size and state space complexity.
+To mitigate this threat, we validated our claim against models sourced from existing literature, public repositories, and two artificial datasets.
+These datasets, in terms of model size and state space complexity, closely resemble or even surpass industrial models.
 
 \section{Conclusion \& Future work} \label{sec:conclusion}
 % Summary and contributions
