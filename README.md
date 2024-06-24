@@ -1,10 +1,8 @@
 # BPM-2024
 
-This repository contains the artifacts for the paper [_**Instantaneous, Comprehensible, and Fixable Soundness Checking of Realistic BPMN Models**_](./paper.pdf) submitted to BPM-2024.
+This repository contains the artifacts for the paper [_**Instantaneous, Comprehensible, and Fixable Soundness Checking of Realistic BPMN Models**_](./paper.pdf).
 
-Our tool is available [online](https://bpm-2024.whitefield-c9fed487.northeurope.azurecontainerapps.io/) and as an artifact (see the implementation section below).
-
-We will archive this repository using Zenodo for the final version of the paper.
+The tool is available [online](https://timkraeuter.com/bpmn-analyzer-js/) and as an artifact (see the implementation section below).
 
 ## Instantaneous Soundness Checking
 
@@ -21,10 +19,10 @@ In addition, each directory contains instructions on how to run the soundness ch
 - The benchmarks were run with our bpmn-analyzer tool version **0.2.0** (binaries available for windows/linux in the **artifacts** folder).
 
 ## Fixable Soundness Checking
-The demo application showcasing the quick fixes is available [online](https://bpm-2024.whitefield-c9fed487.northeurope.azurecontainerapps.io/) or locally in [artifacts/tool-with-ui/](./artifacts/tool-with-ui/README.md).
+The demo application showcasing the quick fixes is available [online](https://timkraeuter.com/bpmn-analyzer-js/) or locally in [artifacts/tool-with-ui/](./artifacts/tool-with-ui/README.md).
 
 ## Implementation
-The tool is available [online](https://bpm-2024.whitefield-c9fed487.northeurope.azurecontainerapps.io/).
+The tool is available [online](https://timkraeuter.com/bpmn-analyzer-js/).
 
 In addition, the tool binaries are located in
 1. [artifacts/](./artifacts/README.md) (for the CLI application)
@@ -40,9 +38,9 @@ In addition, the tool binaries are located in
 We will make the source code available after the paper is reviewed since it is distributed between different repositories, which might compromise the double-blind review process.
 If reviewers want access to the code before, we can anonymize the repositories on demand.
 
-1. Analysis tool written in **Rust**: [TBD](https://github.com/)
-2. Front-end implemented using the [bpmn-js](https://github.com/bpmn-io/bpmn-js) ecosystem, especially [bpmn-js-token-simulation](https://github.com/bpmn-io/bpmn-js-token-simulation): [TBD](https://github.com/)
-3. CLI tools to generate the synthetic BPMN models: [TBD](https://github.com/)
+1. Analysis tool written in **Rust**: [rust_bpmn_analyzer](https://github.com/timKraeuter/rust_bpmn_analyzer)
+2. Front-end implemented using the [bpmn-js](https://github.com/bpmn-io/bpmn-js) ecosystem, especially [bpmn-js-token-simulation](https://github.com/bpmn-io/bpmn-js-token-simulation): [bpmn-analyzer-js](https://github.com/timKraeuter/bpmn-analyzer-js)
+3. CLI tools to generate the synthetic BPMN models: [BPMN-Model-Generators](https://github.com/timKraeuter/BPMN-Model-Generators)
 
 
 ## Related work
