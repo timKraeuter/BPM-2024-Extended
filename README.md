@@ -1,6 +1,6 @@
-# BPM-2024
+# BPM-2024 Extended Version
 
-This repository contains the artifacts for the paper [_**Instantaneous, Comprehensible, and Fixable Soundness Checking of Realistic BPMN Models**_](./paper.pdf).
+This repository contains the artifacts for the paper [_**Instantaneous, Comprehensible, and Fixable Soundness Checking of Realistic BPMN Models**_](./paper.pdf), which is an extended version of a tool paper submitted to BPM-2024.
 
 The tool is available [online](https://timkraeuter.com/bpmn-analyzer-js/) and as an artifact (see the implementation section below).
 
