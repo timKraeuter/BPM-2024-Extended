@@ -7,7 +7,7 @@
 bookmarksopenlevel=1,
 bookmarksdepth=2,
 pdftex,
-pdfauthor={No Author Given},
+pdfauthor={Tim Kräuter},
 pdftitle={Blazingly Fast, Comprehensible, and Fixable Soundness Checking of Realistic BPMN Models},
 pdfsubject={BPMN soundness checking},
 pdfkeywords={BPM, Verification, Soundness, Safeness}
@@ -18,7 +18,7 @@ pdfkeywords={BPM, Verification, Soundness, Safeness}
 \usepackage{tabularray}
 % Listings with Rust code
 \usepackage{listings, listings-rust}
-%\usepackage{orcidlink} % Orcid links
+\usepackage{orcidlink} % Orcid links
 \newcommand{\subpart}[1]{\vspace{1em}\noindent\textbf{#1}}
 
 \begin{document}
@@ -26,19 +26,18 @@ pdfkeywords={BPM, Verification, Soundness, Safeness}
 \title{Instantaneous, Comprehensible, and Fixable Soundness Checking of Realistic BPMN Models}
 %
 \titlerunning{Instantaneous, Comprehensible, and Fixable BPMN Soundness Checking}
-% TODO: Final submission: Add authors, change artifact link (Zenodo), publish all source code, mention CLI tools for generation(include them and link to the repo), add docker container to the artifacts (tool-with-ui).
-% \author{
-% 	Tim Kr\"{a}uter\inst{1}\orcidlink{0000-0003-1795-0611} \and
-% 	Patrick St\"{u}nkel\inst{1}\orcidlink{0000-0002-0537-295X} \and
-% 	Adrian Rutle\inst{1}\orcidlink{0000-0002-4158-1644} \and
-% 	Harald K\"{o}nig\inst{2,1}\orcidlink{0000-0001-6304-6311} \and
-% 	Yngve Lamo\inst{1}\orcidlink{0000-0001-9196-1779}
-% }
-% \authorrunning{T. Kräuter et al.}
-% \institute{Western Norway University of Applied Sciences, Bergen, Norway \\
-% \email{tkra@hvl.no, patrick.stuenkel@hvl.no, aru@hvl.no, yla@hvl.no} \and
-% University of Applied Sciences, FHDW, Hanover, Germany\\
-% \email{harald.koenig@fhdw.de}}
+\author{
+	Tim Kr\"{a}uter\inst{1}\orcidlink{0000-0003-1795-0611} \and
+	Patrick St\"{u}nkel\inst{1}\orcidlink{0000-0002-0537-295X} \and
+	Adrian Rutle\inst{1}\orcidlink{0000-0002-4158-1644} \and
+	Harald K\"{o}nig\inst{2,1}\orcidlink{0000-0001-6304-6311} \and
+	Yngve Lamo\inst{1}\orcidlink{0000-0001-9196-1779}
+}
+\authorrunning{T. Kräuter et al.}
+\institute{Western Norway University of Applied Sciences, Bergen, Norway \\
+\email{tkra@hvl.no, patrick.stuenkel@hvl.no, aru@hvl.no, yla@hvl.no} \and
+University of Applied Sciences, FHDW, Hanover, Germany\\
+\email{harald.koenig@fhdw.de}}
 
 \maketitle
 \begin{abstract}
@@ -53,7 +52,8 @@ The tool is open-source, modular, extensible, and integrated into a popular BPMN
 BPM \and
 Verification \and
 Soundness \and
-Safeness
+Safeness \and
+Control-Flow
 }
 \end{abstract}
 
