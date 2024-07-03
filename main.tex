@@ -70,7 +70,7 @@ These errors hinder the correct execution of BPMN models and may be detected lat
 
 % Solution
 In this paper, we describe our new tool, which checks BPMN process models for soundness and safeness~\cite{corradiniClassificationBPMNCollaborations2018}, which entails finding control-flow errors already during modeling.
-\autoref{fig:overview} shows an overview of our tool, which we provide online~\cite{noauthorgivenBPM2024Artifacts2024}.
+\autoref{fig:overview} shows an overview of our tool, which we provide online~\cite{timkrauterBPM2024Artifacts2024}.
 The tool front-end is based on the popular \textit{bpmn.io} ecosystem, while the soundness checker is implemented in Rust for fast performance, memory efficiency, and memory safety.
 % Even blazingly fast performance
 
@@ -121,7 +121,7 @@ Third, we run soundness checking for realistic BPMN process models available in 
 % General info
 For all our benchmarks, we use the hyperfine benchmarking tool~\cite{peterHyperfine2023} (version 1.18.0), which calculates the average runtime when executing each soundness check ten or more times.
 The benchmarks were run on Ubuntu 22.04.4 with an AMD Ryzen 7700X processor (4.5GHz) and 32 GB of RAM.
-All used BPMN models, our tools to generate them, and benchmarking scripts are given in the artifacts of this paper~\cite{noauthorgivenBPM2024Artifacts2024}.
+All used BPMN models, our tools to generate them, and benchmarking scripts are given in the artifacts of this paper~\cite{timkrauterBPM2024Artifacts2024}.
 
 \subpart{Growing Model Size}
 We use an extended version of the data set of models provided in~\cite{krauterHigherorderTransformationApproach2023}, which consists of 300 synthetically generated BPMN models, and increase it to 500 models.
@@ -163,7 +163,7 @@ However, models with a growing number of parallel branches lead to an exponentia
 In this section, we benchmark our tool against a synthetic data set of models that lead to a state space explosion.
 This represents a \textit{worst case} scenario for soundness checking.
 
-We generated a data set of models~\cite{noauthorgivenBPM2024Artifacts2024} with a growing number of parallel branches with increasing length, similar to~\cite{corradiniFormalApproachAnalysis2021}.
+We generated a data set of models~\cite{timkrauterBPM2024Artifacts2024} with a growing number of parallel branches with increasing length, similar to~\cite{corradiniFormalApproachAnalysis2021}.
 \autoref{fig:parallel-branches-models} depicts how a model with \textit{n} parallel branches with length \textit{m} is generated.
 
 \begin{figure}[ht]
@@ -221,7 +221,7 @@ However, translating BPMN to Petri nets is not always possible. % ~\cite{favreDi
 
 \subpart{Realistic Models}
 We apply our tool to eight realistic models, where three models (e001, e002, e020) are taken from~\cite{houhouFirstOrderLogicVerification2022}, and the remaining five models are part of the Camunda BPMN for research repository\footnote{\url{https://github.com/camunda/bpmn-for-research} \label{footnote:camundaResearch}}.
-We had to slightly adapt the Camunda models such that they can be executed standalone, which is described in our artifacts~\cite{noauthorgivenBPM2024Artifacts2024}.
+We had to slightly adapt the Camunda models such that they can be executed standalone, which is described in our artifacts~\cite{timkrauterBPM2024Artifacts2024}.
 
 \autoref{tab:realistic-models-benchmark} shows the average runtime of soundness and safeness checking using our tool and the number of states for each model.
 The results show that our tool can check soundness and safeness \textit{instantaneously} for the given realistic models.
@@ -386,7 +386,7 @@ All the implemented quick fixes can be reverted using one undo operation.
 	\label{fig:safeness}
 \end{figure}
 
-Our demo application in the artifacts~\cite{noauthorgivenBPM2024Artifacts2024} contains examples of the Safeness quick fixes discussed here and all upcoming soundness properties.
+Our demo application in the artifacts~\cite{timkrauterBPM2024Artifacts2024} contains examples of the Safeness quick fixes discussed here and all upcoming soundness properties.
 
 \subpart{Proper Completion}
 For \textit{Proper Completion}, our soundness checker will provide a counterexample and identify the problematic end events that consume more than one token.
@@ -469,7 +469,7 @@ In this section, we briefly describe our implementation of the BPMN soundness-ch
 The tool's main goal is to be performant, comprehensible, and well-integrated into modeling tools without introducing unnecessary friction.
 
 \subsection{Tool overview}
-Our tool is open-source and available as an artifact~\cite{noauthorgivenBPM2024Artifacts2024}.
+Our tool is open-source and available as an artifact~\cite{timkrauterBPM2024Artifacts2024}.
 The tool architecture is shown in \autoref{fig:overview}, while screenshots of our tool with different features enabled are given in \autoref{fig:violations}, \autoref{fig:counterexample}, and \autoref{fig:quick-fixes}.
 The front-end of the tool is built in web technologies using the \textit{bpmn.io} ecosystem, especially the bpmn-js-token-simulation~\cite{camundaservicesgmbhBpmnjsTokenSimulation2024}, while the soundness and safeness checking is implemented in the Rust programming language.
 
@@ -528,7 +528,7 @@ Most related work focuses on the depth of BPMN formalization while providing sou
 Thus, these approaches show how different BPMN elements can be formalized and compare themselves with each other regarding supported elements~\cite{corradiniFormalApproachAnalysis2021,houhouFirstOrderLogicVerification2022,krauterFormalizationAnalysisBPMN2023,krauterHigherorderTransformationApproach2023}.
 The supported BPMN elements come close to the capabilities of popular process orchestration platforms.
 Our tool supports the same depth of BPMN elements as~\cite{corradiniFormalApproachAnalysis2021}, i.e., the most used gateways, tasks, and events.
-A detailed comparison is available in~\cite{noauthorgivenBPM2024Artifacts2024}, and we plan to support more elements in the future.
+A detailed comparison is available in~\cite{timkrauterBPM2024Artifacts2024}, and we plan to support more elements in the future.
 We focus on tool performance and capabilities concerning soundness comprehension, soundness resolution, and seamless integration into BPMN modeling tools.
 
 \textbf{Tool performance:}
@@ -573,7 +573,7 @@ These datasets, in terms of model size and state space complexity, closely resem
 % Summary and contributions
 In this paper, we describe a novel tool that provides instantaneous, comprehensible, and fixable BPMN soundness checking and is integrated into a popular BPMN modeling tool.
 We benchmarked our tool against synthetic and realistic BPMN models to demonstrate instantaneous soundness checking.
-Our artifacts contain the synthetic data sets of BPMN models and transparently describe our methodology~\cite{noauthorgivenBPM2024Artifacts2024}.
+Our artifacts contain the synthetic data sets of BPMN models and transparently describe our methodology~\cite{timkrauterBPM2024Artifacts2024}.
 Our methodology and data sets can be used to better benchmark the performance of soundness-checking tools in the future.
 
 Three main challenges for providing soundness-checking capabilities to non-expert users are identified in~\cite{fahlandAnalysisDemandInstantaneous2011}.
