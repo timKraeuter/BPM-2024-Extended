@@ -140,6 +140,7 @@ To generate the models, we start with the first block and add one more block at 
 
 \autoref{fig:model-size-benchmark} shows the average runtime of our tool when checking soundness and safeness for the BPMN models with increasing model size.
 Our tool explores the entire state space while simultaneously verifying all properties.
+\autoref{fig:model-size-benchmark} shows a linear increase in runtime since the state space increases linearly.
 
 \begin{figure}[ht]
 	\centering
@@ -148,9 +149,8 @@ Our tool explores the entire state space while simultaneously verifying all prop
 	\label{fig:model-size-benchmark}
 \end{figure}
 
-% TODO: Update this if we use the new version of the CLI tool
 % Results
-Our tool spends from 1 ms up to 157 ms for the BPMN models compared to 0.7 s up to 14 s in~\cite{krauterHigherorderTransformationApproach2023} for only 300 blocks on a similar machine.
+Our tool spends from 1 ms up to 9 ms for the BPMN models compared to 0.7 s up to 14 s in~\cite{krauterHigherorderTransformationApproach2023} for only 300 blocks on a similar machine.
 Thus, our tool can be classified as \textit{instantaneous} according to~\cite{fahlandAnalysisDemandInstantaneous2011} even if the model size increases to over 4000 BPMN elements (500 blocks, 2168 states).
 Models of this size are not human-readable anymore and are usually divided into smaller models according to best practices~\cite{fahlandAnalysisDemandInstantaneous2011}.
 Thus, models found in practice are likely to be smaller than those found in our benchmark.
@@ -190,15 +190,15 @@ Our tool explores the entire state space while simultaneously verifying all prop
 		}
 		\textbf{Branches} & \textbf{Branch Length} &\textbf{Runtime} & \textbf{States} \\
 		5 & 1 & 1 ms& 35 \\
-		10 & 1 & 4 ms& 1.027 \\
-		15 & 1 & 164 ms& 32.771 \\
-		16 & 1 & 368 ms& 65.539 \\
-		17 & 1 & 806 ms& 131.075 \\
-		20 & 1 & 8.859 ms& 1.048.579 \\
+		10 & 1 & 3 ms& 1.027 \\
+		15 & 1 & 161 ms& 32.771 \\
+		16 & 1 & 360 ms& 65.539 \\
+		17 & 1 & 790 ms& 131.075 \\
+		20 & 1 & 8.803 ms& 1.048.579 \\
 		5 & 3 & 3 ms& 1.027 \\
-		5 & 5 & 19 ms& 7.779 \\
-		3 & 10 & 4 ms& 1.334 \\
-		3 & 20 & 28 ms& 9.264 \\
+		5 & 5 & 14 ms& 7.779 \\
+		3 & 10 & 2 ms& 1.334 \\
+		3 & 20 & 11 ms& 9.264 \\
 	\end{tblr}
 \end{table}
 
@@ -240,25 +240,24 @@ The results show that our tool can check soundness and safeness \textit{instanta
 			vline{2-Y} = {2-Z}{solid}, % Y is the second to last row/column
 		}
 		\textbf{Model name} &\textbf{Runtime} & \textbf{States} & \textbf{Violated Properties} \\
-		e001~\cite{houhouFirstOrderLogicVerification2022} & 1 ms & 31 & Option To Complete, No Dead Activities \\
-		e002~\cite{houhouFirstOrderLogicVerification2022} & 1 ms & 31 & Option To Complete, No Dead Activities \\
-		e020~\cite{houhouFirstOrderLogicVerification2022} & 5 ms & 2.112 & Option To Complete \\
-		credit-scoring-async\footref{footnote:camundaResearch} & 1 ms & 50 & Option To Complete \\
-		credit-scoring-sync\footref{footnote:camundaResearch} & 1 ms & 99 & Option To Complete \\
+		e001~\cite{houhouFirstOrderLogicVerification2022} & 1 ms & 39 & - \\
+		e002~\cite{houhouFirstOrderLogicVerification2022} & 1 ms & 39 & - \\
+		e020~\cite{houhouFirstOrderLogicVerification2022} & 10 ms & 5356 & - \\
+		credit-scoring-async\footref{footnote:camundaResearch} & 1 ms & 60 & - \\
+		credit-scoring-sync\footref{footnote:camundaResearch} & 1 ms & 140 & Option To Complete \\
 		dispatch-of-goods\footref{footnote:camundaResearch} & 1 ms & 103 & Safeness, Proper Completion\\
-		recourse\footref{footnote:camundaResearch} & 1 ms & 71 & Option To Complete \\
-		self-service-restaurant\footref{footnote:camundaResearch} & 1 ms & 74 & Option To Complete \\
+		recourse\footref{footnote:camundaResearch} & 1 ms & 77 & - \\
+		self-service-restaurant\footref{footnote:camundaResearch} & 1 ms & 190 & - \\
 	\end{tblr}
 \end{table}
 
-Each model violates one or more soundness properties.
-\textit{Option To Complete} is violated since the given models might not terminate if their execution order leads to losing messages.
+Some models violate soundness properties.
 \textit{Safeness} and \textit{Proper Completion} are violated in \textsf{dispatch-of-goods} due to a parallelization which is not synchronized later.
 How to automatically fix violated properties is discussed in \autoref{subsec:fixable-checking}.
 For example, the violations in \textsf{dispatch-of-goods} are automatically resolvable.
 
-Furthermore, our tool takes 1-7ms for e001, e002, and e020 while~\cite{houhouFirstOrderLogicVerification2022} and~\cite{krauterFormalizationAnalysisBPMN2023} report 3.66-10.26s and 1-1.75s.
-The benchmarks in~\cite{krauterFormalizationAnalysisBPMN2023} were run on a machine with similar hardware, while the machine used in~\cite{houhouFirstOrderLogicVerification2022} was slightly less powerful.
+Furthermore, our tool takes 1-10ms for e001, e002, and e020 while~\cite{houhouFirstOrderLogicVerification2022} and~\cite{krauterFormalizationAnalysisBPMN2023} report 3.66-10.26s and 1-1.75s.
+The benchmarks in~\cite{krauterFormalizationAnalysisBPMN2023} were run on the same hardware, while the machine used in~\cite{houhouFirstOrderLogicVerification2022} was slightly less powerful.
 
 \subsection{Comprehensible Soundness Checking}
 
