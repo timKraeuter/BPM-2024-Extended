@@ -1,9 +1,8 @@
-State space generation successful in 273.455µs!
-States: 167, Transitions: 240
+State space generation successful in 326.177µs!
+States: 190, Transitions: 306
 Terminated states: 6
 
-Option to complete is not fulfilled. 
-    Counter example: messages: {}, snapshots: { Process_1: {"SequenceFlow_0zyokrw": 1} } --Task_1kt8dzo--> messages: {}, snapshots: { Process_1: {"SequenceFlow_04y6oom": 1} } --Task_1udyby3--> messages: {}, snapshots: { Process_1: {"SequenceFlow_01zmlbv": 1} } --IntermediateCatchEvent_1nu2fvu--> messages: {}, snapshots: { Process_1: {"SequenceFlow_1y1wgan": 1} } --Task_0a2rm9v--> messages: {"MessageFlow_0f4weom": 1}, snapshots: { Process_1: {"SequenceFlow_00exxjf": 1} } --Task_12h2fs9--> messages: {"MessageFlow_11f80hy": 1}, snapshots: { Process_1: {"SequenceFlow_1hg9yiz": 1} } --Task_1jlgbwe--> messages: {}, snapshots: { Process_1: {"SequenceFlow_0eg6b92": 1} }
 Safeness is fulfilled.
+Option to complete is fulfilled.
 Proper completion is fulfilled.
 No dead activities is fulfilled.
