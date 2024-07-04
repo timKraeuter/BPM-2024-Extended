@@ -16,7 +16,7 @@ In addition, each directory contains instructions on how to run the soundness ch
 ### Benchmark environment
 - The benchmarks were run with hyperfine version **1.18.0** (binaries available for windows/linux in the **artifacts** folder).
 - The benchmarks were run on Ubuntu 22.04.4 with an AMD Ryzen 7700X processor with 32 GB DDR5-5600 RAM on NVMe SSD storage.
-- The benchmarks were run with our bpmn-analyzer tool version **1.0.0** (binaries available for windows/linux in the **artifacts** folder).
+- The benchmarks were run with our bpmn-analyzer tool version **2.0.0** (binaries available for windows/linux in the **artifacts** folder).
 
 ## Fixable Soundness Checking
 The demo application showcasing the quick fixes is available [online](https://timkraeuter.com/bpmn-analyzer-js/) or locally in [artifacts/tool-with-ui/](./artifacts/tool-with-ui/README.md).
