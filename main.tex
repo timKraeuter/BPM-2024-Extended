@@ -481,7 +481,7 @@ Furthermore, the front-end is \textit{modular} such that one can either fully in
 \subsection{Soundness checking in Rust}
 % State space generation and search at the same time
 % \cite{clarkeHandbookModelChecking2018} section 5.2 basic search algorithm. fig1
-We implemented a standard breadth-first state space exploration~\cite{clarkeHandbookModelChecking2018}. % TODO: We are doing DFS at the moment. Should we switch to BFS for minimal counter-examples?
+We implemented a standard breadth-first state space exploration~\cite{clarkeHandbookModelChecking2018}.
 While generating the state space, we can check safety properties, such as \textit{Safeness} and \textit{Option To Complete}, \textit{on-the-fly} for each found state~\cite{clarkeHandbookModelChecking2018}.
 For example, \autoref{lst:rust} shows how to find unsafe sequence flows in a state to check \textit{Safeness} by inspecting the number of tokens in each state.
 
