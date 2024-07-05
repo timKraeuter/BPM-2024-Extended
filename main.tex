@@ -124,17 +124,17 @@ The benchmarks were run on Ubuntu 22.04.4 with an AMD Ryzen 7700X processor (4.5
 All used BPMN models, our tools to generate them, and benchmarking scripts are given in the artifacts of this paper~\cite{timkrauterBPM2024Artifacts2024}.
 
 \subpart{Growing Model Size}
-We use an extended version of the data set of models provided in~\cite{krauterHigherorderTransformationApproach2023}, which consists of 300 synthetically generated BPMN models, and increase it to 500 models.
+We use an extended version of the data set of models provided in~\cite{krauterHigherorderTransformationApproach2024}, which consists of 300 synthetically generated BPMN models, and increase it to 500 models.
 % Briefly recap the method.
 Every BPMN model contains a start event, a fixed amount of \textit{blocks}, and an end event.
 The three unique blocks are shown in \autoref{fig:three-block-example}.
 To generate the models, we start with the first block and add one more block at a time, always following the same order until we reach 500.
-\autoref{fig:three-block-example} shows the third BPMN model in the data set, which contains each block once~\cite{krauterHigherorderTransformationApproach2023}.
+\autoref{fig:three-block-example} shows the third BPMN model in the data set, which contains each block once~\cite{krauterHigherorderTransformationApproach2024}.
 
 \begin{figure}[ht]
 	\centering
 	\includegraphics[width=0.8\textwidth]{images/three-blocks}
-	\caption{BPMN model with three blocks~\cite{krauterHigherorderTransformationApproach2023}}
+	\caption{BPMN model with three blocks~\cite{krauterHigherorderTransformationApproach2024}}
 	\label{fig:three-block-example}
 \end{figure}
 
@@ -150,7 +150,7 @@ Our tool explores the entire state space while simultaneously verifying all prop
 \end{figure}
 
 % Results
-Our tool spends from 1 ms up to 9 ms for the BPMN models compared to 0.7 s up to 14 s in~\cite{krauterHigherorderTransformationApproach2023} for only 300 blocks on a similar machine.
+Our tool spends from 1 ms up to 9 ms for the BPMN models compared to 0.7 s up to 14 s in~\cite{krauterHigherorderTransformationApproach2024} for only 300 blocks on a similar machine.
 Thus, our tool can be classified as \textit{instantaneous} according to~\cite{fahlandAnalysisDemandInstantaneous2011} even if the model size increases to over 4000 BPMN elements (500 blocks, 2168 states).
 Models of this size are not human-readable anymore and are usually divided into smaller models according to best practices~\cite{fahlandAnalysisDemandInstantaneous2011}.
 Thus, models found in practice are likely to be smaller than those found in our benchmark.
@@ -285,7 +285,7 @@ In contrast, we cannot highlight elements for \textit{Option To Complete} since 
 However, just by looking at the BPMN model, it can still be hard to understand soundness violations due to the interplay of the BPMN element's execution semantics.
 In the BPMN specification, execution semantics are described using the concept of moving \textit{tokens}.
 % Universally used token concept
-Tokens are used universally in the industry and research to depict process execution information~\cite{camundaservicesgmbhBpmnjsTokenSimulation2024,corradiniFormalApproachAnalysis2021,corradiniFormalisingAnimatingMultiple2022,houhouFirstOrderLogicVerification2022,krauterFormalizationAnalysisBPMN2023,krauterHigherorderTransformationApproach2023}.
+Tokens are used universally in the industry and research to depict process execution information~\cite{camundaservicesgmbhBpmnjsTokenSimulation2024,corradiniFormalApproachAnalysis2021,corradiniFormalisingAnimatingMultiple2022,houhouFirstOrderLogicVerification2022,krauterFormalizationAnalysisBPMN2023,krauterHigherorderTransformationApproach2024}.
 
 We use tokens in our tool to \textit{interactively} visualize the counterexamples, i.e., violation witnesses of our soundness properties.
 Our soundness checker provides counterexamples for all properties except \textit{No Dead Activities}.
@@ -520,7 +520,7 @@ Since we are only interested in soundness and safeness, we are consciously tradi
 
 \textbf{BPMN specification coverage:}
 Most related work focuses on the depth of BPMN formalization while providing soundness and safeness checking.
-Thus, these approaches show how different BPMN elements can be formalized and compare themselves with each other regarding supported elements~\cite{corradiniFormalApproachAnalysis2021,houhouFirstOrderLogicVerification2022,krauterFormalizationAnalysisBPMN2023,krauterHigherorderTransformationApproach2023}.
+Thus, these approaches show how different BPMN elements can be formalized and compare themselves with each other regarding supported elements~\cite{corradiniFormalApproachAnalysis2021,houhouFirstOrderLogicVerification2022,krauterFormalizationAnalysisBPMN2023,krauterHigherorderTransformationApproach2024}.
 The supported BPMN elements come close to the capabilities of popular process orchestration platforms.
 Our tool supports the same depth of BPMN elements as~\cite{corradiniFormalApproachAnalysis2021}, i.e., the most used gateways, tasks, and events.
 A detailed comparison is available in~\cite{timkrauterBPM2024Artifacts2024}, and we plan to support more elements in the future.
@@ -528,15 +528,15 @@ We focus on tool performance and capabilities concerning soundness comprehension
 
 \textbf{Tool performance:}
 Comparing tool performance without standard benchmarks and a reproducible environment is challenging.
-However, other publications indicate that other tools take several seconds up to half a minute to check single soundness properties~\cite{corradiniFormalApproachAnalysis2021,houhouFirstOrderLogicVerification2022,krauterHigherorderTransformationApproach2023}.
+However, other publications indicate that other tools take several seconds up to half a minute to check single soundness properties~\cite{corradiniFormalApproachAnalysis2021,houhouFirstOrderLogicVerification2022,krauterHigherorderTransformationApproach2024}.
 In contrast, our approach instantaneously checks \textit{all} soundness properties and safeness of the same models.
 The difference in performance lies probably in our pragmatic BPMN encoding optimized for soundness checking and its direct implementation in a performant programming language rather than in transforming BPMN into general model-checking tools.
 
 \textbf{Tool capabilities:}
 Another way to compare the different BPMN formalizations and soundness-checking tools is to investigate their capabilities.
-Most tools formalize large parts of the BPMN specification and allow soundness and safeness checking~\cite{corradiniFormalApproachAnalysis2021,houhouFirstOrderLogicVerification2022,krauterFormalizationAnalysisBPMN2023,krauterHigherorderTransformationApproach2023}.
+Most tools formalize large parts of the BPMN specification and allow soundness and safeness checking~\cite{corradiniFormalApproachAnalysis2021,houhouFirstOrderLogicVerification2022,krauterFormalizationAnalysisBPMN2023,krauterHigherorderTransformationApproach2024}.
 Some tools investigate additional aspects such as the introduction of \textit{data} and \textit{time} during verification~\cite{corradiniFormalisingAnimatingMultiple2022,houhouFirstOrderLogicVerification2022}.
-Furthermore, other tools allow specifying and checking \textit{custom temporal logic properties}~\cite{corradiniFormalApproachAnalysis2021,krauterFormalizationAnalysisBPMN2023} and even provide graphical interfaces to easy the specification~\cite{krauterHigherorderTransformationApproach2023}
+Furthermore, other tools allow specifying and checking \textit{custom temporal logic properties}~\cite{corradiniFormalApproachAnalysis2021,krauterFormalizationAnalysisBPMN2023} and even provide graphical interfaces to easy the specification~\cite{krauterHigherorderTransformationApproach2024}
 Moreover, some tools provide interactive BPMN simulation using token-flow animation~\cite{camundaservicesgmbhBpmnjsTokenSimulation2024,corradiniFormalisingAnimatingMultiple2022}, while others \textit{visualize counterexamples} for soundness violations using tokens~\cite{houhouFirstOrderLogicVerification2022}.
 
 Our tool focuses on \textit{instantaneous} soundness and safeness checking and does not support custom properties or data and time.
