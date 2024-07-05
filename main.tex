@@ -226,7 +226,6 @@ We had to slightly adapt the Camunda models such that they can be executed stand
 \autoref{tab:realistic-models-benchmark} shows the average runtime of soundness and safeness checking using our tool and the number of states for each model.
 The results show that our tool can check soundness and safeness \textit{instantaneously} for the given realistic models.
 
-% Maybe make the camunda thing a real citation.
 \begin{table}
 	\centering
 	\caption{Benchmark results of the realistic BPMN models}
@@ -473,9 +472,8 @@ The tool architecture is shown in \autoref{fig:overview}, while screenshots of o
 The front-end of the tool is built in web technologies using the \textit{bpmn.io} ecosystem, especially the bpmn-js-token-simulation~\cite{camundaservicesgmbhBpmnjsTokenSimulation2024}, while the soundness and safeness checking is implemented in the Rust programming language.
 
 We developed soundness checking in Rust due to its memory efficiency, absence of garbage collection and lightweight hardware abstractions, resulting in an execution performance comparable to C or C++, while retaining memory safety guarantees.
-A fast programming language and direct implementation of the BPMN semantics play the key role in achieving \textit{instantaneous} soundness checking.
-We would like to emphasize that the current implementation does feature specific optimization techniques such as partial order reduction, therefore, we assume that performance may be amplified even further for certain types of models or violations, see, e.g., the parallel branches example. 
-% Zero-copy? --> Currently, we are copying things but still achieve better performance (Tradeoff with readability)
+A fast programming language and direct implementation of the BPMN semantics are key in achieving \textit{instantaneous} soundness checking.
+We would like to emphasize that the current implementation does not include optimization techniques such as partial order reduction, therefore, we assume that performance may be amplified even further for certain types of models or violations, see, e.g., the parallel branches example.
 
 The tool can be integrated into existing BPMN modeling tools since its model capabilities are invoked through a \textit{web-service} interface or as \textit{command-line application}.
 Furthermore, the front-end is \textit{modular} such that one can either fully integrate it, pick only specific features, or extend it, for example, to add custom quick fixes.
@@ -492,8 +490,8 @@ For example, \autoref{lst:rust} shows how to find unsafe sequence flows in a sta
 
 \textsf{Self} refers to a \textsf{struct} holding a set of \textsf{snapshots}, i.e., process instances with a map of \textsf{tokens}, that links sequence flow IDs to the number of tokens they are holding.
 
-Similarly, for \textit{Option To Complete}, we examine whether a state is stuck.
-This means that some process instance is still ongoing, indicated by the presence of tokens, and the state has no outgoing transitions.
+Similarly, we examine whether a state is stuck for \textit{Option To Complete}.
+This means that some process instances are still ongoing, indicated by the presence of tokens, and the state has no outgoing transitions.
 In contrast, we check \textit{No Dead Activities} by remembering all executed activities during state space generation and comparing them to all activities in the model. 
 Furthermore, \textit{Proper Completion} is checked by remembering executed end events in each state.
 
@@ -505,8 +503,6 @@ For example, \autoref{fig:activityEncoding} shows that we do not encode the star
 As discussed earlier, this simple abstraction avoids one additional state and pays off, especially in models with many parallel branches, which can significantly reduce the overall state space.
 For example, our tool finds only 2.112 states for the BPMN model \textsf{e020} (see \autoref{subsec:instantaneous}), compared to the 3.558/3.060  in~\cite{houhouFirstOrderLogicVerification2022}/\cite{krauterFormalizationAnalysisBPMN2023}.
 
-% This figure can be made smaller by reducing the space between the flow nodes.
-% Both could be merged into one with an arrow going around if we need space.
 \begin{figure}[ht]
 	\centering
 	\includegraphics[width=0.65\textwidth]{images/pragmatic-encoding}
