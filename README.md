@@ -4,6 +4,8 @@ This repository contains the artifacts for the paper [_**Instantaneous, Comprehe
 
 The tool is available [online](https://timkraeuter.com/bpmn-analyzer-js/) and as an artifact (see the implementation section below).
 
+We demonstrated our tool to Camunda/bpmn.io in a [forum post](https://forum.bpmn.io/t/automatic-bpmn-control-flow-analysis-and-resolution/11150) and received positive feedback.
+
 ## Instantaneous Soundness Checking
 
 The models used in the paper are available in the `artifacts/instantaneous` directory:
