@@ -6,7 +6,7 @@ The tool is available [online](https://timkraeuter.com/bpmn-analyzer-js/) and as
 
 We demonstrated our tool to Camunda/bpmn.io in a [forum post](https://forum.bpmn.io/t/automatic-bpmn-control-flow-analysis-and-resolution/11150) and received positive feedback.
 
-# YouTube Demo Video
+# YouTube Demo
 
 A short **demo** is available on [YouTube](https://www.youtube.com/watch?v=Nv2W-hXNZYA).
 
