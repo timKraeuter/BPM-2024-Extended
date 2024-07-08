@@ -523,65 +523,57 @@ Most related work focuses on the depth of BPMN formalization while providing sou
 Thus, these approaches show how different BPMN elements can be formalized and compare themselves with each other regarding supported elements~\cite{corradiniFormalApproachAnalysis2021,houhouFirstOrderLogicVerification2022,krauterFormalizationAnalysisBPMN2023,krauterHigherorderTransformationApproach2024}.
 The supported BPMN elements come close to the capabilities of popular process orchestration platforms.
 Our tool supports the same depth of BPMN elements as~\cite{corradiniFormalApproachAnalysis2021}, i.e., the most used gateways, tasks, and events.
-A detailed comparison is shown in \autoref{tab:supportedelements}~\cite{timkrauterBPM2024Artifacts2024}, and we plan to support more elements in the future.
+A detailed comparison is shown in \autoref{tab:supportedelements}, and we plan to support more elements in the future~\cite{timkrauterBPM2024Artifacts2024}.
 We focus on tool performance and capabilities concerning soundness comprehension, soundness resolution, and seamless integration into BPMN modeling tools.
 
 \begin{table}[htbp]
     \caption{BPMN elements supported by different formalizations (based on \cite{vangorpVisualTokenbasedFormalization2013}).}
     \label{tab:supportedelements}
-    \begin{threeparttable}
-    \begin{tabular}{l l l l l l}
+    \begin{tabular}{l c c c c}
     \hline
-      BPMN element/feature & Dijkman & Van Gorp &  Corradini & Houhou & This\\
-      & \cite{dijkmanSemanticsAnalysisBusiness2008} & \cite{vangorpVisualTokenbasedFormalization2013} & \cite{corradiniFormalApproachAnalysis2021}&  \cite{houhouFirstOrderLogicVerification2022} & article\\
+      BPMN element/feature & Kräuter~\cite{krauterFormalizationAnalysisBPMN2023} &  Corradini~\cite{corradiniFormalApproachAnalysis2021} & Houhou~\cite{houhouFirstOrderLogicVerification2022} & This paper\\
       \hline
       \textit{Instantiation and termination}\\
-      Start event instantiation & X & X & X & X & X\\
-      Exclusive event-based gateway & & X & & & X \\
+      Start event instantiation & X & X & X & X \\
+      Exclusive event-based gateway & X & & & \\
         \quad instantiation \\
-      Parallel event-based gateway & & & & & \\
+      Parallel event-based gateway & & & & \\
         \quad instantiation \\
-      Receive task instantiation & & & & & X\\
-      Normal process completion & X & X & X & X & X\\
+      Receive task instantiation & X & & & X \\
+      Normal process completion & X & X & X & X \\
       \\
-      \textit{Activities}\\
-      Activity & X & X & X & X & X\\
-      Loop activity & X & X & & &\\
-      Multiple instance activity & & & & & \\
-      Subprocess & X & X & & X & X\\
-      Event subprocess & &  &  &  & X\\
-      Transaction & &  &  &  & \\
-      Ad-hoc subprocesses & & & & &\\
+      \textit{Activities} \\
+      Activity & X & X & X & X \\
+      Subprocess & X & & X & \\
+      Ad-hoc subprocesses & & & &\\
+      Loop activity & & & & \\
+      Multiple instance activity & & & & \\
+      Transaction & & & & \\
       \\
-      \textit{Gateways}\\
-      Parallel gateway & X & X & X & X & X\\
-      Exclusive gateway & X & X & X & X & X\\
-      Inclusive gateway (split) & X & X & X & X & X\\
-      Inclusive gateway (merge) & & X & & X & X\\
-      Event-based gateway & & & X\tnote{1} & X & X\\ % No timer and conditional events after event-based gateway supported.
-      Complex gateway & & & & &\\
+      \textit{Gateways} \\
+      Parallel gateway & X & X & X & X \\
+      Exclusive gateway & X & X & X & X \\
+      Inclusive gateway (split) & X & X & X & \\
+      Inclusive gateway (merge) & X & & X & \\
+      Event-based gateway & X & X & X & X \\
+      Complex gateway & & & & \\
       \\
       \textit{Events} \\
-      None Events & X & X & X & X & X\\
-      Message events & X & X & X & X & X\\
-      Timer Events & & & & X & \\
-      Escalation Events & & & & & X\\
-      Error Events & X & X & & & X\\
-      Cancel Events & & X & & &\\
-      Compensation Events & & X & & &\\
-      Conditional Events & & & & &\\
-      Link Events & & X & & & X\\
-      Signal Events & & X & & & X\\
-      Multiple Events & &  & & & \\
-      Terminate Events & & X & X & X & X\\
-      Boundary Events & & X\tnote{2} & & X\tnote{3} & X\\ % To the same extent as the event support
+      None Events & X & X & X & X \\
+      Message events & X & X & X & X \\
+      Timer Events & & & X & \\
+      Escalation Events & X & & & \\
+      Error Events & X & & & \\
+      Cancel Events & & & & \\
+      Compensation Events & & & & \\
+      Conditional Events & & & & \\
+      Link Events & X & & & X \\
+      Signal Events & X & & & \\
+      Multiple Events & & & & \\
+      Terminate Events & X & X & X & X \\
+      Boundary Events & X & & X & \\
+      Event subprocess & X & & & \\
     \end{tabular}
-    \begin{tablenotes}
-        \item[1] Does not support receive tasks after event-based gateways.
-        \item[2] Only supports interrupting boundary events on tasks, not subprocesses.
-        \item[3] Only supports message and timer events.
-    \end{tablenotes}
-    \end{threeparttable}
 \end{table}
 
 \textbf{Tool performance:}

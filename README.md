@@ -8,7 +8,7 @@ We demonstrated our tool to Camunda/bpmn.io in a [forum post](https://forum.bpmn
 
 # YouTube Demo Video
 
-A **demo** is available on [YouTube](https://www.youtube.com/watch?v=Nv2W-hXNZYA).
+A short **demo** is available on [YouTube](https://www.youtube.com/watch?v=Nv2W-hXNZYA).
 
 ## Instantaneous Soundness Checking
 
@@ -17,7 +17,7 @@ The models used in the paper are available in the `artifacts/instantaneous` dire
 2. [parallel-branches](./artifacts/instantaneous/parallel-branches/README.md) contains the BPMN models with growing parallel branches and branch length.
 3. [realistic-models](./artifacts/instantaneous/realistic-models/README.md) contains the realistic BPMN models.
 
-In addition, each directory contains instructions on how to run the soundness checking benchmarks reported in the paper.
+In addition, each directory contains instructions on how to run the soundness-checking benchmarks reported in the paper.
 
 ### Benchmark environment
 - The benchmarks were run with hyperfine version **1.18.0** (binaries available for windows/linux in the **artifacts** folder).
@@ -41,8 +41,6 @@ In addition, the tool binaries are located in
 ![Screenshot 2 of the tool](./artifacts/images/Screenshot2.png)
 
 ### Source code
-We will make the source code available after the paper is reviewed since it is distributed between different repositories, which might compromise the double-blind review process.
-If reviewers want access to the code before, we can anonymize the repositories on demand.
 
 1. Analysis tool written in **Rust**: [rust_bpmn_analyzer](https://github.com/timKraeuter/rust_bpmn_analyzer)
 2. Front-end implemented using the [bpmn-js](https://github.com/bpmn-io/bpmn-js) ecosystem, especially [bpmn-js-token-simulation](https://github.com/bpmn-io/bpmn-js-token-simulation): [bpmn-analyzer-js](https://github.com/timKraeuter/bpmn-analyzer-js)
