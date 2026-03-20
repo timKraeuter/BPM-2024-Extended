@@ -15,7 +15,7 @@ java -jar BPMNParallelBranchesModelGenerator.jar -h
 java -jar BPMNParallelBranchesModelGenerator.jar -path="./models" -length-of-branches=20 -number-of-branches=20
 ```
 Generates 400 models with 1-20 parallel branches of length 1-20 in the `./models` directory (we used openjdk 20.0.2.1).
-The source code for the CLI-application is available at [TBD after review](https://github.com/).
+The source code for the CLI-application is available [here]([https://github.com/](https://github.com/timKraeuter/rust_bpmn_analyzer)).
 
 The precomputed models are located in the `models.zip` file and the 10 models used in the benchmark are located in the `models` directory.
 In addition, the [modelInfo.csv](./modelInfo.csv) file states the number of gateways, flow nodes, sequence flows, and flow elements for each model.
